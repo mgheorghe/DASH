@@ -108,7 +108,7 @@ See the [Diagram](#build-workflow-diagram) below. You can read the [dockerfiles]
 ## Docker Image(s)
 >**NOTE** P4 code or test-case developers generally **don't** need to build `p4c`, `saithrift-bldr,` or `bmv2` docker images; they are pulled automatically, on-demand, from a registry. They contain static tooling. Developers who create and maintain the Docker images **do** need to build and push new images.
 
-Several docker images are used to compile artifacts, such as P4 code, or run processses, such as the bmv2 simple switch. These Dockerfiles should not change often and are stored/retrieved from an external docker registry. See [README-dash.docker](README-dash.docker.md) for details. When a Dockerfile does change, it needs to be published in the resgistry. Dockerfile changes also trigger rebuilds of the docker images in the CI pipeline.
+Several docker images are used to compile artifacts, such as P4 code, or run processes, such as the bmv2 simple switch. These Dockerfiles should not change often and are stored/retrieved from an external docker registry. See [README-dash.docker](README-dash.docker.md) for details. When a Dockerfile does change, it needs to be published in the resgistry. Dockerfile changes also trigger rebuilds of the docker images in the CI pipeline.
 
 See the diagram below. You can read the [Dockerfile](Dockerfile) and all `Makefiles` to get a deeper understanding of the build process.
 

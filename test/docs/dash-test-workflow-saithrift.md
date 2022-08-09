@@ -24,7 +24,7 @@ This document describes the DASH test workflow with SAI-thrift. In particular, i
 - Test runs may be triggered manually, i.e. by a SW developer or test engineer; or triggered automatically by a GitHub Action (e.g. upon a Commit or Pull Request). Cloud-hosted community CI/CD tests are limited to pure software tests.
 - Data-driven test cases stored in an abstract format are stored in a catalog of test suites, and read by the executable test scripts.
 - Test scripts consume the test case data and execute code to program the DUT and configure the Traffic Generator to send and receive traffic.
-- Test scripts read the results from theTgen (and possibly DUT state queries), analyze against expected results and report test outcomes.
+- Test scripts read the results from the Tgen (and possibly DUT state queries), analyze against expected results and report test outcomes.
 
 ## Workflow overview 
 

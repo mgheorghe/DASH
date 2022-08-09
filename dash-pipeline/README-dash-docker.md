@@ -26,7 +26,7 @@ Below we'll lay out general principles; we avoid describing specific docker imag
 ## Overview
 One or more docker images are used extensively to run the build and test workflows:
 * Compile DASH behavioral model artifacts, such as P4 code, the SAI adaptor layer, etc.
-* Run switch model processses, such as the bmv2 simple switch
+* Run switch model processes, such as the bmv2 simple switch
 * Run SW traffic generators for testing.
 
 Docker images are read-only artifacts which are used to run a "container." These images contain all the resources required to perform the build or test task. Resources may include:
