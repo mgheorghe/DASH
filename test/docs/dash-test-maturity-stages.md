@@ -32,7 +32,7 @@ The data plane can be progressively tested by configuring the DUT through succes
 
 ![dash-test-maturity-stages-manual](../images/dash-test-maturity-stages-manual.png) 
 
-This testing stage represents internal, vendor-specific testing approaches and as a practrical matter, probably precedes the use of any DASH community-specified tests. This stage is distinguished by:
+This testing stage represents internal, vendor-specific testing approaches and as a practical matter, probably precedes the use of any DASH community-specified tests. This stage is distinguished by:
 
 * Proprietary DUT configuration mechanisms: e.g. gRPC/REST APIs, config files, utility programs etc. which are not slated for DASH production use.
 * Limited, manually-controlled, test traffic generation and analysis, using arbitrary, vendor-specific  traffic generation equipment, for example IXIA IxExplorer.
@@ -44,7 +44,7 @@ This testing stage represents internal, vendor-specific testing approaches and a
 This testing stage utilizes standardized, automated test cases which are used by the community. This stage is distinguished by:
 
 * Proprietary DUT configuration mechanisms: e.g. gRPC/REST APIs, config files, utility programs etc. which are not slated for DASH production use
-* Standardized, automated test suites (e.g. PyTest), primarly data-driven, which can be scaled out and parameterized to yield many different tests
+* Standardized, automated test suites (e.g. PyTest), primarily data-driven, which can be scaled out and parameterized to yield many different tests
 * Standardized, model-based Traffic Generator config formats, e.g. [OpenTrafficGenerator](https://github.com/open-traffic-generator) using the [snappi](https://github.com/open-traffic-generator/snappi) client library
 ### Data plane Testing Stage 3: DUT configuration via SAI-Thrift
 
@@ -57,7 +57,7 @@ This stage represents a crucial milestone for DASH-SONiC development because it 
 
 ### Data plane Testing Stage 4: DUT configuration via SAI-Redis
 
-![dash-test-maturity-stages-dut-config-radis](../images/dash-test-maturity-stages-dut-config-sairedis.png) 
+![dash-test-maturity-stages-dut-config-redis](../images/dash-test-maturity-stages-dut-config-sairedis.png) 
 
 This stage tests integration with the "lower SONiC stack" which consists of the redis datastore `ASIC_DB` and the `syncd` daemon.
 >**TODO** - identify other SONiC stack components required for/verified by this stage.
@@ -72,7 +72,7 @@ This stage is distinguished by:
 This stage is the culmination of DUT data plane integrated with the SONiC stack and is distinguished by:
 
 * Full SONiC stack integration of the [Switch State Services/SWSS](https://github.com/Azure/sonic-swss) (Redis, orchd, syncd, etc.)
-* Northbound API endopint such as gNMI or other TBD-API with defined schema and backend
+* Northbound API endpoint such as gNMI or other TBD-API with defined schema and backend
 * Test scripts control the DUT via the northbound API
 
 ## SONiC-DASH Top-Down Testing Stages
@@ -84,7 +84,7 @@ In the figures below, the greyed-out areas represent functionality which is igno
 
 ![dash-test-maturity-stages-dut-config-north](../images/dash-test-maturity-stages-dummy-north.png)
 
-This stage focuses on the northbound management API in isolation. This API might be gNMI, or something similar, for SDN control of DASH. The API server can be a "dummy" server which accepts "write requests" according to its schema but does not have to act upon them (other than validation of the messages). "Read requests" can similary be validated, but result in empty responses. This stage is distinguished by:
+This stage focuses on the northbound management API in isolation. This API might be gNMI, or something similar, for SDN control of DASH. The API server can be a "dummy" server which accepts "write requests" according to its schema but does not have to act upon them (other than validation of the messages). "Read requests" can similarly be validated, but result in empty responses. This stage is distinguished by:
 
 * Defined schema for the API
 * API server endpoint which the test scripts can access to configure
@@ -124,7 +124,7 @@ This is identical to [Data plane Testing Stage 5: DUT configuration via SONiC No
 This stage is the culmination of DUT data plane integrated with the SONiC stack and is distinguished by:
 
 * Full SONiC stack integration of the [Switch State Services/SWSS](https://github.com/Azure/sonic-swss) (Redis, orchd, syncd, etc.)
-* Northbound API endopint such as gNMI or other TBD-API with defined schema and backend
+* Northbound API endpoint such as gNMI or other TBD-API with defined schema and backend
 * Test scripts control the DUT via the northbound API
 ## Common Options - Fake libsai, P4 simulator
 The figures below highlight various options which may be incorporated into various test stages to use a "Fake" libsai backend implementation, or a P4-simulated backend. This is a placeholder for future discussion.

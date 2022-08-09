@@ -24,7 +24,7 @@ The previous figure highlights the following important test work-flow concepts:
 
 * The similarity between the P4 Simulation test workflow described here, and the "normal" workflow described in [DASH Test Workflow with saithrift](dash-test-workflow-saithrift.md)
 * The different implementations of P4 Simulators currently being developed
-* How saithrift endopints are "grafted" onto the native P4Runtime APIs of the simulators
+* How saithrift endpoints are "grafted" onto the native P4Runtime APIs of the simulators
 * How the simulators are "wired" to software traffic generators using virtual Ethernet connections, yielding a testable, pure-SW DASH data plane which can process packets.
 ## Standardize test cases and test-runners.
 The P4 Simulator tests will use a subset of the standard DASH test cases using the same test scripts and framework. Some tests may not be practical to execute on certain simulation targets due to their performance limitations. Test cases should be marked to indicate which targets they may run successfully on, and only those test shall be run against said target. Some examples:
