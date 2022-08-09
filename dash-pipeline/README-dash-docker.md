@@ -97,7 +97,7 @@ make docker-XXX  ### where XXX = image name, e.g. bmv2-bldr
 This step publishes the local Docker image to the registry and requires credentials. It should be done selectively by Docker image maintainers. For now there are no `make` targets to do this.
 
 ## Optional - expert - `exec` a container shell
-This step runs a new container and executes `bash` shell, giving you a terminal in the container. It's primarily useful to examine the container contents or perform debuggin.
+This step runs a new container and executes `bash` shell, giving you a terminal in the container. It's primarily useful to examine the container contents or perform debugging.
 ```
 docker run -it --rm [--network=host] [--priviliged] <image-name> bash
 ```

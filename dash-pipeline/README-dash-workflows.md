@@ -108,7 +108,7 @@ See the [Diagram](#build-workflow-diagram) below. You can read the [dockerfiles]
 ## Docker Image(s)
 >**NOTE** P4 code or test-case developers generally **don't** need to build `p4c`, `saithrift-bldr,` or `bmv2` docker images; they are pulled automatically, on-demand, from a registry. They contain static tooling. Developers who create and maintain the Docker images **do** need to build and push new images.
 
-Several docker images are used to compile artifacts, such as P4 code, or run processes, such as the bmv2 simple switch. These Dockerfiles should not change often and are stored/retrieved from an external docker registry. See [README-dash.docker](README-dash.docker.md) for details. When a Dockerfile does change, it needs to be published in the resgistry. Dockerfile changes also trigger rebuilds of the docker images in the CI pipeline.
+Several docker images are used to compile artifacts, such as P4 code, or run processes, such as the bmv2 simple switch. These Dockerfiles should not change often and are stored/retrieved from an external docker registry. See [README-dash.docker](README-dash.docker.md) for details. When a Dockerfile does change, it needs to be published in the registry. Dockerfile changes also trigger rebuilds of the docker images in the CI pipeline.
 
 See the diagram below. You can read the [Dockerfile](Dockerfile) and all `Makefiles` to get a deeper understanding of the build process.
 
@@ -119,7 +119,7 @@ See the diagram below. You can read the [Dockerfile](Dockerfile) and all `Makefi
 This make target will build all the artifacts from source:
 * Compile P4 code
 * Auto-generate DASH SAI API header files based on P4Info from previous step
-* Compile `libsai` for dash including SAI-to-P4RUntime adaptor
+* Compile `libsai` for dash including SAI-to-P4Runtime adaptor
 * Compile functional tests written in C++ to verify sai (under `dash-pipeline/tests/libsai`)
 * Auto-generate the saithrift server and client framework (server daemon + client libraries) based on the DASH SAI headers
 * Build a saithrift-client Docker image containing all needed tools and test suites
@@ -168,7 +168,7 @@ This consists of two main steps
   Headers are emitted into the imported `SAI` submodule (under `SAI/SAI`) under its `inc`, `meta` and `experimental` directories.
 
   Implementation code for each SAI accessor are emitted into the `SAI/lib` directory.
-* Compile the implementation source code into `libsai.so`, providing the definitive DASH data plane API. Note this `libsai` makes calls to bmv2's emdedded P4Runtime Server and must be linked with numerous libraries, see for example `tests/vnet_out/Makefile` to gain insights.
+* Compile the implementation source code into `libsai.so`, providing the definitive DASH data plane API. Note this `libsai` makes calls to bmv2's embedded P4Runtime Server and must be linked with numerous libraries, see for example `tests/vnet_out/Makefile` to gain insights.
 
 ### Restore SAI Submodule
 As mentioned above, the `make sai` target generates code into the `SAI` submodule (e.g. at `./SAI/SAI`). This "dirties" what is otherwise a cloned Git repository from `opencomputeproject/SAI`.
@@ -230,7 +230,7 @@ When this server is launched, it will establish a P4Runtime session (behind the 
 ```
 make run-saithrift-server
 ```
-When the server starts, the first SAI command it receives will load the `libsai.so` shared library and establish a P4Runtime connection. This results in a console message similar to below. Note this message doesn't necessairly appear when the daemon starts. This also loads the bmv2 behavioral model with the P4 "object code" (JSON file), see [Initialize software switch](#initialize-software-switch).
+When the server starts, the first SAI command it receives will load the `libsai.so` shared library and establish a P4Runtime connection. This results in a console message similar to below. Note this message doesn't necessarily appear when the daemon starts. This also loads the bmv2 behavioral model with the P4 "object code" (JSON file), see [Initialize software switch](#initialize-software-switch).
 ```
 GRPC call SetForwardingPipelineConfig 0.0.0.0:9559 => /etc/dash/dash_pipeline.json, /etc/dash/dash_pipeline_p4rt.txt
 Switch is initialized.
@@ -278,7 +278,7 @@ make run-saithrift-client-pytests
 ```
 This will launch a saithrift-client docker container and execute tests under `tests/saithrift/pytests`.
 ### Run saithrift-client "Dev" Pytests
-You can also run "dev" versions of tests using the following make targets. These use test scripts mounted from the host's filesystem, allowing a faster development workflow. No dockers need to be rebuilt to try out test cases iteratively. Use the following variants of the make targets. See [Development - Launch container, run tests in one shot](#development---launch-container-run-tests-in-one-shot)
+You can also run "dev" versions of tests using the following make targets. These use test scripts mounted from the host's file system, allowing a faster development workflow. No dockers need to be rebuilt to try out test cases iteratively. Use the following variants of the make targets. See [Development - Launch container, run tests in one shot](#development---launch-container-run-tests-in-one-shot)
 ```
 make run-saithrift-client-dev-pytests     # run Pytests from host mount
 make run-saithrift-client-dev-ptftests    # run PTF tests from host mount
@@ -359,7 +359,7 @@ As discussed in [About Git Submodules](#about-git-submodules), submodules are co
 ## Docker Image Versioning
 Docker image(s) are identified by their `repo/image_name:tag`, e.g. `p4lang/dp4c:latest`.
 ### Project-Specific Images
-Docker images which we build, e.g. `dash-bmv2-bldr`, are controlled by us so we can specify their contents and tag images appropriately. It is important to version-control the contents of these images so that future builds of these images produce the same desired behavior. This meains controlling the versions of base Docker images, OS packages added via `apt install` etc.
+Docker images which we build, e.g. `dash-bmv2-bldr`, are controlled by us so we can specify their contents and tag images appropriately. It is important to version-control the contents of these images so that future builds of these images produce the same desired behavior. This means controlling the versions of base Docker images, OS packages added via `apt install` etc.
 ### Third-party Docker Images
 Docker images which we pull from third-party repos, e.g. [p4lang/behavioral-model](https://hub.docker.com/r/p4lang/behavioral-model) may have "version" tags like `:latest`, `:stable`, `:no-pi`. Such tags are not reliable as packages are often updated, so `:latest` and even `:stable` change over time. We use such images directly or as base images in our own Dockerfiles, e.g. in `FROM` statements.
 
@@ -379,7 +379,7 @@ FROM p4lang/behavioral-model:latest
 # p4lang/behavioral-model:latest on 2022-07-03:
 FROM p4lang/behavioral-model@sha256:ce45720e28a96a50f275c1b511cd84c2558b62f2cf7a7e506765183bc3fb2e32
 ```
-The screencap below shows how to obtain the SAH digest of a docker image on Dockerhub, corresponding to the example above.
+The screencap below shows how to obtain the SHA digest of a docker image on Dockerhub, corresponding to the example above.
 
 ![dockerhub-p4lang-bm-latest](images/dockerhub-p4lang-bm-latest.png)
 

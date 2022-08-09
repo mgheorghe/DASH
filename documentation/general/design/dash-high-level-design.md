@@ -255,7 +255,7 @@ services**, while the traditional SONiC application containers are used to
 manage the underlay (L3 routing) and hardware platform. Both the DASH container
 and the traditional SONiC application containers sit atop the Switch State
 services (SWSS) layer, and manipulate the Redis application-layer DBs; these in
-turn are translated into SAI data plane obects via the normal SONiC orchestration
+turn are translated into SAI data plane objects via the normal SONiC orchestration
 daemons inside SWSS.
 
 The SDN controller controls the overlay built on top of the physical layer

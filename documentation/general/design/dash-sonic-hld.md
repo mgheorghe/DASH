@@ -142,7 +142,7 @@ It is worth noting that CA-PA mapping table shall be used for both encap and dec
 
 The following are the schema changes. The NorthBound APIs shall be defined as sonic-yang in compliance to [yang-guideline](https://github.com/Azure/SONiC/blob/master/doc/mgmt/SONiC_YANG_Model_Guidelines.md)
 
-For DASH objects, the proposal is to use the existing APP_DB instance and objects are prefixed with "DASH". DASH APP_DB objects are preserved only during warmboots and isolated from regular configs that are persistent in the appliance across reboots. All the DASH objects are programmed by SDN and hence treated differently from the existing Sonic L2/L3 'switch' DB objects. Status of the configured objects shall be reflected in the corresponding STATE_DB entries. 
+For DASH objects, the proposal is to use the existing APP_DB instance and objects are prefixed with "DASH". DASH APP_DB objects are preserved only during warmboots and isolated from regular configurations that are persistent in the appliance across reboots. All the DASH objects are programmed by SDN and hence treated differently from the existing Sonic L2/L3 'switch' DB objects. Status of the configured objects shall be reflected in the corresponding STATE_DB entries. 
 
 ## 3.1 Config DB
 
@@ -366,7 +366,7 @@ For testing purposes, it is convenient to express test configuartions in a singl
 
 ### 3.3.2 SONiC host containers
 
-The following containers shall be enabled for sonichost and part of the image. Switch specific containers shall be disabled for the image built for the appliance card.
+The following containers shall be enabled for SONiC host and part of the image. Switch specific containers shall be disabled for the image built for the appliance card.
   
 | Container/Feature Name   | Is Enabled?     |
 |--------------------------|-----------------|

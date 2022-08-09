@@ -100,7 +100,7 @@ make run-saithrift-client-tests       # Console 3
 make run-saithrift-client-dev-tests   # Alternative to above
 ```
 
-It's strongly recommended to perform proper DUT config cleanup in the code for every testcase and catch exceptions where possible, to ensure a complete cleanup, despite failures along the way.
+It's strongly recommended to perform proper DUT config cleanup in the code for every test case and catch exceptions where possible, to ensure a complete cleanup, despite failures along the way.
 
 # Tips and techniques for writing tests
 The following information should apply equally well to writing any tests which utilize saithrift as the client library: PTF, Pytests, etc. Please refer to other READMEs for information specific to various frameworks.
@@ -279,7 +279,7 @@ except:
 
 Viola! You're ready to become a saithrift power-user. Rock on bruh!
 # Debugging saithrift Server with GDB
-`gdb` is built into the saithrift server image for easy debugging. Server code is compiled with the `-g` flag to include debug symbols. The saithrift server source code is available from withint the running Docker container via volume mounts. Below is shown some a typical workflow:
+`gdb` is built into the saithrift server image for easy debugging. Server code is compiled with the `-g` flag to include debug symbols. The saithrift server source code is available from within the running Docker container via volume mounts. Below is shown some a typical workflow:
 
 ## Run Interactive saithrift-server container
 This starts the container and opens a bash session instead of running the server like normal. The working directory `/SAI/rpc/usr/sbin` contains the saiserver.

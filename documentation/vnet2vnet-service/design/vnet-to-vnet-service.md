@@ -109,7 +109,7 @@ In the outbound flow, the criteria listed below are applied.
 
 ![dash-outbound](../../general/design/images/dash-hld-inbound-packet-processing-pipeline.svg)
 
-<figcaption><i>Figure 3 - Intbound packet processing pipeline</i></figcaption><br/><br/>
+<figcaption><i>Figure 3 - Inbound packet processing pipeline</i></figcaption><br/><br/>
 
 - The pipeline sets the direction as RX(**inbound**) based on the **incoming
   packet's VNI**, if it does not match against any reserved VNI.
