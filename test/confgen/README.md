@@ -37,7 +37,7 @@ for each eni we allocate a `MAC_L_START` and `IP_L_START`
     odd/even ip's are allocated to allow/deny rules
     no ips from inbound are repeated in outbound rules or other way around  except a last rule in the last table of each direction that will allow the traffic to flow
 
-  Static VxLAN map:
+  Static VXLAN map:
     not all ips will have a map entry only the first `IP_MAPPED_PER_ACL_RULE` ips from each acl rule will have a ip/mac map entry.
   
   Routing:
