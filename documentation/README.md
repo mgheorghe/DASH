@@ -58,7 +58,7 @@ The diagram below shows how High-Level Descriptions beget Compliance requirement
 
 ![dash-specs-flow](images/general/dash-specs-flow.svg).
 
-Some of the guiding principles for this aproach are:
+Some of the guiding principles for this approach are:
 * Define the objectives and the design or proposal separately from performance and requirement details.
 * Describe **hard requirements** separately from the design and architecture descriptions This allows the requirements to be easily defined, maintained, and referenced from other downstream "consumers," e.g., **test cases**. All requirements must be identified with some designator which allows traceability in test cases, scripts and results.
 * We encourage the creation of simultaneous **human** and **machine-readable** data which can **drive test cases**.  
