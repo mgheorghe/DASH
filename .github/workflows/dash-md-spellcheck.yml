@@ -2,7 +2,7 @@ name: Spellcheck
 on:
   [pull_request, push]:
     paths:
-    - '**.md'
+    - '**/*.md'
 jobs:
   spelling:
     runs-on: ubuntu-latest
