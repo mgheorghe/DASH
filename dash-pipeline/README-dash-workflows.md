@@ -45,7 +45,7 @@ See also:
     - [Typical Workflow: Committing new code - ignoring SAI submodule](#typical-workflow-committing-new-code---ignoring-sai-submodule)
     - [Committing new SAI submodule version](#committing-new-sai-submodule-version)
 - [Configuration Management](#configuration-management)
-  - [DASH Repo Versioning](#dash-repo-versioning)
+  - [DASH Repository Versioning](#dash-repo-versioning)
   - [Submodules](#submodules)
   - [Docker Image Versioning](#docker-image-versioning)
     - [Project-Specific Images](#project-specific-images)
@@ -74,7 +74,7 @@ Dockerfile build targets are separately described in [README-dash-docker](README
 ## Launch Daemons/Containers
 | Target(s)              | Description                                                                  |
 | ---------------------- | --------------------------------------------------|
-| [run-switch](#run-software-switch)<br>[kill-switch](#run-software-switch) | Run a docker container with bmv2 dataplane & P4Runtime server<br>Stop the bmv2 container
+| [run-switch](#run-software-switch)<br>[kill-switch](#run-software-switch) | Run a docker container with bmv2 data plane & P4Runtime server<br>Stop the bmv2 container
 | [run-saithrift-server](#run-saithrift-server)<br>[kill-saithrift-server](#run-saithrift-server) | Run a saithrift server which translates SAI over thrift into into P4Runtime<br>Stop the saithrift server container|
 | [deploy-ixiac](#startstop-ixia-c-traffic-generator)<br>[undeploy-ixiac](#startstop-ixia-c-traffic-generator)  | Start ixia-c containers (done automatically when running tests)<br>Stop ixia-c containers (called by `kill-all`)
 
@@ -168,15 +168,15 @@ This consists of two main steps
   Headers are emitted into the imported `SAI` submodule (under `SAI/SAI`) under its `inc`, `meta` and `experimental` directories.
 
   Implementation code for each SAI accessor are emitted into the `SAI/lib` directory.
-* Compile the implementation source code into `libsai.so`, providing the definitive DASH dataplane API. Note this `libsai` makes calls to bmv2's emdedded P4Runtime Server and must be linked with numerous libraries, see for example `tests/vnet_out/Makefile` to gain insights.
+* Compile the implementation source code into `libsai.so`, providing the definitive DASH data plane API. Note this `libsai` makes calls to bmv2's emdedded P4Runtime Server and must be linked with numerous libraries, see for example `tests/vnet_out/Makefile` to gain insights.
 
 ### Restore SAI Submodule
-As mentioned above, the `make sai` target generates code into the `SAI` submodule (e.g. at `./SAI/SAI`). This "dirties" what is otherwise a cloned Git repo from `opencomputeproject/SAI`.
+As mentioned above, the `make sai` target generates code into the `SAI` submodule (e.g. at `./SAI/SAI`). This "dirties" what is otherwise a cloned Git repository from `opencomputeproject/SAI`.
 ```
 make sai-clean
 ```
 
-To ensure the baseline code is restored prior to each run, the modified directories under SAI are deleted, then restored via `git checkout -- <path, path, ...>` . This retrieves the subtrees from the SAI submodule, which is stored intact in the local project's Git repo (e.g. under `DASH/.git/modules/dash-pipeline/SAI/SAI`)
+To ensure the baseline code is restored prior to each run, the modified directories under SAI are deleted, then restored via `git checkout -- <path, path, ...>` . This retrieves the subtrees from the SAI submodule, which is stored intact in the local project's Git repository (e.g. under `DASH/.git/modules/dash-pipeline/SAI/SAI`)
 
 ## Build saithrift-server
 This builds a saithrift-server daemon, which is linked to the `libsai` library and also includes the SAI-to-P4Runtime adaptor. It also builds Python thrift libraries and saithrift libraries.
@@ -314,12 +314,12 @@ See also:
 * https://www.atlassian.com/git/tutorials/git-submodule#:~:text=A%20git%20submodule%20is%20a,the%20host%20repository%20is%20updated
 
 ### Why use a submodule?
-A Git submodule is like a symbolic link to another repo. It "points" to some other repo via a URL, and is also pinned to a specific revision of that repo. For example, the `DASH/dash-pipeline/SAI` directory looks like this in Github. The `SAI @ fe69c82` means this is a submodule pointing to the SAI project (at the opencompute-project repo), in particular the `fe69c82` commit SHA.
+A Git submodule is like a symbolic link to another repo. It "points" to some other repository via a URL, and is also pinned to a specific revision of that repo. For example, the `DASH/dash-pipeline/SAI` directory looks like this in Github. The `SAI @ fe69c82` means this is a submodule pointing to the SAI project (at the opencompute-project repo), in particular the `fe69c82` commit SHA.
 
 ![sai-submodule-in-repo](../assets/sai-submodule-in-repo.png)
 
 Advantages of this approach:
-* Don't need to "manually" clone another repo used by this project
+* Don't need to "manually" clone another repository used by this project
 * Precise configuration control - we want a specific revision, not "latest" which might break a DASH build if something under `SAI` changes.
 * It's a well-known practice; for example the `SAI` project and the `sonic-buildimage` projects both use submodules to great advantage.
 
@@ -352,7 +352,7 @@ Since we haven't gone through this process yet, it is subject to more clarificat
 "Configuration Management" here refers to maintaining version control over the various components used in the build and test workflows. It's mandatory to identify and lock down the versions of critical components, so that multiple versions and branches of the complete project can be built and tested in a reproducible and predictable way, at any point in the future.
 
 The sections below discuss version control of critical components.
-## DASH Repo Versioning
+## DASH Repository Versioning
 The DASH GitHub repo, i.e. [https://github.com/Azure/DASH](https://github.com/Azure/DASH) is controlled by Git source-code control, tracked by commit SHA, tag, branch, etc. This is the main project and its components should also be controlled.
 ## Submodules
 As discussed in [About Git Submodules](#about-git-submodules), submodules are controlled by the SHA commit of the submodule, which is "committed" to the top level project (see [About Git Submodules](#about-git-submodules). The versions are always known and explicitly specified.

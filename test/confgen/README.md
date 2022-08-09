@@ -61,7 +61,7 @@ for each eni we allocate a `MAC_L_START` and `IP_L_START`
 
 | 8 ENI Scenario  |  required |   generated config number |
 | ----------------| --------- |---------------------------|
-| ENI's/VPorts    | 8         | ENI_COUNT                            |
+| ENIs/VPorts     | 8         | ENI_COUNT                            |
 | NSGs            | 48        | ENI_COUNT * 2[^1] * ACL_TABLE_COUNT  |
 | ACL rules       | 48000     | NSG * ACL_RULES_NSG                  |
 | Prefixes        | 9.6M      | ACL * IP_PER_ACL_RULE                |

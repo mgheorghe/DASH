@@ -3,6 +3,7 @@ ACLs
 adaptor
 APIs
 APPDB
+APPL
 ASIC
 ASICs
 BGP
@@ -65,6 +66,7 @@ README
 RPC
 Runtime
 SAI
+sairedis
 saiserver
 saithrift
 scapy

@@ -8,7 +8,7 @@ See also:
 * [README-ptftests](README-ptftests.md) for saithrift PTF test-case development and usage.
 * [README-pytests](README-pytests.md) for saithrift Pytest test-case development and usage.
 # DASH Pipeline
-This is a P4 model of the DASH overlay pipeline which uses the [bmv2](https://github.com/p4lang/behavioral-model) from [p4lang](https://github.com/p4lang). It includes the P4 program which models the DASH overlay dataplane; Dockerfiles; build and test infrastructure; and CI (Continuous Integration) spec files.
+This is a P4 model of the DASH overlay pipeline which uses the [bmv2](https://github.com/p4lang/behavioral-model) from [p4lang](https://github.com/p4lang). It includes the P4 program which models the DASH overlay data plane; Dockerfiles; build and test infrastructure; and CI (Continuous Integration) spec files.
 
 >**IMPORTANT:** Developers, read [Typical Workflow: Committing new code - ignoring SAI submodule](README-dash-workflows.md#typical-workflow-committing-new-code---ignoring-sai-submodule) before committing code.
 
@@ -65,7 +65,7 @@ See [Installing Prequisites](#installing-prequisites) for details.
 
 ## Clone this repo
 ```
-git clone <repo URL>
+git clone <repository URL>
 cd DASH
 ```
 **Optional** - if you require a particular dev branch:

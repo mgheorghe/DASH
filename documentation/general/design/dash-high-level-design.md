@@ -255,7 +255,7 @@ services**, while the traditional SONiC application containers are used to
 manage the underlay (L3 routing) and hardware platform. Both the DASH container
 and the traditional SONiC application containers sit atop the Switch State
 services (SWSS) layer, and manipulate the Redis application-layer DBs; these in
-turn are translated into SAI dataplane obects via the normal SONiC orchestration
+turn are translated into SAI data plane obects via the normal SONiC orchestration
 daemons inside SWSS.
 
 The SDN controller controls the overlay built on top of the physical layer
@@ -296,7 +296,7 @@ In summary:
 - The **SONiC orchagent** inside the Switch State Service (SWSS) Container will
   be enhanced to transform and translate these objects into **ASIC_DB objects**,
   including the new **DASH-specific SAI objects**.  
-- An **enhanced syncd** will then configure the dataplane using the **technology
+- An **enhanced syncd** will then configure the data plane using the **technology
   supplier-specific SAI library**.
 
 A **gNMI schema** will manage the following DASH components:
@@ -370,7 +370,7 @@ metadata header files. The **underlay** and **overlay** schema have different or
 For more information see the [SAI README](../../../SAI/README.md) file.
 
 > [!NOTE]
-> DASH uses an **enhanced syncd** to configure the dataplane using the technology supplier-specific SAI library.
+> DASH uses an **enhanced syncd** to configure the data plane using the technology supplier-specific SAI library.
 
 ### ASIC Drivers
 
@@ -396,7 +396,7 @@ optimal for performance reasons in our project.
 
 ### DASH capable ASICs
 
-These comprise the main dataplane engines and are the core of what are variously
+These comprise the main data plane engines and are the core of what are variously
 called SmartNICs, DPUs, IPUs, NPUS, etc. The actual cores may be ASICs, SoCs,
 FPGAs, or some other high-density, performant hardware.
 
@@ -430,7 +430,7 @@ The functionality of the new *dash container* in the user space is to receive
 content from the Software Defined Networking (SDN) controller to control setup
 for the overlay configurations. DASH receives the objects, translates them with
 a **gNMI agent**, provides them to the *SONiC OrchAgent* for further translation
-onto the dataplane via the **SAI database**.
+onto the data plane via the **SAI database**.
 
 In particular, notice the following:
 
@@ -571,7 +571,7 @@ testing](https://github.com/Azure/DASH/tree/main/test).
   DASH test workflow with SAI-thrift.
 - [DASH P4 SAI-Thrift Test
   Workflow](https://github.com/Azure/DASH/blob/main/test/docs/dash-test-workflow-p4-saithrift.md).
-  Use of P4-based simulators or SW dataplanes to verify DASH behavior, using
+  Use of P4-based simulators or SW data planes to verify DASH behavior, using
   saithrift API.
 
 ## Appendix

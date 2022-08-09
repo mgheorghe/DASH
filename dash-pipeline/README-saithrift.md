@@ -105,7 +105,7 @@ It's strongly recommended to perform proper DUT config cleanup in the code for e
 # Tips and techniques for writing tests
 The following information should apply equally well to writing any tests which utilize saithrift as the client library: PTF, Pytests, etc. Please refer to other READMEs for information specific to various frameworks.
 ## Workspace File Layout
-Below is depicted a selected subset of the DASH repo pertinent to understanding source and build artifact locations needed for saithrift test development.
+Below is depicted a selected subset of the DASH repository pertinent to understanding source and build artifact locations needed for saithrift test development.
 
 Note that the `SAI/SAI` directory is a Git submodule and its contents are modified during `make sai` and `make saithrift-server`.
 ```
@@ -116,7 +116,7 @@ DASH
     rpc                   - output dir for saithrift code generator
                             contains client & server libraries & executable, see below
       SAI                 - Git submodule root, imported into DASH repo
-        extensions        - DASH extension headers - mix of repo files + generated via "make sai"
+        extensions        - DASH extension headers - mix of repository files + generated via "make sai"
         inc               - upstream sai headers
         meta              - generated SAI metadata, scripts, etc.
         test

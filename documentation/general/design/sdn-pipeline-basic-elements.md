@@ -130,7 +130,7 @@ matches the ENI MAC.
 ## Packet processing pipeline
 
 The processing of a packet is based on a set of tables and policies stored in
-the dataplane (DPU) and configured based on information sent by the control
+the data plane (DPU) and configured based on information sent by the control
 plane (SDN controller). The following figure shows how tables and policies
 relate to the Virtual Port (ENI). 
 

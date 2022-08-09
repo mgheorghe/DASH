@@ -298,7 +298,7 @@ configured during validation and test plan needs to be executed covering
 both scenarios:
 
 1. &nbsp; 8 ENI Scenario
-    - 8 ENI's/VPorts
+    - 8 ENIs/VPorts
     - 200k \* 8 = 1.6M routes
     - 8 \* 6 = 48 NSGs
     - 48 \* 1000 rules = 48000 ACL rules
