@@ -21,7 +21,7 @@ All DASH devices shall conform to the following design specifications and compli
 
 ## Service Specifications and Requirements
 DASH devices may implement one or more of the following services.
-They shall conform to each service's design specificaitons and compliance requirements.
+They shall conform to each service's design specifications and compliance requirements.
 | Topic   | Links to Folders |
 | ------- | ---------|
 | Load Balancer Service                | [Parent Folder](load-bal-service/README.md) \| [ Design](load-bal-service/design/README.md) \| [Compliance Requirements](load-bal-service/requirements/README.md)|
