@@ -134,7 +134,7 @@ further extend DASH to meet their specific needs.
 This scenario is the starting point to design, implement and test the core DASH
 mechanisms. In particular it allows the following features: VM to VM
 communication in VNET, route support, LPM support, ACL support. This is to
-verify the following performance propereies: CPS, flow, PPS, and rule scale. 
+verify the following performance properties: CPS, flow, PPS, and rule scale. 
 1. [VNET
    Peering](https://github.com/Azure/DASH/tree/main/documentation/vnet-peering-service).
    Virtual network peering connects two virtual networks
@@ -413,7 +413,7 @@ The SONiC DASH integration introduces the following DASH modifications:
    container) to create the functional component for DASH. Microsoft will
    deliver the **gNMI container** as code to SONiC to allow any SONiC switch to
    talk with and integrate DPU technology. The *DASH container* software
-   integrates with the SONiC system containers seemlessly. Microsoft will ensure
+   integrates with the SONiC system containers seamlessly. Microsoft will ensure
    a high quality integration with the switch. 
 
 2. In the **sync-d container**, the **sai api DASH** (as opposed to *sai api* in
