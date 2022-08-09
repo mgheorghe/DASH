@@ -32,7 +32,7 @@ sudo ptf --test-dir ./ptf --pypath /SAI/ptf \
 ```
 Note that the container is launched with `/SAI/ptf` in the container mounted to the corresponding 
 ## Locating PTF Packet Utilities
-The following directory contains source code for packet test utillities:
+The following directory contains source code for packet test utilities:
 ```
 DASH/dash-pipeline/SAI/SAI/test/ptf/src/ptf
 ```

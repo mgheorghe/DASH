@@ -421,6 +421,21 @@ atlassian
 scm
 submodule
 www
-
+subdirectories
+dev
+hoc
+prebuilt
+drilldown
+preprocessor
+Pyunit
+ptf
+GitSubmodules
+README's
+lang
+params
+accessors
+param
+enum
+gdb
 
 
