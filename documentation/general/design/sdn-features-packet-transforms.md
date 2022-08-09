@@ -95,7 +95,7 @@ applies to both IPV4 and IPV6 underlay and overlay*
 | 2  | <ul> <li>Load Balancer Inbound</li><li>VIP Inbound</li></ul>  |  | |
 | 3 | Private Link Outbound (transposition), encapsulate and change packet IPv4 to IPv6 (4 bits embedded)  |  | |
 | 4 | L3 / L4 Source NAT (correlated w/#2) outbound perspective (Cx address) to Internet; changing Cx source IP to Public IP (1:1 mapping)  |  | |
-| 5 | Private Link Service Link Service (dest side of Private Link) IPv6 to IPv4; DNAT’ing     |  | |
+| 5 | Private Link Service Link Service (dest side of Private Link) IPv6 to IPv4; DNATing     |  | |
 | 6 | Flow replication; supporting High Availability (HA); flow efficiently replicates to secondary card; Active/Passive (depending upon ENI policy) or can even have Active/Active; OR provision the same ENI over multiple devices w/o multiple SDN appliances – Primaries for a certain set of VMS can be on both     |  | Not a must have for Private Preview <img width=400/>|
 
 ## Virtual Port (aka Elastic Network Interface / ENI) and Packet Direction
@@ -120,7 +120,7 @@ the ENI.
 The SDN controller will create these virtual ports / ENIs on an SDN appliance
 and associate corresponding SDN policies such as – Route, ACL, NAT etc. to these
 virtual ports.  In other words, our software will communicate with the cards,
-hold card inventory and SDN placement, call API’s that are exposed through the
+hold card inventory and SDN placement, call APIs that are exposed through the
 card:  create policies, setup ENI, routes, ACLs, NAT, and different rules.
 
 The following applies:

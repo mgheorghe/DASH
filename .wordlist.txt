@@ -606,8 +606,8 @@ BMv
 prereq
 conf
 confgen
-DNAT’ing
-API’s
+DNATing
+APIs
 integrators
 vnics
 failovers
