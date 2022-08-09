@@ -1,7 +1,7 @@
 # Objectives:
 The intention of the dash config generator is to provide a way to build a large scale dash config. and to provide some insight into the actual values used in the test.
 
-The dash config format is close to [dash-reference-config-example.md](../../../documentation/gnmi/design/dash-reference-config-example.md) with small changes.
+The dash config format is close to [dash-reference-config-example.md](../../../documentation/gnmi/design/dash-reference-config-example.md) with small changes. 
 
 This is not yet a config that can be deployed, but intends to be morphed into one as DASH standards get ratified and implemented
 
