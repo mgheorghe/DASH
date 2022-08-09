@@ -83,7 +83,7 @@ applies to both IPV4 and IPV6 underlay and overlay*
 | Routes | 100k per v-port (max)  | |
 | ACLs | 100k IP-Prefixes, 10k Src/Dst ports per v-port (max)  | |
 | NAT | tbd  | |
-| V-Port (aka ENI or Source VM) | 32 Primary, 32 Secondary assuming 2x OverSub, 32GB RAM, No ISSU, 10k (theorhetical max)  | Each ENI 1M total active connections and 2M flows |
+| V-Port (aka ENI or Source VM) | 32 Primary, 32 Secondary assuming 2x OverSub, 32GB RAM, No ISSU, 10k (theoretical max)  | Each ENI 1M total active connections and 2M flows |
 | Mappings (VMS deployed) | 10 million total mapping per DPU; mappings are the objects that help us bridge the customer's virtual space (private ip address assigned to each VM) with Azure's physical space (physical/routable addresses where the VMs are hosted)  | |
 |  | For each VPC, we have a list of mappings of the form: PrivateAddress -> (Physical Address v4, Physical Address V6, Mac Address, etc...) | VPC can have up to 1M mappings |
 

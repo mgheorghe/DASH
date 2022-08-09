@@ -228,7 +228,7 @@ integrators to track and test the designs in a common manner.
         -   Effective PPS: Sustained CPS \* 6 + PPS for background flows.
 
 -   CPS and flow results will be measured while channel bandwidth is
-    saturated at 100Gbps for the duration of test runtime. Ath the same
+    saturated at 100Gbps for the duration of test runtime. At the same
     time we want as close to 100Gbps without losing packets.
 
 -   Inactivity based aging timer of 1 second.

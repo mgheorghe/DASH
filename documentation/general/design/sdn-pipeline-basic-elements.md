@@ -185,7 +185,7 @@ Below are listed some of the most common packet processing terms.
 ### Access Control Lists (ACLs)
 
 The Access Control Lists (ACLs) play a fundamental role during packet
-processsing. ACLs evaluation is done in stages, if a packet is allowed through
+processing. ACLs evaluation is done in stages, if a packet is allowed through
 the first stage, it is processed by the second ACL stage and so on. For a packet
 to be allowed it must be allowed in all the stages or must hit a terminating
 allow rule. 
@@ -204,7 +204,7 @@ ACL groups need to be evaluated in order. The following rules apply:
 - Each ACL group has a set of rules. Only a single rule can match in
   group/stage. 
   - Once the rule is matched, its action is performed (**allow** or **deny**).
-  - The packet porcessing moves to the next ACL group/stage; a match is found,
+  - The packet processing moves to the next ACL group/stage; a match is found,
     no further rules in same group are evaluated. 
 
 - Within an ACL group, rules are organized by priority (with lowest priority
