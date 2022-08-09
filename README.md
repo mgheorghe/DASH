@@ -1,7 +1,7 @@
 [![DASH-bmv2-CI](https://github.com/Azure/DASH/workflows/DASH-BMV2-CI/badge.svg?branch=main)](https://github.com/Azure/DASH/actions/workflows/dash-bmv2-ci.yml)
 ![Spellcheck](https://github.com/mgheorghe/DASH/actions/workflows/dash-md-spellcheck.yml/badge.svg)
 
-# SONiC-DASH - Disaggregated API for SONiC Hosts - DRAFT/Work in Progress 
+# SONiC-DASH - Disaggregated API for SONiC Hosts - DRAFT/Work in Progress
 
 ## SONiC-DASH is a new open source project that will "deliver enterprise network performance to critical cloud applications".  The project extends functionality to stateful workloads.  
 
