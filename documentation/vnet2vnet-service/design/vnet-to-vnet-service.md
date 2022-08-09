@@ -85,7 +85,7 @@ several steps, as explained below.
   **incoming packet's VNI** that is matched against the **reserved VNI**
   assigned to the **VM->Appliance**.
 - Using the inner `src-mac`, **maps to the corresponding ENI**.
-- The incoming packet will always be **VXLAN encapped** and the outer `dst-ip`
+- The incoming packet will always be **VXLAN encapsulated** and the outer `dst-ip`
   is the **appliance VIP**.
 - The pipeline parses the VNI, and for **VM traffic**, the VNI shall be a
   **special reserved VNI**-

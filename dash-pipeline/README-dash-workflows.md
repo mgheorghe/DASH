@@ -292,7 +292,7 @@ make run-libsai-test
 ```
 
 ## Start/Stop ixia-c Traffic Generator
-This will start/stop the ixia-c traffic generator, whcih consists of one container for the Controller and one container per Traffic Enginer (1 per port = 2 for DASH).
+This will start/stop the ixia-c traffic generator, which consists of one container for the Controller and one container per Traffic Engine (1 per port = 2 for DASH).
 ```
 make deploy-ixiac    # Start the containers
 make undeploy-ixiac  # Stop the containers

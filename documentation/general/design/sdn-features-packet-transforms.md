@@ -89,7 +89,7 @@ applies to both IPV4 and IPV6 underlay and overlay*
 
 ## Scenario Milestone and Scoping
 
-| Scenario | Feature | Perfomance Metrics | Timeline |
+| Scenario | Feature | Performance Metrics | Timeline |
 |:---------|:---------|:-----|-----|
 | 1 | <ul> <li>VNET <-> VNET </li> <ul><li>Route Support </li> <li>LPM Support </li> <li>ACL Support</li></ul></ul>|CPS<br/>Flow<br/>PPS</br>Rule Scale<img width=400/></br> |
 | 2  | <ul> <li>Load Balancer Inbound</li><li>VIP Inbound</li></ul>  |  | |
@@ -140,10 +140,10 @@ For more information, see **[SDN pipeline basic elements](sdn-pipeline-basic-ele
 Routing must be based on the **Longest Prefix Match** (LPM) and must support all
 **underlay and overlay** combinations described below:
 
-- inner IPv4 packet encapped in outer IPv4 packet 
-- inner IPv4 packet encapped in outer IPv6 packet 
-- inner IPv6 packet encapped in outer IPv4 packet 
-- inner IPv6 packet encapped in outer IPv6 packet 
+- inner IPv4 packet encapsulated in outer IPv4 packet 
+- inner IPv4 packet encapsulated in outer IPv6 packet 
+- inner IPv6 packet encapsulated in outer IPv4 packet 
+- inner IPv6 packet encapsulated in outer IPv6 packet 
 
 The routing pipeline must support the routing models shown below.
 

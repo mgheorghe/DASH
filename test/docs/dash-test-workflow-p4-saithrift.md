@@ -37,7 +37,7 @@ A simulator must provide a standard DASH SAI programming interface allowing inte
 
 This approach will also allow integration with the SONiC stack by building a `syncd` image linked to the device's libsai and executing it on the device. This would allow a pure-software simulation of SONiC DASH including traffic processing. A `syncd` daemon would replace the `saithrift` server shown in the diagram. It would interface to the standard lower SONiC stack, e.g. talk to the redis ASIC DB. This might be used if DASH testing is extended to use the `sairedis` interface as done in PLVision's [SAI Challenger](https://plvision.eu/rd-lab/blog/opensource/sai-challenger-sonic-based-framework) which is being offered to the [Open Compute Project (OCP)](https://www.opencompute.org/) Community, which hosts the SAI project.
 
-See [SONiC Architecture](https://github.com/Azure/SONiC/wiki/Architecture) for more detials about the complete SONiC stack.
+See [SONiC Architecture](https://github.com/Azure/SONiC/wiki/Architecture) for more details about the complete SONiC stack.
 
 ## Optional P4Runtime Data plane Programming Interface
 P4 data planes generally provide the standard [P4Runtime](https://github.com/p4lang/p4runtime) ("P4RT") API to configure P4 entities (tables, meters, etc.) and read state (counters, registers, etc.). Therefore this capability will exist "for free" in a DASH P4 simulator. It will not be used in standardized DASH conformance and performance tests; only the SAI interface will be used.
@@ -50,14 +50,14 @@ A simulator normally uses virtual Ethernet ("veth") interfaces instead of physic
 An alternative approach (not illustrated) is to bind or bridge the SW simulators to physical Ethernet ports, on the CPU which is hosting the simulator. These ports can then be physically cabled to external HW traffic generators, *or* to external SW traffic generators (on a different host) which are similarly bound to physical Ethernet ports. This use-case is out of scope for community DASH testing, but might serve some R&D lab needs.
 
 ## Simulator Implementations
-Currently, two complementary simulator implementions are being developed by the DASH community:
+Currently, two complementary simulator implementations are being developed by the DASH community:
 * A modified Behavioral Model ([bmv2](https://github.com/p4lang/behavioral-model)), championed by NVidia. Currently this uses a customized codebase based on a modified v1model P4 architecture. Discussions are in-progress whether this will eventually converge to use the PNA model.
-* A [P4-DPDK](https://github.com/p4lang/p4-dpdk-target) based software data plane championed by Intel, using the PNA archtecture. This is much more than a "simulator," it is a first-class, SW data plane implementation. When executing on a normal CPU (versus a dedicated hardware device) it can serve as a fairly performant DASH data plane simulator.
+* A [P4-DPDK](https://github.com/p4lang/p4-dpdk-target) based software data plane championed by Intel, using the PNA architecture. This is much more than a "simulator," it is a first-class, SW data plane implementation. When executing on a normal CPU (versus a dedicated hardware device) it can serve as a fairly performant DASH data plane simulator.
 
 ### BMv2 Simulator Design Details
 The diagram show a few details about the design of the [bmv2](https://github.com/p4lang/behavioral-model) simulator. The community bmv2 program is modified to support DASH requirements (e.g. stateful connection tracking). The source code assumes an enhanced v1model.
 
-A saithrift server skeleton is linked to a libsai library to yield a saithrift API endoint, used by the test runner.
+A saithrift server skeleton is linked to a libsai library to yield a saithrift API endpoint, used by the test runner.
 
 The bmv2 simulator has a built-in P4Runtime server. A SAI-to-P4Runtime adaptor maps SAI API calls made to the libsai API, into P4Runtime API gRPC calls over a socket to the bmv2 endpoint. SAI object operations are thus converted into P4 entity operations. Note that data plane configuration thus requires two socket-based RPC hops, because saithrift messages are translated into equivalent P4RT gRPC messages.
 
@@ -80,7 +80,7 @@ The P4-DPDK data plane is bound to host veth ports at startup.  These are "wired
 * Two different software simulators are being developed independently (bmv2 and P4-DPDK), with various characteristics. They are works-in-progress and details may evolve quickly over time.
 * The simulators will have libsai libraries allowing compilation into a saithrift server. This server exposes a saithrift API endpoint used by the test scripts to configure and query the data plane.
 * The native P4Runtime API endpoints are not used in standard DASH tests, but they may serve a purpose for developing the P4 model and simulations themselves.
-* Packets are sent into and out of veth interfaces of the simulator. These connect via Linux bridges or similar, to software-based packet generators. Complete data plane tests can be performed soley in software, supporting development and CI/CD testing.
+* Packets are sent into and out of veth interfaces of the simulator. These connect via Linux bridges or similar, to software-based packet generators. Complete data plane tests can be performed solely in software, supporting development and CI/CD testing.
 
 
 ## References
