@@ -6,6 +6,8 @@ on:
   push:
     paths:
     - '**/*.md'
+  workflow_dispatch:
+
 jobs:
   spelling:
     runs-on: ubuntu-latest
