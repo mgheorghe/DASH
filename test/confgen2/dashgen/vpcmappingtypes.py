@@ -8,16 +8,15 @@ class VpcMappingTypes(ConfBase):
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
-        # Note double list to match original confgen
-        vpcmappingtypes = [[
+        vpcmappingtypes = [
             "vpc",
             "privatelink",
             "privatelinknsg"
-        ]]
+        ]
 
         # return list, not generator
         return vpcmappingtypes
 
 if __name__ == "__main__":
     conf=VpcMappingTypes()
-    conf.pretty()
+    common_main(conf, dict_method=conf.toDict, list_method=conf.items)

@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 *.json
+tmp.*
 
 
 !sample_dash_conf.json

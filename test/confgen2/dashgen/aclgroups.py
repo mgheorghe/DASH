@@ -85,4 +85,4 @@ class AclGroups(ConfBase):
 
 if __name__ == "__main__":
     conf=AclGroups()
-    conf.pretty()
+    common_main(conf, dict_method=conf.toDict, list_method=conf.items)

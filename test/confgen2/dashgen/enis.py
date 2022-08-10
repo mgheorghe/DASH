@@ -5,7 +5,7 @@ class Enis(ConfBase):
 
     def __init__(self):
         self.dictname = 'enis'
-    
+ 
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         for eni_index in range(1, ENI_COUNT+1):
@@ -49,4 +49,4 @@ class Enis(ConfBase):
             
 if __name__ == "__main__":
     conf=Enis()
-    conf.pretty()
+    common_main(conf, dict_method=conf.toDict, list_method=conf.items)

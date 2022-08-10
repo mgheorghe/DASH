@@ -84,4 +84,4 @@ class VpcMappings(ConfBase):
 
 if __name__ == "__main__":
     conf=VpcMappings()
-    conf.pretty()
+    common_main(conf, dict_method=conf.toDict, list_method=conf.items)

@@ -1,3 +1,4 @@
 orjson
 ipaddress
 macaddress
+pyyaml

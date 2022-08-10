@@ -41,4 +41,4 @@ class Vpcs(ConfBase):
 
 if __name__ == "__main__":
     conf=Vpcs()
-    conf.pretty()
+    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
