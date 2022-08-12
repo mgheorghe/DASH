@@ -1,5 +1,6 @@
 from dashgen.variables import *
 from dashgen.confbase import *
+from dashgen.confutils import *
 from copy import deepcopy
 import sys
 class AclGroups(ConfBase):
@@ -82,6 +83,7 @@ class AclGroups(ConfBase):
                     }
                 )
                 yield acl_group
+        log_memory('items() exit')
 
 if __name__ == "__main__":
     conf=AclGroups()

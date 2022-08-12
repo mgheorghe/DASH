@@ -1,5 +1,6 @@
 from dashgen.variables import *
 from dashgen.confbase import *
+from dashgen.confutils import *
 from copy import deepcopy
 import sys
 class RoutingAppliances(ConfBase):

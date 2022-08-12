@@ -1,3 +1,4 @@
+import dashgen.confutils
 import dashgen.enis
 import dashgen.aclgroups
 import dashgen.prefixtags

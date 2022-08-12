@@ -5,8 +5,10 @@ import orjson
 import yaml
 import dashgen
 import argparse
+from dashgen.confbase import *
+from dashgen.confutils import *
 
-parser = dashgen.confbase.commonArgParser()
+parser = commonArgParser()
 args = parser.parse_args()
 
 print('Generating config', file=sys.stderr)
@@ -29,25 +31,21 @@ configs = [
         routetables,
         prefixtags
 ]
-
-# config = {}
-# config.update(enis.toDict())
-# config.update(aclgroups.toDict())
-# config.update(vpcs.toDict())
-# config.update(vpcmappingtypes.toDict())
-# config.update(vpcmappings.toDict())
-# config.update(routingappliances.toDict())
-# config.update(routetables.toDict())
-# config.update(prefixtags.toDict())
+log_memory("Generators instantiated")
 
 def toDict(self=None):
         global configs
         c = {}
         for i in configs:
                 c.update(i.toDict()) 
+        log_memory("toDict()")
         return c
+
+def toDictGen(self=None):
+        global configs
+        return {x.dictName():x.items() for x in configs}
 
 def toList(self=None):
         return (c.items() for c in configs)
 
-dashgen.confbase.common_main(self=None, dict_method=toDict, list_method=toList)
+common_main(self=None, dict_method=toDictGen, list_method=toList)
