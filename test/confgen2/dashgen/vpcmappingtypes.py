@@ -10,15 +10,21 @@ class VpcMappingTypes(ConfBase):
         super().__init__('vpc-mappings-routing-types', params)
     
     def items(self):
+        self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
+        p=self.params
         vpcmappingtypes = [
             "vpc",
             "privatelink",
             "privatelinknsg"
         ]
 
-        # return list, not generator
-        return vpcmappingtypes
+        # return generator from list for consistency with other subgenerators
+        for x in vpcmappingtypes:
+
+            self.numYields+=1
+            yield x
+        log_memory('    %s: generated %d items' % (self.dictname, self.numYields))
 
 if __name__ == "__main__":
     conf=VpcMappingTypes()

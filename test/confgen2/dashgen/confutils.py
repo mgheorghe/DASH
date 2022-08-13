@@ -1,5 +1,5 @@
 import sys,resource, time
-import orjson
+#import orjson
 import collections, itertools, json
 import yaml
 import io, sys
@@ -17,6 +17,13 @@ def log_memory(msg=''):
 
 
 # From https://stackoverflow.com/questions/12670395/json-encoding-very-long-iterators
+# Other articles to consider:
+# https://stackoverflow.com/questions/21663800/python-make-a-list-generator-json-serializable/31517812#31517812
+# https://stackoverflow.com/questions/1871685/in-python-is-there-a-way-to-check-if-a-function-is-a-generator-function-before
+# https://stackoverflow.com/questions/6416538/how-to-check-if-an-object-is-a-generator-object-in-python
+# https://pypi.org/project/json-stream/
+# https://pythonspeed.com/articles/json-memory-streaming/
+
 class IterEncoder(json.JSONEncoder):
     """
     JSON Encoder that encodes iterators as well.
@@ -70,7 +77,7 @@ def writeListFpIter(config, format, fp):
         raise NotImplementedError('ERROR: unsupported format %s' % format)
     log_memory("writeListFpIter exit")
 
-
+# TODO - consider generic recursive approach
 def writeDictFileIter(config, format, filename='<stdout>'):
     log_memory("writeDictFileIter enter")
 
@@ -83,7 +90,7 @@ def writeDictFileIter(config, format, filename='<stdout>'):
             fp.write('  "%s":\n' % key)
             json.dump(list, fp, cls=IterEncoder,indent = 2, separators=(',', ': '))
             first = False
-            log_memory("wrote dict item '%s'" % key)
+            log_memory("    wrote dict item '%s'" % key)
         fp.write('\n}\n')
 
     if format == 'json':
@@ -103,7 +110,7 @@ def commonArgParser():
     parser = argparse.ArgumentParser(description='Generate DASH Configs',
                 formatter_class=argparse.RawTextHelpFormatter,
                 epilog = textwrap.dedent('''
-Examples:
+Usage:
 =========
 ./generate.d.py                - generate output to stdout using uber-generator
 ./generate.d.py -o tmp.json    - generate output to file tmp.json
@@ -112,15 +119,17 @@ Examples:
 dashgen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, etc.
                                - many different subgenerators available, support same options as uber-generator
 
-Passing scale and other parameters:
-./generate.d.py -d                   - display default parameters and quit
-./generate.d.py -d -P "{...}"        - override some parameters, display and quit; see dflt_params.py for template
-./generate.d.py -P "{...}" [opts]    - override some parameters generate output
+Passing parameters. Provided as Python dict, see dflt_params.py for available items
+================
+./generate.d.py -d                          - display default parameters and quit
+./generate.d.py -d -P PARAMS                - override given parameters, display and quit; see dflt_params.py for template
+./generate.d.py -d -p PARAM_FILE            - override parameters in file; display only
+./generate.d.py -d -p PARAM_FILE -P PARAMS  - override params from file, then override params from cmdline; display only
+./generate.d.py -p PARAM_FILE -P PARAMS     - override params from file, then override params from cmdline, generate output
 
 Example:
-./generate.d.py -d -P "{'ACL_RULES_NSG': 3, 'ACL_TABLE_COUNT': 1000, 'ENI_COUNT': 8}"
-./generate.d.py -P "{'ACL_RULES_NSG': 3, 'ACL_TABLE_COUNT': 1000, 'ENI_COUNT': 8}" -o tmp.json
-
+./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
+./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
 
 
 
@@ -137,10 +146,10 @@ Example:
             help='Just dump paramters (defaults with user-defined merged in')
 
     parser.add_argument('-P', '--set-params', metavar='{PARAMS}',
-            help='supply parameters as a dict, partial is OK')
+            help='supply parameters as a dict, partial is OK; defaults and file-provided (-p)')
 
     parser.add_argument('-p', '--param-file', metavar='PARAM_FILE',
-            help='use parameter dict from file, partial is OK')
+            help='use parameter dict from file, partial is OK; overrides defaults')
 
     parser.add_argument(
             '-o', '--output', default='<stdout>', metavar='OFILE',
@@ -152,11 +161,17 @@ def common_parse_args(self):
     parser = commonArgParser()
     self.args = parser.parse_args()
 
+    # Prams from file override defaults; params from cmd-line override all
+    params = {}
+    if self.args.param_file:
+        with open(self.args.param_file,'r') as fp:
+            params = eval(fp.read())
     if self.args.set_params:
-        self.mergeParams(eval(self.args.set_params))
+        params.update(eval(self.args.set_params))
+    self.mergeParams(params)
 
     if self.args.dump_params:
-        print(self.params)
+        print(self.params_dict)
         exit()
 
 def common_output(self):

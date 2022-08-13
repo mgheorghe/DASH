@@ -4,6 +4,7 @@
 * Expose yaml format, need to work on streaming output (bulk output was owrking but slow).
 * Use logger instead of print to stderr
 * logging levels -v, -vv, -vvv etc., otherwise silent on stderr
+* -O, --optimize flags for speed or memory (for speed - expand lists in-memory and use orjson serializer, like original code)
 ## Comparisons - confgen, confgen2
 
 ### confgen - original design

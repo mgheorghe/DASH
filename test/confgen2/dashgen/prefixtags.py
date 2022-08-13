@@ -10,11 +10,14 @@ class PrefixTags(ConfBase):
         super().__init__('prefix-tags', params)
 
     def items(self):
+        self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
-        for eni_index in range(1, self.ENI_COUNT+1):
+        p=self.params
+        for eni_index in range(1, p.ENI_COUNT+1):
             IP_L = IP_L_START + (eni_index - 1) * IP_STEP4
             r_vpc = eni_index + ENI_L2R_STEP
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP4
+            self.numYields+=1
             yield \
                 {
                     "PREFIX-TAG:VPC:%d" % eni_index: {
@@ -25,6 +28,8 @@ class PrefixTags(ConfBase):
                         ]
                     },
                 }
+
+            self.numYields+=1
             yield \
                 {
                     "PREFIX-TAG:VPC:%d" % r_vpc: {
@@ -35,6 +40,7 @@ class PrefixTags(ConfBase):
                         ]
                     },
                 }
+        log_memory('    %s: yielded %d items' % (self.dictname, self.numYields))
             
 if __name__ == "__main__":
     conf=PrefixTags()

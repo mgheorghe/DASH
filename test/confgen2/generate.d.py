@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 import io, sys
-import orjson
-import yaml
+# import orjson
+# import yaml
 import dashgen
 import argparse
 from dashgen.confbase import *
@@ -17,14 +17,16 @@ class DashConfig(ConfBase):
                 super().__init__('dash-config', params)
 
         def generate(self):
-                enis = dashgen.enis.Enis(self.params)
-                aclgroups = dashgen.aclgroups.AclGroups(self.params)
-                vpcs = dashgen.vpcs.Vpcs(self.params)
-                vpcmappingtypes = dashgen.vpcmappingtypes.VpcMappingTypes(self.params)
-                vpcmappings = dashgen.vpcmappings.VpcMappings(self.params)
-                routingappliances = dashgen.routingappliances.RoutingAppliances(self.params)
-                routetables = dashgen.routetables.RouteTables(self.params)
-                prefixtags = dashgen.prefixtags.PrefixTags(self.params)
+                # Pass top-level params to sub-generrators.
+                # Future - can pass some overridden values if needed.
+                enis = dashgen.enis.Enis(self.params_dict)
+                aclgroups = dashgen.aclgroups.AclGroups(self.params_dict)
+                vpcs = dashgen.vpcs.Vpcs(self.params_dict)
+                vpcmappingtypes = dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict)
+                vpcmappings = dashgen.vpcmappings.VpcMappings(self.params_dict)
+                routingappliances = dashgen.routingappliances.RoutingAppliances(self.params_dict)
+                routetables = dashgen.routetables.RouteTables(self.params_dict)
+                prefixtags = dashgen.prefixtags.PrefixTags(self.params_dict)
 
                 self.configs = [
                         enis,

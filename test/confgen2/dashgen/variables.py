@@ -3,8 +3,8 @@ import macaddress
 import os
 ipp = ipaddress.ip_address
 
-
-ENI_COUNT = 2  # 8
+# NOTE - commented-out lines are params which haved moved into ConfBase.params
+# ENI_COUNT = 2  # 8
 ENI_MAC_STEP = '00:00:00:18:00:00'
 ENI_STEP = 1
 ENI_L2R_STEP = 100
@@ -13,12 +13,12 @@ ENI_L2R_STEP = 100
 ACL_TABLE_MAC_STEP = '00:00:00:04:00:00'
 ACL_POLICY_MAC_STEP = '00:00:00:00:01:00'
 
-ACL_RULES_NSG = 2  # 1000
-ACL_TABLE_COUNT = 3
+# ACL_RULES_NSG = 2  # 1000
+# ACL_TABLE_COUNT = 3
 
 
-IP_MAPPED_PER_ACL_RULE = 2  # 40
-IP_PER_ACL_RULE = 2  # 255
+# IP_MAPPED_PER_ACL_RULE = 2  # 40
+# IP_PER_ACL_RULE = 2  # 255
 IP_ROUTE_DIVIDER_PER_ACL_RULE = 8 # 8, must be a power of 2 number 
 
 

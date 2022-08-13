@@ -2,29 +2,37 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 import os, sys
 from dflt_params import *
+from munch import DefaultMunch
 class ConfBase(ABC):
 
     def __init__(self, name='base', params={}):
         self.dictname = name
         self.dflt_params = deepcopy(dflt_params)
         self.mergeParams(params)
+        self.numYields = 0
 
     def mergeParams(self, params):
-        self.params = deepcopy(self.dflt_params)
         # Merge provided params into/onto defaults
-        self.params.update(params)
-        # make scalar attributes for speed (compared to dict)
-        for k,v in self.params.items():
-            setattr(self, k, v)
+        self.params_dict = deepcopy(self.dflt_params)
+        self.params_dict.update(params)
 
-        # print ("\n%s: %s\n" % (self.dictname, self.params), file=sys.stderr)
+        # make scalar attributes for speed & brevity (compared to dict)
+        # https://stackoverflow.com/questions/1305532/how-to-convert-a-nested-python-dict-to-object
+        self.params = DefaultMunch.fromDict(self.params_dict)
+        # print ('%s: self.params=' % self.dictname, self.params)
+
 
     @abstractmethod
     def items(self):
         pass
 
+    # expensive - runs generator
     def itemCount(self):
         return len(self.items())
+
+    def itemsGenerated(self):
+        """ Last count of # yields, reset each time at begining"""
+        return self.num_yields
 
     def dictName(self):
         return self.dictname
@@ -33,7 +41,7 @@ class ConfBase(ABC):
         return {self.dictname: list(self.items())}
 
     def getParams():
-        return self.params
+        return self.params_dict
 
     def pretty(self):
         pprint.pprint(self.toDict())

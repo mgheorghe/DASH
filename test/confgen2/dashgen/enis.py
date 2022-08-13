@@ -10,14 +10,16 @@ class Enis(ConfBase):
         super().__init__('enis', params)
  
     def items(self):
+        self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
-        for eni_index in range(1, self.ENI_COUNT+1):
+        p=self.params
+        for eni_index in range(1, p.ENI_COUNT+1):
             local_mac = str(macaddress.MAC(int(MAC_L_START)+(eni_index - 1)*int(macaddress.MAC(ENI_MAC_STEP)))).replace('-', ':')
 
             acl_tables_in = []
             acl_tables_out = []
 
-            for table_index in range(1, (self.ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
                 table_id = eni_index * 1000 + table_index
 
                 stage = (table_index - 1) % 3 + 1
@@ -36,6 +38,7 @@ class Enis(ConfBase):
                         }
                     )
 
+            self.numYields+=1
             yield \
                 {
                     'ENI:%d' % eni_index: {
@@ -49,7 +52,8 @@ class Enis(ConfBase):
                         "route-table-v4": "route-table-%d" % eni_index
                     },
                 }
-            
+        log_memory('    %s: yielded %d items' % (self.dictname, self.numYields))
+
 if __name__ == "__main__":
     conf=Enis()
     common_main(conf)

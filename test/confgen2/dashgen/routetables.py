@@ -13,10 +13,12 @@ class RouteTables(ConfBase):
         super().__init__('route-tables', params)
     
     def items(self):
+        self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
+        p=self.params
 
-        nr_of_routes_prefixes = int(math.log(IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
-        for eni_index in range(1, self.ENI_COUNT+1):
+        nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
+        for eni_index in range(1, p.ENI_COUNT+1):
             routes = []
             ip_prefixes = []
             ip_prefixes_append = ip_prefixes.append
@@ -34,14 +36,14 @@ class RouteTables(ConfBase):
                 }
             )
 
-            for table_index in range(1, (self.ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
                 #table_id = eni_index * 1000 + table_index
 
-                for acl_index in range(1, (self.ACL_RULES_NSG+1)):
+                for acl_index in range(1, (p.ACL_RULES_NSG+1)):
                     remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (acl_index - 1) * IP_STEP2
-                    no_of_route_groups = IP_PER_ACL_RULE // IP_ROUTE_DIVIDER_PER_ACL_RULE
+                    no_of_route_groups = p.IP_PER_ACL_RULE // p.IP_ROUTE_DIVIDER_PER_ACL_RULE
                     for ip_index in range(0, no_of_route_groups):
-                        ip_prefix = remote_ip - 1 + ip_index * IP_ROUTE_DIVIDER_PER_ACL_RULE * IP_STEP1
+                        ip_prefix = remote_ip - 1 + ip_index * p.IP_ROUTE_DIVIDER_PER_ACL_RULE * IP_STEP1
                         for prefix_index in range(nr_of_routes_prefixes, 0, -1):
                             # nr_of_ips = int(math.pow(2, prefix_index-1))
                             nr_of_ips = 1<< (prefix_index-1)
@@ -61,6 +63,7 @@ class RouteTables(ConfBase):
                 }
             )
 
+            self.numYields+=1
             yield \
                 {
                     "ROUTE-TABLE:%d" % eni_index: {
@@ -69,6 +72,7 @@ class RouteTables(ConfBase):
                         "routes": routes
                     }
                 }
+        log_memory('    %s: yielded %d items' % (self.dictname, self.numYields))
 
 if __name__ == "__main__":
     conf=RouteTables()
