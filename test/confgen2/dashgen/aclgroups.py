@@ -1,12 +1,14 @@
-from dashgen.variables import *
-from dashgen.confbase import *
-from dashgen.confutils import *
+#!/usr/bin/python3
+
+from variables import *
+from confbase import *
+from confutils import *
 from copy import deepcopy
 import sys
 class AclGroups(ConfBase):
 
-    def __init__(self):
-        self.dictname = 'acl-groups'
+    def __init__(self, params={}):
+        super().__init__('acl-groups', params)
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
@@ -14,13 +16,13 @@ class AclGroups(ConfBase):
             local_ip = IP_L_START + (eni_index - 1) * IP_STEP4
             l_ip_ac = deepcopy(str(local_ip)+"/32")
 
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (self.ACL_TABLE_COUNT*2+1)):
                 table_id = eni_index * 1000 + table_index
 
                 rules = []
                 rappend = rules.append
-                for ip_index in range(1, (ACL_RULES_NSG+1), 2):
-                    rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
+                for ip_index in range(1, (self.ACL_RULES_NSG+1), 2):
+                    rule_id_a = table_id * 10 * self.ACL_RULES_NSG + ip_index
                     remote_ip_a = IP_R_START + (eni_index - 1) * IP_STEP4 + (
                         table_index - 1) * 4 * IP_STEP3 + (ip_index - 1) * IP_STEP2
 
@@ -52,7 +54,7 @@ class AclGroups(ConfBase):
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
                 if ((table_index - 1) % 3) == 2:
-                    rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
+                    rule_id_a = table_id * 10 * self.ACL_RULES_NSG + ip_index
                     all_ipsA = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index % 6) * 4 * IP_STEP3
                     all_ipsB = all_ipsA + 1 * 4 * IP_STEP3
                     all_ipsC = all_ipsA + 2 * 4 * IP_STEP3
@@ -87,4 +89,4 @@ class AclGroups(ConfBase):
 
 if __name__ == "__main__":
     conf=AclGroups()
-    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
+    common_main(conf)

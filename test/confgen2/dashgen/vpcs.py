@@ -1,17 +1,19 @@
-from dashgen.variables import *
-from dashgen.confbase import *
-from dashgen.confutils import *
+#!/usr/bin/python3
+
+from variables import *
+from confbase import *
+from confutils import *
 from copy import deepcopy
 import sys
 class Vpcs(ConfBase):
 
-    def __init__(self):
-        self.dictname = 'vpc'
+    def __init__(self, params={}):
+        super().__init__('vpc', params)
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
 
-        for eni_index in range(1, ENI_COUNT+1):
+        for eni_index in range(1, self.ENI_COUNT+1):
             IP_L = IP_L_START + (eni_index - 1) * IP_STEP4
             r_vpc = eni_index + ENI_L2R_STEP
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP4
@@ -42,4 +44,4 @@ class Vpcs(ConfBase):
 
 if __name__ == "__main__":
     conf=Vpcs()
-    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
+    common_main(conf)

@@ -1,5 +1,6 @@
 import dashgen.confbase
 import dashgen.confutils
+import dashgen.dflt_params
 import dashgen.enis
 import dashgen.aclgroups
 import dashgen.prefixtags

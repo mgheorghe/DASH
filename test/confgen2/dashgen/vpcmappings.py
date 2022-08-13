@@ -1,18 +1,20 @@
-from dashgen.variables import *
-from dashgen.confbase import *
-from dashgen.confutils import *
+#!/usr/bin/python3
+
+from variables import *
+from confbase import *
+from confutils import *
 from copy import deepcopy
 import sys
 class VpcMappings(ConfBase):
 
-    def __init__(self):
-        self.dictname = 'vpc-mappings'
+    def __init__(self, params={}):
+        super().__init__('vpc-mappings', params)
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         PAL = ipp("221.0.1.0")
         PAR = ipp("221.0.2.100")
-        for eni_index in range(1, ENI_COUNT + 1):
+        for eni_index in range(1, self.ENI_COUNT + 1):
             PAL = PAL + IP_STEP1
             PAR = PAR + IP_STEP1
 
@@ -44,8 +46,8 @@ class VpcMappings(ConfBase):
             r_mappings = []
             r_mappings_append = r_mappings.append
             r_vpc = eni_index + ENI_L2R_STEP
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
-                for ip_index in range(1, (ACL_RULES_NSG+1)):
+            for table_index in range(1, (self.ACL_TABLE_COUNT*2+1)):
+                for ip_index in range(1, (self.ACL_RULES_NSG+1)):
                     remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (ip_index - 1) * IP_STEP2
                     remote_mac = str(
                         macaddress.MAC(
@@ -85,4 +87,4 @@ class VpcMappings(ConfBase):
 
 if __name__ == "__main__":
     conf=VpcMappings()
-    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
+    common_main(conf)

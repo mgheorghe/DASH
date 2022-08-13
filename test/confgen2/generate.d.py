@@ -11,41 +11,52 @@ from dashgen.confutils import *
 parser = commonArgParser()
 args = parser.parse_args()
 
-print('Generating config', file=sys.stderr)
-enis = dashgen.enis.Enis()
-aclgroups = dashgen.aclgroups.AclGroups()
-vpcs = dashgen.vpcs.Vpcs()
-vpcmappingtypes = dashgen.vpcmappingtypes.VpcMappingTypes()
-vpcmappings = dashgen.vpcmappings.VpcMappings()
-routingappliances = dashgen.routingappliances.RoutingAppliances()
-routetables = dashgen.routetables.RouteTables()
-prefixtags = dashgen.prefixtags.PrefixTags()
+class DashConfig(ConfBase):
 
-configs = [
-        enis,
-        aclgroups,
-        vpcs,
-        vpcmappingtypes,
-        vpcmappings,
-        routingappliances,
-        routetables,
-        prefixtags
-]
-log_memory("Generators instantiated")
+        def __init__(self, params={}):
+                super().__init__('dash-config', params)
 
-def toDict(self=None):
-        global configs
-        c = {}
-        for i in configs:
-                c.update(i.toDict()) 
-        log_memory("toDict()")
-        return c
+        def generate(self):
+                enis = dashgen.enis.Enis(self.params)
+                aclgroups = dashgen.aclgroups.AclGroups(self.params)
+                vpcs = dashgen.vpcs.Vpcs(self.params)
+                vpcmappingtypes = dashgen.vpcmappingtypes.VpcMappingTypes(self.params)
+                vpcmappings = dashgen.vpcmappings.VpcMappings(self.params)
+                routingappliances = dashgen.routingappliances.RoutingAppliances(self.params)
+                routetables = dashgen.routetables.RouteTables(self.params)
+                prefixtags = dashgen.prefixtags.PrefixTags(self.params)
 
-def toDictGen(self=None):
-        global configs
-        return {x.dictName():x.items() for x in configs}
+                self.configs = [
+                        enis,
+                        aclgroups,
+                        vpcs,
+                        vpcmappingtypes,
+                        vpcmappings,
+                        routingappliances,
+                        routetables,
+                        prefixtags
+                ]
+                log_memory("Generators instantiated")
 
-def toList(self=None):
-        return (c.items() for c in configs)
+                # This instantiates config in-memory - could use if want to output with orjson for speed
+                # def toDict(self):
+                #         c = {}
+                #         for i in self.configs:
+                #                 c.update(i.toDict()) 
+                #         log_memory("toDict()")
+                #         return c
 
-common_main(self=None, dict_method=toDictGen, list_method=toList)
+        def toDict(self):
+                return {x.dictName():x.items() for x in self.configs}
+
+        def items(self):
+                return (c.items() for c in self.configs)
+
+if __name__ == "__main__":
+    conf=DashConfig()
+    common_parse_args(conf)
+
+    log_memory("Start")
+    conf.generate()
+    common_output(conf)
+    log_memory("Done")

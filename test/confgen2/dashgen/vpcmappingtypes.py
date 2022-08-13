@@ -1,11 +1,13 @@
-from dashgen.variables import *
-from dashgen.confbase import *
-from dashgen.confutils import *
+#!/usr/bin/python3
+
+from variables import *
+from confbase import *
+from confutils import *
 import sys
 class VpcMappingTypes(ConfBase):
 
-    def __init__(self):
-        self.dictname = 'vpc-mappings-routing-types'
+    def __init__(self, params={}):
+        super().__init__('vpc-mappings-routing-types', params)
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
@@ -20,4 +22,4 @@ class VpcMappingTypes(ConfBase):
 
 if __name__ == "__main__":
     conf=VpcMappingTypes()
-    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
+    common_main(conf)

@@ -1,11 +1,9 @@
 # Improved generator-based confgen
 
-# TODOs
-* Expose yaml format, need to work on streaming output (bulk output was owrking but slow).
 # IDEAS/Wish-List
-* Base class defines output serialization methods (or uses plug-in helper) to emit JSON, write to file, perform SAI API calls (event listener using streaming emitter?), etc.
-* __main__ function allows driving from cmd-line for experiments
-* __init__ accepts mix of kwargs, dict or json to assign params. Can use a global json for all generators or override selectively
+* Expose yaml format, need to work on streaming output (bulk output was owrking but slow).
+* Use logger instead of print to stderr
+* logging levels -v, -vv, -vvv etc., otherwise silent on stderr
 ## Comparisons - confgen, confgen2
 
 ### confgen - original design

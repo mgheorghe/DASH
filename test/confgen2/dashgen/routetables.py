@@ -1,20 +1,22 @@
-from dashgen.variables import *
-from dashgen.confbase import *
-from dashgen.confutils import *
+#!/usr/bin/python3
+
+from variables import *
+from confbase import *
+from confutils import *
 from copy import deepcopy
 import sys
 import math
 
 class RouteTables(ConfBase):
 
-    def __init__(self):
-        self.dictname = 'route-tables'
+    def __init__(self, params={}):
+        super().__init__('route-tables', params)
     
     def items(self):
         print('  Generating %s...' % self.dictname, file=sys.stderr)
 
         nr_of_routes_prefixes = int(math.log(IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
-        for eni_index in range(1, ENI_COUNT+1):
+        for eni_index in range(1, self.ENI_COUNT+1):
             routes = []
             ip_prefixes = []
             ip_prefixes_append = ip_prefixes.append
@@ -32,10 +34,10 @@ class RouteTables(ConfBase):
                 }
             )
 
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (self.ACL_TABLE_COUNT*2+1)):
                 #table_id = eni_index * 1000 + table_index
 
-                for acl_index in range(1, (ACL_RULES_NSG+1)):
+                for acl_index in range(1, (self.ACL_RULES_NSG+1)):
                     remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (acl_index - 1) * IP_STEP2
                     no_of_route_groups = IP_PER_ACL_RULE // IP_ROUTE_DIVIDER_PER_ACL_RULE
                     for ip_index in range(0, no_of_route_groups):
@@ -70,4 +72,4 @@ class RouteTables(ConfBase):
 
 if __name__ == "__main__":
     conf=RouteTables()
-    common_main(conf, dict_method=conf.toDict, list_method=conf.items)
+    common_main(conf)

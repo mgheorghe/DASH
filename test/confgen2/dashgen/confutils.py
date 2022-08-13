@@ -105,41 +105,69 @@ def commonArgParser():
                 epilog = textwrap.dedent('''
 Examples:
 =========
-Top-level config containing a dictionary of items:
+./generate.d.py                - generate output to stdout using uber-generator
+./generate.d.py -o tmp.json    - generate output to file tmp.json
+./generate.d.py -o /dev/null   - generate output to nowhere (good for testing)
+./generate.d.py -c list        - generate just the list items w/o parent dictionary
+dashgen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, etc.
+                               - many different subgenerators available, support same options as uber-generator
 
-./generate.d.py -o tmp.json   - generate output to file tmp.json
-./generate.d.py               - generate output to stdout
-./generate.d.py -c list       - generate just the list items w/o parent dictionary
+Passing scale and other parameters:
+./generate.d.py -d                   - display default parameters and quit
+./generate.d.py -d -P "{...}"        - override some parameters, display and quit; see dflt_params.py for template
+./generate.d.py -P "{...}" [opts]    - override some parameters generate output
 
-Individual config items (-o options omitted for brevity):
+Example:
+./generate.d.py -d -P "{'ACL_RULES_NSG': 3, 'ACL_TABLE_COUNT': 1000, 'ENI_COUNT': 8}"
+./generate.d.py -P "{'ACL_RULES_NSG': 3, 'ACL_TABLE_COUNT': 1000, 'ENI_COUNT': 8}" -o tmp.json
 
-python3 dashgen/aclgroups.py          - generate a single dictionary item containing an aclgroups list
-python3 dashgen/aclgroups.py -c list  - generate aclgroups list w/o outer dictionary
+
+
 
             '''))
 
     # parser.add_argument('-f', '--format', choices=['json', 'yaml'], default='json',
-    #         help='Config output format.')
+    parser.add_argument('-f', '--format', choices=['json'], default='json',
+            help='Config output format.')
 
     parser.add_argument('-c', '--content', choices=['dict', 'list'], default='dict',
             help='Emit dictionary (with inner lists), or list items only')
 
+    parser.add_argument('-d', '--dump-params', action='store_true',
+            help='Just dump paramters (defaults with user-defined merged in')
+
+    parser.add_argument('-P', '--set-params', metavar='{PARAMS}',
+            help='supply parameters as a dict, partial is OK')
+
+    parser.add_argument('-p', '--param-file', metavar='PARAM_FILE',
+            help='use parameter dict from file, partial is OK')
+
     parser.add_argument(
-            '-o', '--output', default='<stdout>',
-            metavar='PATH',
+            '-o', '--output', default='<stdout>', metavar='OFILE',
             help="Output file (default: standard output)")
 
     return parser
 
-def common_main(self=None, dict_method=None, list_method=None):
-    log_memory("Start")
+def common_parse_args(self):
     parser = commonArgParser()
-    args = parser.parse_args()
-    if args.content == 'dict':
-        # writeDictFile(dict_method(), args.format, args.output)
-        writeDictFileIter(dict_method(), args.format, args.output)
-    else:
-        # writeListFile(list_method(), args.format, args.output)
-        writeListFileIter(list_method(), args.format, args.output)
-    log_memory("Done")
+    self.args = parser.parse_args()
 
+    if self.args.set_params:
+        self.mergeParams(eval(self.args.set_params))
+
+    if self.args.dump_params:
+        print(self.params)
+        exit()
+
+def common_output(self):
+    if self.args.content == 'dict':
+        writeDictFileIter(self.toDict(), self.args.format, self.args.output)
+    else:
+        writeListFileIter(self.items(), self.args.format, self.args.output)
+
+def common_main(self):
+    common_parse_args(self)
+
+    log_memory("Start")
+    common_output(self)
+    log_memory("Done")
