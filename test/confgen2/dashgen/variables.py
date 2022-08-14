@@ -4,6 +4,9 @@ import os
 ipp = ipaddress.ip_address
 
 # NOTE - commented-out lines are params which haved moved into ConfBase.params
+# TODO - migrate all constants to "params" format
+# Keep params simple strings; do necessary conversion (ip/mac) in a fixup utility to keep main code clean
+
 # ENI_COUNT = 2  # 8
 ENI_MAC_STEP = '00:00:00:18:00:00'
 ENI_STEP = 1

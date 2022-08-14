@@ -1,4 +1,5 @@
 dflt_params = {
+    'SCHEMA_VER':                       '0.0.1',
     'ACL_RULES_NSG':                    2,
     'ACL_TABLE_COUNT':                  3,
     'ENI_COUNT':                        2,

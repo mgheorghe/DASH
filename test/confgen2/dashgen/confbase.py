@@ -3,6 +3,8 @@ from copy import deepcopy
 import os, sys
 from dflt_params import *
 from munch import DefaultMunch
+from datetime import datetime
+
 class ConfBase(ABC):
 
     def __init__(self, name='base', params={}):
@@ -40,8 +42,17 @@ class ConfBase(ABC):
     def toDict(self):
         return {self.dictname: list(self.items())}
 
-    def getParams():
+    def getParams(self):
         return self.params_dict
+
+    def getMeta(self, message=''):
+        """Generate metadata. FOr reference, could also add e.g. data to help drive tests"""
+        return { 'meta': { 
+                    'tstamp': datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+                    'msg': message,
+                    'params': self.getParams()
+                }
+            }
 
     def pretty(self):
         pprint.pprint(self.toDict())

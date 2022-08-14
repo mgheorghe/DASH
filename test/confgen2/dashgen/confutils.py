@@ -1,3 +1,4 @@
+from sqlite3 import NotSupportedError
 import sys,resource, time
 #import orjson
 import collections, itertools, json
@@ -5,7 +6,6 @@ import yaml
 import io, sys
 import pprint
 import argparse,textwrap
-
 
 def log_memory(msg=''):
     if "linux" in sys.platform.lower():
@@ -127,9 +127,10 @@ Passing parameters. Provided as Python dict, see dflt_params.py for available it
 ./generate.d.py -d -p PARAM_FILE -P PARAMS  - override params from file, then override params from cmdline; display only
 ./generate.d.py -p PARAM_FILE -P PARAMS     - override params from file, then override params from cmdline, generate output
 
-Example:
+Examples:
 ./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
 ./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
+dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
 
 
 
@@ -145,7 +146,13 @@ Example:
     parser.add_argument('-d', '--dump-params', action='store_true',
             help='Just dump paramters (defaults with user-defined merged in')
 
-    parser.add_argument('-P', '--set-params', metavar='{PARAMS}',
+    parser.add_argument('-m', '--meta', action='store_true',
+            help='Include metadata in output (only if "-c dict" used)')
+
+    parser.add_argument('-M', '--msg', default='', metavar='"MSG"',
+            help='Put MSG in metadata (only if "-m" used)')
+   
+    parser.add_argument('-P', '--set-params', metavar='"{PARAMS}"',
             help='supply parameters as a dict, partial is OK; defaults and file-provided (-p)')
 
     parser.add_argument('-p', '--param-file', metavar='PARAM_FILE',
@@ -176,9 +183,17 @@ def common_parse_args(self):
 
 def common_output(self):
     if self.args.content == 'dict':
-        writeDictFileIter(self.toDict(), self.args.format, self.args.output)
-    else:
+        d=self.toDict()
+        if (self.args.meta):
+            d.update(self.getMeta(self.args.msg))
+        # streaming dict output:
+        writeDictFileIter(d, self.args.format, self.args.output)
+
+    elif self.args.content == 'list':
+        # streaming list output:
         writeListFileIter(self.items(), self.args.format, self.args.output)
+    else:
+        raise NotSupportedError("Unknown content specifier: '%s'" % self.args.content)
 
 def common_main(self):
     common_parse_args(self)

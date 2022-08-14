@@ -5,6 +5,7 @@
 * Use logger instead of print to stderr
 * logging levels -v, -vv, -vvv etc., otherwise silent on stderr
 * -O, --optimize flags for speed or memory (for speed - expand lists in-memory and use orjson serializer, like original code)
+* Use nested generators instead of nested loops to reduce in-memory usage; may require enhancing JSON output streaming to use recursion etc.
 ## Comparisons - confgen, confgen2
 
 ### confgen - original design
