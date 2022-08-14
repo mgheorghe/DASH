@@ -1,11 +1,81 @@
 # Improved generator-based confgen
+## Features
+* Generate complex DASH configurations, parameter driven
+* Custom input params
+* Output to file or stdio
+* Select output format: JSON, yaml (future), none
+* Generate all config (uber-generator) or just selected items (e.g. aclgroups)
+* Potential to create custom apps to transform streaming data e.g into device API calls w/o intermediate text rendering
+## High-level Diagram
+
+![confgen-hld-diag](confgen-hld-diag.svg)
+
+## Design
+The uber-generator `generate.d.py` instantiates sub-generators and produces a composite output stream which can be rendered into text files (JSON) or sent to stdout for custom pipelines.
+
+The uber-generator and sub-generators all derive from a base-class `ConfBase`. They all share a common `main` progam with CLI command-line options, which allows them to be used independently yet consistently.
+
+The generators produce Python data structures which can be rendered into output text (e.g. JSON) or used to feed custom applications such as a saithrift API driver, to directly configure a device. Likewise a custom API driver can be developed for vendor-specific APIs.
+
+Default parameters allow easy operations with no complex input. All parameters can be selectively overridden via cmd-line, input file or both.
+
+## Sample CLI Usage
+This may not be current; check latest for actual content.
+```
+$ ./generate.d.py -h
+usage: generate.d.py [-h] [-f {json}] [-c {dict,list}] [-d] [-m] [-M "MSG"] [-P "{PARAMS}"] [-p PARAM_FILE]
+                     [-o OFILE]
+
+Generate DASH Configs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f {json}, --format {json}
+                        Config output format.
+  -c {dict,list}, --content {dict,list}
+                        Emit dictionary (with inner lists), or list items only
+  -d, --dump-params     Just dump paramters (defaults with user-defined merged in
+  -m, --meta            Include metadata in output (only if "-c dict" used)
+  -M "MSG", --msg "MSG"
+                        Put MSG in metadata (only if "-m" used)
+  -P "{PARAMS}", --set-params "{PARAMS}"
+                        supply parameters as a dict, partial is OK; defaults and file-provided (-p)
+  -p PARAM_FILE, --param-file PARAM_FILE
+                        use parameter dict from file, partial is OK; overrides defaults
+  -o OFILE, --output OFILE
+                        Output file (default: standard output)
+
+Usage:
+=========
+./generate.d.py                - generate output to stdout using uber-generator
+./generate.d.py -o tmp.json    - generate output to file tmp.json
+./generate.d.py -o /dev/null   - generate output to nowhere (good for testing)
+./generate.d.py -c list        - generate just the list items w/o parent dictionary
+dashgen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, etc.
+                               - many different subgenerators available, support same options as uber-generator
+
+Passing parameters. Provided as Python dict, see dflt_params.py for available items
+================
+./generate.d.py -d                          - display default parameters and quit
+./generate.d.py -d -P PARAMS                - override given parameters, display and quit; see dflt_params.py for template
+./generate.d.py -d -p PARAM_FILE            - override parameters in file; display only
+./generate.d.py -d -p PARAM_FILE -P PARAMS  - override params from file, then override params from cmdline; display only
+./generate.d.py -p PARAM_FILE -P PARAMS     - override params from file, then override params from cmdline, generate output
+
+Examples:
+./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
+./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
+dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
+```
+## Confgen Applications
+![confgen-apps](confgen-apps.svg)
 
 # IDEAS/Wish-List
 * Expose yaml format, need to work on streaming output (bulk output was owrking but slow).
 * Use logger instead of print to stderr
 * logging levels -v, -vv, -vvv etc., otherwise silent on stderr
 * -O, --optimize flags for speed or memory (for speed - expand lists in-memory and use orjson serializer, like original code)
-* Use nested generators instead of nested loops to reduce in-memory usage; may require enhancing JSON output streaming to use recursion etc.
+* Use nested generators inside each sub-generator, instead of nested loops, to reduce in-memory usage; may require enhancing JSON output streaming to use recursion etc.
 ## Comparisons - confgen, confgen2
 
 ### confgen - original design
