@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from variables import *
 from confbase import *
 from confutils import *
 from copy import deepcopy
@@ -14,9 +13,25 @@ class VpcMappings(ConfBase):
         self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p=self.params
-        PAL = ipp("221.0.1.0")
-        PAR = ipp("221.0.2.100")
-        for eni_index in range(1, p.ENI_COUNT + 1):
+        cp=self.cooked_params
+        PAL = cp.PAL
+        PAR = cp.PAR
+        IP_STEP1=cp.IP_STEP1
+        IP_STEP2=cp.IP_STEP2
+        IP_STEP3=cp.IP_STEP3
+        IP_STEP4=cp.IP_STEP4
+        IP_R_START=cp.IP_R_START
+        IP_L_START=cp.IP_L_START
+        ACL_TABLE_COUNT=p.ACL_TABLE_COUNT
+        ACL_RULES_NSG=p.ACL_RULES_NSG
+        ENI_MAC_STEP=p.ENI_MAC_STEP
+        MAC_L_START=cp.MAC_L_START
+        ACL_TABLE_MAC_STEP=p.ACL_TABLE_MAC_STEP
+        ACL_POLICY_MAC_STEP=p.ACL_POLICY_MAC_STEP
+        IP_MAPPED_PER_ACL_RULE=p.IP_MAPPED_PER_ACL_RULE
+        ENI_COUNT=p.ENI_COUNT
+
+        for eni_index in range(1, ENI_COUNT + 1):
             PAL = PAL + IP_STEP1
             PAR = PAR + IP_STEP1
 
@@ -48,9 +63,9 @@ class VpcMappings(ConfBase):
 
             r_mappings = []
             r_mappings_append = r_mappings.append
-            r_vpc = eni_index + ENI_L2R_STEP
-            for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
-                for ip_index in range(1, (p.ACL_RULES_NSG+1)):
+            r_vpc = eni_index + p.ENI_L2R_STEP
+            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+                for ip_index in range(1, (ACL_RULES_NSG+1)):
                     remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (ip_index - 1) * IP_STEP2
                     remote_mac = str(
                         macaddress.MAC(
@@ -61,7 +76,7 @@ class VpcMappings(ConfBase):
                         )
                     ).replace('-', ':')
 
-                    for i in range(p.IP_MAPPED_PER_ACL_RULE):
+                    for i in range(IP_MAPPED_PER_ACL_RULE):
                         remote_expanded_ip = remote_ip + i
                         remote_expanded_mac = str(
                             macaddress.MAC(

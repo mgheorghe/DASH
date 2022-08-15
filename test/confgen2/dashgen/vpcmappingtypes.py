@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from variables import *
 from confbase import *
 from confutils import *
 import sys
@@ -13,6 +12,8 @@ class VpcMappingTypes(ConfBase):
         self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p=self.params
+        cp=self.cooked_params
+
         vpcmappingtypes = [
             "vpc",
             "privatelink",

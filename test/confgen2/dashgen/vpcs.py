@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from variables import *
 from confbase import *
 from confutils import *
 from copy import deepcopy
@@ -14,8 +13,14 @@ class Vpcs(ConfBase):
         self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p=self.params
+        cp=self.cooked_params
+        IP_L_START=cp.IP_L_START
+        IP_R_START=cp.IP_R_START
+        IP_STEP4=cp.IP_STEP4
+        ENI_L2R_STEP=p.ENI_L2R_STEP
+        ENI_COUNT=p.ENI_COUNT
 
-        for eni_index in range(1, p.ENI_COUNT+1):
+        for eni_index in range(1, ENI_COUNT+1):
             IP_L = IP_L_START + (eni_index - 1) * IP_STEP4
             r_vpc = eni_index + ENI_L2R_STEP
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP4

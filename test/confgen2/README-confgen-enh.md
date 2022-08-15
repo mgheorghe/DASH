@@ -68,8 +68,14 @@ Examples:
 dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
 ```
 ## Confgen Applications
+Two anticipated applications (see Figure below):
+* Generate a configuration file, e.g. JSON, and use this to feed downstream tools such as a DUT configuration utility.
+* Use the output of the config data stream generators to perform on-the-fly DUT configuration without intermediate JSON file rendering; also configure traffic-generators using data in the config info itself.
+* 
 ![confgen-apps](confgen-apps.svg)
 
+# TODO
+* Reconcile the param dicts vs. param attributes obtained via Munch, use of scalar variables inside performance-heavy loops etc. There is a tradeoff between elegance, expressiveness and performance.
 # IDEAS/Wish-List
 * Expose yaml format, need to work on streaming output (bulk output was owrking but slow).
 * Use logger instead of print to stderr

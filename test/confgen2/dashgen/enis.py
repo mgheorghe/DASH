@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from variables import *
 from confbase import *
 from confutils import *
 import sys
@@ -13,8 +12,9 @@ class Enis(ConfBase):
         self.numYields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p=self.params
+        cp=self.cooked_params
         for eni_index in range(1, p.ENI_COUNT+1):
-            local_mac = str(macaddress.MAC(int(MAC_L_START)+(eni_index - 1)*int(macaddress.MAC(ENI_MAC_STEP)))).replace('-', ':')
+            local_mac = str(macaddress.MAC(int(cp.MAC_L_START)+(eni_index - 1)*int(macaddress.MAC(p.ENI_MAC_STEP)))).replace('-', ':')
 
             acl_tables_in = []
             acl_tables_out = []

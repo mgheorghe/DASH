@@ -4,12 +4,16 @@ import os, sys
 from dflt_params import *
 from munch import DefaultMunch
 from datetime import datetime
-
+import ipaddress
+import macaddress
+ipp = ipaddress.ip_address
+macM = macaddress.MAC
 class ConfBase(ABC):
 
     def __init__(self, name='base', params={}):
         self.dictname = name
         self.dflt_params = deepcopy(dflt_params)
+        self.cooked_params = {}
         self.mergeParams(params)
         self.numYields = 0
 
@@ -20,9 +24,34 @@ class ConfBase(ABC):
 
         # make scalar attributes for speed & brevity (compared to dict)
         # https://stackoverflow.com/questions/1305532/how-to-convert-a-nested-python-dict-to-object
+        self.cookParams()
         self.params = DefaultMunch.fromDict(self.params_dict)
         # print ('%s: self.params=' % self.dictname, self.params)
+        self.cooked_params = DefaultMunch.fromDict(self.cooked_params_dict)
+        # print ("cooked_params = ", self.cooked_params)
 
+    def cookParams(self):
+        self.cooked_params_dict = {}
+        for ip in [
+                    'IP_STEP1',
+                    'IP_STEP2',
+                    'IP_STEP3',
+                    'IP_STEP4',
+                    'IP_STEPE'
+                ]:
+            self.cooked_params_dict[ip] = int(ipp(self.params_dict[ip]))
+        for ip in [
+                    'IP_L_START',
+                    'IP_R_START',
+                    'PAL',
+                    'PAR'
+                ]:
+            self.cooked_params_dict[ip] = ipp(self.params_dict[ip])
+        for mac in [
+                    'MAC_L_START',
+                    'MAC_R_START'
+                ]:
+            self.cooked_params_dict[mac] = macM(self.params_dict[mac])
 
     @abstractmethod
     def items(self):

@@ -120,12 +120,13 @@ dashgen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, 
                                - many different subgenerators available, support same options as uber-generator
 
 Passing parameters. Provided as Python dict, see dflt_params.py for available items
+Can use defaults; override from file; override again from cmdline (all 3 sources merged).
 ================
 ./generate.d.py -d                          - display default parameters and quit
-./generate.d.py -d -P PARAMS                - override given parameters, display and quit; see dflt_params.py for template
-./generate.d.py -d -p PARAM_FILE            - override parameters in file; display only
-./generate.d.py -d -p PARAM_FILE -P PARAMS  - override params from file, then override params from cmdline; display only
-./generate.d.py -p PARAM_FILE -P PARAMS     - override params from file, then override params from cmdline, generate output
+./generate.d.py -d -P PARAMS                - use given parameters, display and quit; see dflt_params.py for template
+./generate.d.py -d -p PARAM_FILE            - override with parameters from file; display only
+./generate.d.py -d -p PARAM_FILE -P PARAMS  - override with params from file and cmdline; display only
+./generate.d.py -p PARAM_FILE -P PARAMS     - override with params from file and cmdline; generate output
 
 Examples:
 ./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
@@ -153,7 +154,7 @@ dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of
             help='Put MSG in metadata (only if "-m" used)')
    
     parser.add_argument('-P', '--set-params', metavar='"{PARAMS}"',
-            help='supply parameters as a dict, partial is OK; defaults and file-provided (-p)')
+            help='use parameter dict from cmdline, partial is OK; overrides defaults & from file')
 
     parser.add_argument('-p', '--param-file', metavar='PARAM_FILE',
             help='use parameter dict from file, partial is OK; overrides defaults')
