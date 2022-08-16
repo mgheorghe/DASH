@@ -34,7 +34,7 @@ optional arguments:
                         Config output format.
   -c {dict,list}, --content {dict,list}
                         Emit dictionary (with inner lists), or list items only
-  -d, --dump-params     Just dump paramters (defaults with user-defined merged in
+  -d, --dump-params     Just dump parameters (defaults with user-defined merged in
   -m, --meta            Include metadata in output (only if "-c dict" used)
   -M "MSG", --msg "MSG"
                         Put MSG in metadata (only if "-m" used)
@@ -71,7 +71,7 @@ dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of
 Two anticipated applications (see Figure below):
 * Generate a configuration file, e.g. JSON, and use this to feed downstream tools such as a DUT configuration utility.
 * Use the output of the config data stream generators to perform on-the-fly DUT configuration without intermediate JSON file rendering; also configure traffic-generators using data in the config info itself.
-* 
+
 ![confgen-apps](confgen-apps.svg)
 
 # TODO
