@@ -295,7 +295,21 @@ The following features are required to be enabled during scale testing:
 
 The following scale of policies and routes are at minimum required to be
 configured during validation and test plan needs to be executed covering
-both scenarios:
+those scenarios:
+
+|               | perENI     | 200G (DPU)   | 400G  | 800G  | 1.6T (smartswitch) |
+|---------------|------------|--------------|-------|-------|-------|
+| VNETs         |            | 1024         | 2048  | 4096  |  8192 |
+| ENIs          |            | 64           | 128   | 256   |  512 |
+| Routes        | 100K       | 6.4M         | 12.8M | 25.6M | 51.2M  |
+| NSGs          | 5in + 5out | 640          | 1280  | 2560  |  5120 |
+| ACLs prefixes | 10x100K    | 64M          | 128M  | 256M  | 512M  |
+| ACLs Ports    | 10x10K     | 6.4M         | 12.8M | 25.6M | 51.2M  |
+| Mappings      |            | 10M          | 20M   | 40M   | 80M  |
+| Act Con       | 1M (bidir) | 64M          | 128M  | 256M  | 512M  |
+| CPS           |            | 5M           | 10M   | 20M   | 40M  |
+| bg flows TCP  |            | 1M  (bidir)  |  2M   | 4M    |  8M |
+| bg flows UDP  |            | 1M  (bidir)  | 2M    | 4M    | 8M  |
 
 1. &nbsp; 8 ENI Scenario
     - 8 ENIs/VPorts
