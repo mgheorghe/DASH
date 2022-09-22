@@ -293,7 +293,6 @@ The following scale of policies and routes are at minimum required to be
 configured during validation and test plan needs to be executed covering
 both scenarios:
 
-**NEW Values Start** ###################################################
 
 |               | per ENI    | 200G (DPU)   | 400G  | 800G  | 1.6T (smart switch) |
 |---------------|------------|--------------|-------|-------|-------|
@@ -316,7 +315,7 @@ both scenarios:
 - Routes per ACL rule = 10
 - -> Change Above:  NSG per ENI changed since 5 Inbound & 5 Outbound stages are required
 
-**NEW Values End** ####################################################
+
 <!--Comment Out 
 1. &nbsp; 8 ENI Scenario
     - 8 ENIs/VPorts
