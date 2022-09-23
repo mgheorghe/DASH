@@ -47,17 +47,21 @@ git submodule update --init --recursive
 cd dash-pipeline
 make clean ;# skip on a fresh setup as it will fail
 make all
+
+pwd
 ```
 
 ## Start environment
 Run in the 3 separate windows/tabs.
-```
-make run-switch
-make run-saithrift-server
-```
+- take the output of `pwd` from previous step and do `cd <that location from pwd>` in each window
+- window 1: `make run-switch`
+- window 2: `make run-saithrift-server`
+- window 3: will be used to run the test as per instructions bellow
 
 ## Run tests manually
 Execute test inside the docker `sc-client-thrift-run` container or by `docker exec sc-client-thrift-run <command>` or by `run-saic-test-thrift` target.
+```
+docker run 
 
 ### Pure SAI tests run
 ```
