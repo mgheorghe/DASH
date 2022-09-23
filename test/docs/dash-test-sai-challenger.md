@@ -25,6 +25,16 @@ make run-saic-test-thrift <setup_file> <test_name>
 ```
 
 # How to start
+
+## os
+- install ubuntu 20.04
+
+## os depedencies
+```
+apt install docker-compose
+
+```
+
 ## Prepare repository
 ```
 git clone https://github.com/PLVision/DASH.git
@@ -35,7 +45,8 @@ git submodule update --init --recursive
 ## Build environment
 ```
 cd dash-pipeline
-make clean && make all
+make clean ;# skip on a fresh setup as it will fail
+make all
 ```
 
 ## Start environment
