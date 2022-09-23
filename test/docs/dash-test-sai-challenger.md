@@ -61,7 +61,8 @@ Run in the 3 separate windows/tabs.
 ## Run tests manually
 Execute test inside the docker `sc-client-thrift-run` container or by `docker exec sc-client-thrift-run <command>` or by `run-saic-test-thrift` target.
 ```
-docker run 
+docker run .........
+```
 
 ### Pure SAI tests run
 ```
