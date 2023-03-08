@@ -8,6 +8,7 @@ import pytest
 
 
 # The following test function will be executed twice - against each cfg_type: simple and scale
+@pytest.mark.bmv2
 @pytest.mark.parametrize('cfg_type', ['simple', 'scale'])
 def test_config_vnet_outbound_parametrized(dpu, cfg_type):
 

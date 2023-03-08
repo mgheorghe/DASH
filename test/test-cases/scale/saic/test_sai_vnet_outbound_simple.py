@@ -125,6 +125,7 @@ TEST_VNET_OUTBOUND_CONFIG = {
 class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_vnet_inbound_simple_create(self, dpu):
         """Generate and apply configuration"""
@@ -136,6 +137,7 @@ class TestSaiVnetOutbound:
         pprint(result)
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     def test_vnet_inbound_simple_packet_modification(self, dpu, dataplane):
         """Verify proper packet transformation."""
 
@@ -244,6 +246,7 @@ class TestSaiVnetOutbound:
         print("\nVerifying packet...\n", vxlan_exp_pkt.__repr__())
         verify_packet(dataplane, vxlan_exp_pkt, 0)
 
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_vnet_inbound_simple_traffic_fixed_packets(self, dpu, dataplane):
         """
@@ -257,6 +260,7 @@ class TestSaiVnetOutbound:
         stu.wait_for(lambda: dh.check_flow_packets_metrics(dataplane, dataplane.flows[0], show=True)[0],
                     "Test", timeout_seconds=10)
 
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_vnet_inbound_simple_traffic_fixed_duration(self, dpu, dataplane):
         """
@@ -275,6 +279,7 @@ class TestSaiVnetOutbound:
                     "Test", timeout_seconds=test_duration + 1)
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_vnet_inbound_simple_remove(self, dpu):
         """Verify configuration removal"""

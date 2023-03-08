@@ -21,6 +21,7 @@ class TestConfigVnetInboundRouting:
             vnet_inbound_setup_commands = json.load(config_file)
         return vnet_inbound_setup_commands
 
+    @pytest.mark.bmv2
     def test_config_vnet_inbound_create(self, dpu, vnet_in_config):
         """
         Apply configuration that is loaded from the file.
@@ -29,6 +30,7 @@ class TestConfigVnetInboundRouting:
         result = [*dpu.process_commands(vnet_in_config)]
         # User may want to verify result.
 
+    @pytest.mark.bmv2
     def test_config_vnet_inbound_remove(self, dpu, vnet_in_config):
         """
         Remove configuration that is loaded from the file.
