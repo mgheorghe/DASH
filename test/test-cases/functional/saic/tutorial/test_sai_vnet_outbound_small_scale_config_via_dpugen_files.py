@@ -26,6 +26,7 @@ import pytest
 
 current_file_dir = Path(__file__).parent
 
+@pytest.mark.bmv2
 def test_sai_vnet_outbound_small_scale_config_create_file(dpu):
 
     with (current_file_dir / f'test_sai_vnet_outbound_small_scale_config_via_dpugen_create.json').open(mode='r') as config_file:
@@ -33,6 +34,7 @@ def test_sai_vnet_outbound_small_scale_config_create_file(dpu):
         result = [*dpu.process_commands(setup_commands)]
         pprint(result)
 
+@pytest.mark.bmv2
 def test_sai_vnet_outbound_small_scale_config_remove_file(dpu):
 
     with (current_file_dir / f'test_sai_vnet_outbound_small_scale_config_via_dpugen_remove.json').open(mode='r') as config_file:

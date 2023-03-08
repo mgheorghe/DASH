@@ -26,6 +26,7 @@ import pytest
 
 current_file_dir = Path(__file__).parent
 
+@pytest.mark.bmv2
 def test_sai_vnet_vips_config_create_file(dpu):
     with (current_file_dir / f'test_sai_vnet_vips_config_via_list_comprehension_create.json').open(mode='r') as config_file:
         setup_commands = json.load(config_file)
@@ -34,6 +35,7 @@ def test_sai_vnet_vips_config_create_file(dpu):
         pprint(results)
         assert all(results), "Create error"
 
+@pytest.mark.bmv2
 def test_sai_vnet_outbound_small_scale_config_remove_file(dpu):
     with (current_file_dir / f'test_sai_vnet_vips_config_via_list_comprehension_remove.json').open(mode='r') as config_file:
         teardown_commands = json.load(config_file)

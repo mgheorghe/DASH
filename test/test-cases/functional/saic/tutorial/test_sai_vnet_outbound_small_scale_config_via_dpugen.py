@@ -46,6 +46,7 @@ NUMBER_OF_IN_ACL_GROUP = 0
 NUMBER_OF_OUT_ACL_GROUP = 0
 
 class TestSaiVnetOutbound:
+    @pytest.mark.bmv2
     def make_create_commands(self):
         """ Generate a configuration
             returns iterator (generator) of SAI records
@@ -54,6 +55,7 @@ class TestSaiVnetOutbound:
         conf.generate()
         return conf.items()
 
+    @pytest.mark.bmv2
     def make_remove_commands(self):
         """ Generate a configuration to remove entries
             returns iterator (generator) of SAI records
@@ -65,6 +67,7 @@ class TestSaiVnetOutbound:
         return
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_create_vnet_scale_config_generated(self, dpu):
         """Generate and apply configuration"""
@@ -75,6 +78,7 @@ class TestSaiVnetOutbound:
 
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_remove_vnet_scale_config_generated(self, dpu):
         """

@@ -716,7 +716,7 @@ run-saichallenger-tutorials: deploy-ixiac
 	-w /sai-challenger/dash_tests/functional \
 	$(DOCKER_FLAGS) \
 	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
-	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) tutorial
+	./run-tests.sh -m bmv2 --setup=$(SAI_CHALLENGER_SETUP_FILE) tutorial
 
 ###############################
 # ENVIRONMENT SETUP TARGETS
