@@ -119,6 +119,7 @@ class TestSaiVnetOutbound:
         return
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_create_vnet_config(self, dpu):
         """Generate and apply configuration"""
@@ -143,6 +144,7 @@ class TestSaiVnetOutbound:
                                                                 name="Custom flow group", show=True)[0],
                     "Test", timeout_seconds=5)
 
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_run_traffic_check_fixed_duration(self, dpu, dataplane):
         """
@@ -161,6 +163,7 @@ class TestSaiVnetOutbound:
                     "Test", timeout_seconds=test_duration + 1)
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_remove_vnet_config(self, dpu, dataplane):
         """

@@ -59,6 +59,7 @@ def make_remove_cmds():
 
 class TestSaiDashVipsLiteral:
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_many_vips_create_via_literal(self, dpu):
         """Verify VIP configuration create
@@ -69,6 +70,7 @@ class TestSaiDashVipsLiteral:
         assert all(results), "Create error"
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_many_vips_remove_via_literal(self, dpu):
         """Verify VIP configuration removal

@@ -50,6 +50,7 @@ def make_remove_cmds(vip_start=1,d1=1,d2=1):
 
 class TestSaiDashVipsListComprehension:
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_many_vips_create_via_list_comprehension(self, dpu):
         """Verify VIP configuration create
@@ -60,6 +61,7 @@ class TestSaiDashVipsListComprehension:
         assert all(results), "Create error"
 
     @pytest.mark.ptf
+    @pytest.mark.bmv2
     @pytest.mark.snappi
     def test_many_vips_remove_via_list_comprehension(self, dpu):
         """Verify VIP configuration removal
