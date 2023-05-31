@@ -8,10 +8,10 @@ from pathlib import Path
 import pytest
 
 
-@pytest.mark.skip(reason="https://github.com/sonic-net/DASH/issues/345 [P4Runtime] Invalid match type")
+@pytest.mark.skip(reason='https://github.com/sonic-net/DASH/issues/345 [P4Runtime] Invalid match type')
 class TestConfigVnetInboundRouting:
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def vnet_in_config(self):
         """
         Fixture returns the content of the file with SAI configuration commands.

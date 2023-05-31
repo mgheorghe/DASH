@@ -17,7 +17,7 @@ An excellent place to learn test-writing patterns is the existing SAI PTF tests 
 You can exercise `ptf` manually by entering the saithrift-client container in a shell:
 
 ```
-DASH/dash-pipeline$ make run-saithrift-client-bash 
+DASH/dash-pipeline$ make run-saithrift-client-bash
 ...
 root@chris-z4:/tests-dev# ptf -h
 ...
@@ -30,7 +30,7 @@ Typical invocation:
 sudo ptf --test-dir ./ptf --pypath /SAI/ptf \
 	 --interface 0@veth1 --interface 1@veth3
 ```
-Note that the container is launched with `/SAI/ptf` in the container mounted to the corresponding 
+Note that the container is launched with `/SAI/ptf` in the container mounted to the corresponding
 ## Locating PTF Packet Utilities
 The following directory contains source code for packet test utilities:
 ```
@@ -42,12 +42,12 @@ To clarify: the directory structure below is created after the `SAI/SAI` reposit
 
 You can also consult the source of PTF: https://github.com/p4lang/ptf. Note that SAI imports a specific commit SHA of PTF via the submodule so it's best to consult the code which is actually pulled into DASH. The way to check the version is to enter the PTF submodule directory and look at git branch:
 ```
-DASH/dash-pipeline/SAI/SAI/test/ptf$ git branch 
+DASH/dash-pipeline/SAI/SAI/test/ptf$ git branch
 * (HEAD detached at 10a2d4b)
   master
 ```
 
-An example of utility functions you might find inside a typical PTF test is `verify_packets`. This function and many others are inside `DASH/dash-pipeline/SAI/SAI/test/ptf/src/ptf/testutils.py`. 
+An example of utility functions you might find inside a typical PTF test is `verify_packets`. This function and many others are inside `DASH/dash-pipeline/SAI/SAI/test/ptf/src/ptf/testutils.py`.
 ```
 def verify_packets(test, pkt, ports=[], device_number=0, timeout=None):
     """

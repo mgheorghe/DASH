@@ -136,33 +136,33 @@ class VnetAPI(VnetObjects):
         """
 
         default_kwargs = {
-            "cps": 10000,
-            "pps": 100000,
-            "flows": 100000,
-            "admin_state": True,
-            "vm_underlay_dip": sai_ipaddress("0.0.0.0"),
-            "vm_vni": 1,
-            "vnet_id": 1,
-            "inbound_v4_stage1_dash_acl_group_id": 0,
-            "inbound_v4_stage2_dash_acl_group_id": 0,
-            "inbound_v4_stage3_dash_acl_group_id": 0,
-            "inbound_v4_stage4_dash_acl_group_id": 0,
-            "inbound_v4_stage5_dash_acl_group_id": 0,
-            "outbound_v4_stage1_dash_acl_group_id": 0,
-            "outbound_v4_stage2_dash_acl_group_id": 0,
-            "outbound_v4_stage3_dash_acl_group_id": 0,
-            "outbound_v4_stage4_dash_acl_group_id": 0,
-            "outbound_v4_stage5_dash_acl_group_id": 0,
-            "inbound_v6_stage1_dash_acl_group_id": 0,
-            "inbound_v6_stage2_dash_acl_group_id": 0,
-            "inbound_v6_stage3_dash_acl_group_id": 0,
-            "inbound_v6_stage4_dash_acl_group_id": 0,
-            "inbound_v6_stage5_dash_acl_group_id": 0,
-            "outbound_v6_stage1_dash_acl_group_id": 0,
-            "outbound_v6_stage2_dash_acl_group_id": 0,
-            "outbound_v6_stage3_dash_acl_group_id": 0,
-            "outbound_v6_stage4_dash_acl_group_id": 0,
-            "outbound_v6_stage5_dash_acl_group_id": 0
+            'cps': 10000,
+            'pps': 100000,
+            'flows': 100000,
+            'admin_state': True,
+            'vm_underlay_dip': sai_ipaddress('0.0.0.0'),
+            'vm_vni': 1,
+            'vnet_id': 1,
+            'inbound_v4_stage1_dash_acl_group_id': 0,
+            'inbound_v4_stage2_dash_acl_group_id': 0,
+            'inbound_v4_stage3_dash_acl_group_id': 0,
+            'inbound_v4_stage4_dash_acl_group_id': 0,
+            'inbound_v4_stage5_dash_acl_group_id': 0,
+            'outbound_v4_stage1_dash_acl_group_id': 0,
+            'outbound_v4_stage2_dash_acl_group_id': 0,
+            'outbound_v4_stage3_dash_acl_group_id': 0,
+            'outbound_v4_stage4_dash_acl_group_id': 0,
+            'outbound_v4_stage5_dash_acl_group_id': 0,
+            'inbound_v6_stage1_dash_acl_group_id': 0,
+            'inbound_v6_stage2_dash_acl_group_id': 0,
+            'inbound_v6_stage3_dash_acl_group_id': 0,
+            'inbound_v6_stage4_dash_acl_group_id': 0,
+            'inbound_v6_stage5_dash_acl_group_id': 0,
+            'outbound_v6_stage1_dash_acl_group_id': 0,
+            'outbound_v6_stage2_dash_acl_group_id': 0,
+            'outbound_v6_stage3_dash_acl_group_id': 0,
+            'outbound_v6_stage4_dash_acl_group_id': 0,
+            'outbound_v6_stage5_dash_acl_group_id': 0
         }
         default_kwargs.update(kwargs)
 
@@ -173,12 +173,12 @@ class VnetAPI(VnetObjects):
         self.add_teardown_obj(self.eni_remove, eni_id)
 
         return eni_id
-    
+
     def eni_set_admin_state(self, eni_oid, state):
-        sai_thrift_set_eni_attribute(self.client, eni_oid, admin_state=(state == "up"))
+        sai_thrift_set_eni_attribute(self.client, eni_oid, admin_state=(state == 'up'))
         self.assertEqual(self.status(), SAI_STATUS_SUCCESS)
 
-        print(f"ENI oid: {eni_oid} setting admin state {state} - OK")
+        print(f'ENI oid: {eni_oid} setting admin state {state} - OK')
 
     def eni_remove(self, eni_id):
         sai_thrift_remove_eni(self.client, eni_id)
@@ -465,53 +465,53 @@ class VnetApiEndpoints(VnetAPI):
         super(VnetApiEndpoints, self).setUp()
 
         # Set connection type for traffic verification methods
-        self.assertTrue(test_param_get("connection").lower() in ["tcp", "udp", "icmp"],
-                        "Unknown connection protocol! Supported protocols: tcp|udp|icmp")
-        self.connection = test_param_get("connection").lower()
-        print(f"{self.connection.upper()} protocol is used for traffic verification.")
-        
+        self.assertTrue(test_param_get('connection').lower() in ['tcp', 'udp', 'icmp'],
+                        'Unknown connection protocol! Supported protocols: tcp|udp|icmp')
+        self.connection = test_param_get('connection').lower()
+        print(f'{self.connection.upper()} protocol is used for traffic verification.')
+
         self.underlay_ipv6 = underlay_ipv6
         self.overlay_ipv6 = overlay_ipv6
 
         if self.underlay_ipv6 is True:
-            vip = "1000:cafe::10"
-            tx_host_ip = "2000:cafe::20"
-            tx_host_ip_prefix = "2000:cafe::0/112"
-            rx_host_ip = "3000:cafe::30"
-            rx_host_ip_prefix = "3000:cafe::0/112"
+            vip = '1000:cafe::10'
+            tx_host_ip = '2000:cafe::20'
+            tx_host_ip_prefix = '2000:cafe::0/112'
+            rx_host_ip = '3000:cafe::30'
+            rx_host_ip_prefix = '3000:cafe::0/112'
         else:
-            vip = "10.1.1.1"
-            tx_host_ip = "10.10.1.10"
-            tx_host_ip_prefix = "10.10.1.0/24"
-            rx_host_ip = "10.10.2.10"
-            rx_host_ip_prefix = "10.10.2.0/24"
+            vip = '10.1.1.1'
+            tx_host_ip = '10.10.1.10'
+            tx_host_ip_prefix = '10.10.1.0/24'
+            rx_host_ip = '10.10.2.10'
+            rx_host_ip_prefix = '10.10.2.0/24'
 
         if self.overlay_ipv6 is True:
-            tx_host_client_ip = "aaaa::10"
-            rx_host_client_ip = "bbbb::20"
+            tx_host_client_ip = 'aaaa::10'
+            rx_host_client_ip = 'bbbb::20'
         else:
-            tx_host_client_ip = "192.168.0.1"
-            rx_host_client_ip = "192.168.1.1"
+            tx_host_client_ip = '192.168.0.1'
+            rx_host_client_ip = '192.168.1.1'
 
         self.tx_host = self.define_neighbor_network(port=self.dev_port0,
-                                                    mac="10:22:33:aa:bb:cc",
+                                                    mac='10:22:33:aa:bb:cc',
                                                     ip=tx_host_ip,
                                                     ip_prefix=tx_host_ip_prefix,
                                                     peer_port=self.port0,
-                                                    peer_mac="00:66:55:44:33:00",
+                                                    peer_mac='00:66:55:44:33:00',
                                                     peer_ip=vip,
-                                                    client_mac="00:01:00:00:03:14",
+                                                    client_mac='00:01:00:00:03:14',
                                                     client_ip=tx_host_client_ip,
                                                     client_vni=1)
 
         self.rx_host = self.define_neighbor_network(port=self.dev_port1,
-                                                    mac="aa:bb:cc:11:22:33",
+                                                    mac='aa:bb:cc:11:22:33',
                                                     ip=rx_host_ip,
                                                     ip_prefix=rx_host_ip_prefix,
                                                     peer_port=self.port1,
-                                                    peer_mac="00:77:66:55:44:00",
+                                                    peer_mac='00:77:66:55:44:00',
                                                     peer_ip=vip,
-                                                    client_mac="00:02:00:00:04:15",
+                                                    client_mac='00:02:00:00:04:15',
                                                     client_ip=rx_host_client_ip,
                                                     client_vni=2)
 
@@ -576,10 +576,10 @@ class VnetTrafficMixin:
     """
 
     # TCP flags
-    SYN = "S"
-    SYN_ACK = "SA"
-    ACK = "A"
-    FIN_ACK = "FA"
+    SYN = 'S'
+    SYN_ACK = 'SA'
+    ACK = 'A'
+    FIN_ACK = 'FA'
 
     ip_src_inner_pkt = 'ip_src'
     ip_dst_inner_pkt = 'ip_dst'
@@ -600,8 +600,8 @@ class VnetTrafficMixin:
             inner_pkt_v6 = simple_icmpv6_packet
         else:
             types = ['tcp', 'udp', 'icmp']
-            raise AttributeError(f"Wrong connection type: {connection}.\n"
-                                 f"Supported connection types: {types}")
+            raise AttributeError(f'Wrong connection type: {connection}.\n'
+                                 f'Supported connection types: {types}')
 
         if self.overlay_ipv6 is True:
             create_inner_pkt = inner_pkt_v6
@@ -724,38 +724,38 @@ class VnetTrafficMixin:
 
         else:
             types = ['tcp', 'udp', 'icmp']
-            raise AttributeError(f"Wrong connection type: {connection}.\n"
-                                 f"Supported connection types: {types}")
+            raise AttributeError(f'Wrong connection type: {connection}.\n'
+                                 f'Supported connection types: {types}')
 
         # packets sending
         for name, pkt in send_packets.items():
-            src_port = client.port if "client" in name else server.port
-            direction = "-->" if "client" in name else "<--"
+            src_port = client.port if 'client' in name else server.port
+            direction = '-->' if 'client' in name else '<--'
 
-            print(f"\nSending {name},", client.port, direction, server.port)
+            print(f'\nSending {name},', client.port, direction, server.port)
             send_packet(self, src_port, pkt)
 
         # packets verification
         if tx_equal_to_rx:
             exp_packets = {**exp_client_packets, **exp_server_packets}
 
-            print(f"\nVerify that all packets are received on {server.port}:\n")
+            print(f'\nVerify that all packets are received on {server.port}:\n')
             for name, pkt in exp_packets.items():
-                print(f"Verifying {name}")
+                print(f'Verifying {name}')
                 verify_packet(self, pkt, server.port)
-                print(f"{name} - OK")
+                print(f'{name} - OK')
         else:
             print(f"\nVerify 'clients' packets are received on {server.port}:\n")
             for name, pkt in exp_client_packets.items():
-                print(f"Verifying {name}")
+                print(f'Verifying {name}')
                 verify_packet(self, pkt, server.port)
-                print(f"{name} - OK")
+                print(f'{name} - OK')
 
             print(f"\nVerify 'server' packets are received on {client.port}:\n")
             for name, pkt in exp_server_packets.items():
-                print(f"Verifying {name}")
+                print(f'Verifying {name}')
                 verify_packet(self, pkt, client.port)
-                print(f"{name} - OK")
+                print(f'{name} - OK')
 
     def verify_oneway_connection(self,
                                  client: DutNeighborNetworkParameters,
@@ -781,16 +781,16 @@ class VnetTrafficMixin:
                                                           fake_mac=fake_mac,
                                                           route_direct=route_direct)
 
-        print(f"\nSending VxLAN {connection.lower()} packet:", client.port, "-->", server.port)
+        print(f'\nSending VxLAN {connection.lower()} packet:', client.port, '-->', server.port)
         send_packet(self, client.port, send_pkt)
 
         if pkt_drop:
             verify_no_other_packets(self, timeout=1)
 
         else:
-            print(f"Verifying VxLAN {connection.lower()} packet on {server.port}")
+            print(f'Verifying VxLAN {connection.lower()} packet on {server.port}')
             verify_packet(self, exp_pkt, server.port)
-            print(f"VxLAN {connection.lower()} packet - OK")
+            print(f'VxLAN {connection.lower()} packet - OK')
 
     def verify_negative_traffic_scenario(self,
                                          client: DutNeighborNetworkParameters,
@@ -814,13 +814,13 @@ class VnetTrafficMixin:
                 self.create_vxlan_udp_session_packets(client=client,
                                                       server=server,
                                                       fake_mac=fake_mac)
-            vxlan_pkt = send_packets["client_udp_vxlan_pkt"]
+            vxlan_pkt = send_packets['client_udp_vxlan_pkt']
         else:
             send_packets, exp_client_packets, _ = \
                 self.create_vxlan_tcp_session_packets(client=client,
                                                       server=server,
                                                       fake_mac=fake_mac)
-            vxlan_pkt = send_packets["client_syn_pkt"]
+            vxlan_pkt = send_packets['client_syn_pkt']
 
         def send_verify(pkt):
             send_packet(self, client.port, pkt)
@@ -831,59 +831,59 @@ class VnetTrafficMixin:
             vxlan_pkt_invalid_vni = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_vni.getlayer('VXLAN').vni = invalid_vni
 
-            print("Sending VxLAN IPv4 packet with invalid VNI, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid VNI, expect drop')
             send_verify(vxlan_pkt_invalid_vni)
-            print("\nInvalid VNI OK\n")
+            print('\nInvalid VNI OK\n')
 
         if invalid_vip is not None:
             # Verify drop with invalid VIP
             vxlan_pkt_invalid_vip = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_vip.getlayer('IP').dst = invalid_vip
 
-            print("Sending VxLAN IPv4 packet with invalid VIP, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid VIP, expect drop')
             send_verify(vxlan_pkt_invalid_vip)
-            print("\nInvalid VIP OK\n")
+            print('\nInvalid VIP OK\n')
 
         if invalid_inner_src_mac is not None:
             # Verify drop with invalid inner Src MAC
             vxlan_pkt_invalid_src_mac = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_src_mac.getlayer('VXLAN').getlayer('Ether').src = invalid_inner_src_mac
 
-            print("Sending VxLAN IPv4 packet with invalid Inner Src MAC, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid Inner Src MAC, expect drop')
             send_verify(vxlan_pkt_invalid_src_mac)
-            print("\nInvalid Inner Src MAC OK\n")
+            print('\nInvalid Inner Src MAC OK\n')
 
         if invalid_inner_dst_mac is not None:
             # Verify drop with invalid inner Dst MAC
             vxlan_pkt_invalid_dst_mac = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_dst_mac.getlayer('VXLAN').getlayer('Ether').dst = invalid_inner_dst_mac
 
-            print("Sending VxLAN IPv4 packet with invalid Inner Dst MAC, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid Inner Dst MAC, expect drop')
             send_verify(vxlan_pkt_invalid_dst_mac)
-            print("\nInvalid Inner Dst MAC OK\n")
+            print('\nInvalid Inner Dst MAC OK\n')
 
         if invalid_inner_dst_ip is not None:
             # Verify drop with invalid inner Dst IP
             vxlan_pkt_invalid_inner_dst_ip = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_inner_dst_ip.getlayer('VXLAN').getlayer('IP').dst = invalid_inner_dst_ip
 
-            print("Sending VxLAN IPv4 packet with invalid Inner Dst MAC, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid Inner Dst MAC, expect drop')
             send_verify(vxlan_pkt_invalid_inner_dst_ip)
-            print("\nInvalid Inner Dst IP OK\n")
+            print('\nInvalid Inner Dst IP OK\n')
 
         if invalid_outer_src_ip is not None:
             # Verify drop with invalid outer Src IP
             vxlan_pkt_invalid_outer_src_ip = deepcopy(vxlan_pkt)
             vxlan_pkt_invalid_outer_src_ip.getlayer('IP').src = invalid_outer_src_ip
 
-            print("Sending VxLAN IPv4 packet with invalid Outer Src IP, expect drop")
+            print('Sending VxLAN IPv4 packet with invalid Outer Src IP, expect drop')
             send_verify(vxlan_pkt_invalid_outer_src_ip)
-            print("\nInvalid Outer Src IP OK\n")
+            print('\nInvalid Outer Src IP OK\n')
 
         if valid_pkt_drop:
-            print("Sending valid VxLAN IPv4 packet, expect drop")
+            print('Sending valid VxLAN IPv4 packet, expect drop')
             send_verify(vxlan_pkt)
-            print("\nValid packet drop OK\n")
+            print('\nValid packet drop OK\n')
 
     def create_vxlan_tcp_session_packets(self,
                                          client: DutNeighborNetworkParameters,
@@ -903,7 +903,7 @@ class VnetTrafficMixin:
         client_tcp_port = randint(1024, 49151)
         http_port = 80
 
-        fake_ca_dst_mac = "AA:12:44:69:05:AA"
+        fake_ca_dst_mac = 'AA:12:44:69:05:AA'
 
         create_inner_pkt, create_outer_pkt = self.define_pkts_creation_func('tcp')
 
@@ -1016,27 +1016,27 @@ class VnetTrafficMixin:
         send_packets = OrderedDict()
 
         # packets for starting tcp session
-        send_packets["client_syn_pkt"] = client_tcp_syn_vxlan_pkt
-        send_packets["server_syn_ack_pkt"] = server_tcp_synack_vxlan_pkt
-        send_packets["client_ack_pkt"] = client_tcp_ack_vxlan_pkt
+        send_packets['client_syn_pkt'] = client_tcp_syn_vxlan_pkt
+        send_packets['server_syn_ack_pkt'] = server_tcp_synack_vxlan_pkt
+        send_packets['client_ack_pkt'] = client_tcp_ack_vxlan_pkt
 
-        exp_client_packets = {"exp_client_syn_pkt": exp_client_tcp_syn_vxlan_pkt,
-                              "exp_client_ack_pkt": exp_client_tcp_ack_vxlan_pkt}
+        exp_client_packets = {'exp_client_syn_pkt': exp_client_tcp_syn_vxlan_pkt,
+                              'exp_client_ack_pkt': exp_client_tcp_ack_vxlan_pkt}
 
-        exp_server_packets = {"exp_server_syn_ack_pkt": exp_server_tcp_synack_vxlan_pkt}
+        exp_server_packets = {'exp_server_syn_ack_pkt': exp_server_tcp_synack_vxlan_pkt}
 
         if terminate_tcp_session:
             # packets for termination tcp session
-            send_packets["client_fin_ack_pkt"] = client_tcp_fin_vxlan_pkt
-            send_packets["server_ack_pkt"] = server_tcp_ack_vxlan_pkt
-            send_packets["server_fin_ack_pkt"] = server_tcp_finack_vxlan_pkt
-            send_packets["client_ack_pkt_close"] = client_tcp_ack_vxlan_pkt_close
+            send_packets['client_fin_ack_pkt'] = client_tcp_fin_vxlan_pkt
+            send_packets['server_ack_pkt'] = server_tcp_ack_vxlan_pkt
+            send_packets['server_fin_ack_pkt'] = server_tcp_finack_vxlan_pkt
+            send_packets['client_ack_pkt_close'] = client_tcp_ack_vxlan_pkt_close
 
-            exp_client_packets["exp_client_fin_ack_pkt"] = exp_client_tcp_fin_vxlan_pkt
-            exp_client_packets["exp_client_ack_pkt_close"] = exp_client_tcp_ack_vxlan_pkt_close
+            exp_client_packets['exp_client_fin_ack_pkt'] = exp_client_tcp_fin_vxlan_pkt
+            exp_client_packets['exp_client_ack_pkt_close'] = exp_client_tcp_ack_vxlan_pkt_close
 
-            exp_server_packets["exp_server_ack_pkt"] = exp_server_tcp_ack_vxlan_pkt
-            exp_server_packets["exp_server_fin_ack_pkt"] = exp_server_tcp_finack_vxlan_pkt
+            exp_server_packets['exp_server_ack_pkt'] = exp_server_tcp_ack_vxlan_pkt
+            exp_server_packets['exp_server_fin_ack_pkt'] = exp_server_tcp_finack_vxlan_pkt
 
         return send_packets, exp_client_packets, exp_server_packets
 
@@ -1059,7 +1059,7 @@ class VnetTrafficMixin:
         client_tcp_port = randint(1024, 49151)
         http_port = 80
 
-        fake_ca_dst_mac = "AA:12:44:69:05:AA"
+        fake_ca_dst_mac = 'AA:12:44:69:05:AA'
 
         create_inner_pkt, create_outer_pkt = self.define_pkts_creation_func('tcp')
 
@@ -1165,27 +1165,27 @@ class VnetTrafficMixin:
         send_packets = OrderedDict()
 
         # packets for starting tcp session
-        send_packets["client_syn_pkt"] = client_tcp_syn_vxlan_pkt
-        send_packets["server_syn_ack_pkt"] = server_tcp_synack_pkt
-        send_packets["client_ack_pkt"] = client_tcp_ack_vxlan_pkt
+        send_packets['client_syn_pkt'] = client_tcp_syn_vxlan_pkt
+        send_packets['server_syn_ack_pkt'] = server_tcp_synack_pkt
+        send_packets['client_ack_pkt'] = client_tcp_ack_vxlan_pkt
 
-        exp_client_packets = {"exp_client_syn_pkt": exp_client_tcp_syn_pkt,
-                              "exp_client_ack_pkt": exp_client_tcp_ack_pkt}
+        exp_client_packets = {'exp_client_syn_pkt': exp_client_tcp_syn_pkt,
+                              'exp_client_ack_pkt': exp_client_tcp_ack_pkt}
 
-        exp_server_packets = {"exp_server_syn_ack_pkt": exp_server_tcp_synack_vxlan_pkt}
+        exp_server_packets = {'exp_server_syn_ack_pkt': exp_server_tcp_synack_vxlan_pkt}
 
         if terminate_tcp_session:
             # packets for termination tcp session
-            send_packets["client_fin_ack_pkt"] = client_tcp_fin_vxlan_pkt
-            send_packets["server_ack_pkt"] = server_tcp_ack_pkt
-            send_packets["server_fin_ack_pkt"] = server_tcp_finack_pkt
-            send_packets["client_ack_pkt_close"] = client_tcp_ack_vxlan_pkt_close
+            send_packets['client_fin_ack_pkt'] = client_tcp_fin_vxlan_pkt
+            send_packets['server_ack_pkt'] = server_tcp_ack_pkt
+            send_packets['server_fin_ack_pkt'] = server_tcp_finack_pkt
+            send_packets['client_ack_pkt_close'] = client_tcp_ack_vxlan_pkt_close
 
-            exp_client_packets["exp_client_fin_ack_pkt"] = exp_client_tcp_fin_pkt
-            exp_client_packets["exp_client_ack_pkt_close"] = exp_client_tcp_ack_pkt_close
+            exp_client_packets['exp_client_fin_ack_pkt'] = exp_client_tcp_fin_pkt
+            exp_client_packets['exp_client_ack_pkt_close'] = exp_client_tcp_ack_pkt_close
 
-            exp_server_packets["exp_server_ack_pkt"] = exp_server_tcp_ack_vxlan_pkt
-            exp_server_packets["exp_server_fin_ack_pkt"] = exp_server_tcp_finack_vxlan_pkt
+            exp_server_packets['exp_server_ack_pkt'] = exp_server_tcp_ack_vxlan_pkt
+            exp_server_packets['exp_server_fin_ack_pkt'] = exp_server_tcp_finack_vxlan_pkt
 
         return send_packets, exp_client_packets, exp_server_packets
 
@@ -1205,7 +1205,7 @@ class VnetTrafficMixin:
         client_udp_port = randint(1024, 49151)
         http_port = 80
 
-        fake_ca_dst_mac = "AA:12:44:69:05:AA"
+        fake_ca_dst_mac = 'AA:12:44:69:05:AA'
 
         create_inner_pkt, create_outer_pkt = self.define_pkts_creation_func('udp')
 
@@ -1264,11 +1264,11 @@ class VnetTrafficMixin:
         send_packets = OrderedDict()
 
         # packets for starting udp session
-        send_packets["client_udp_vxlan_pkt"] = client_vxlan_pkt
-        send_packets["server_udp_vxlan_pkt"] = server_vxlan_pkt
+        send_packets['client_udp_vxlan_pkt'] = client_vxlan_pkt
+        send_packets['server_udp_vxlan_pkt'] = server_vxlan_pkt
 
-        exp_client_packets = {"exp_client_udp_vxlan_pkt": exp_client_vxlan_pkt}
-        exp_server_packets = {"exp_server_udp_vxlan_pkt": exp_server_vxlan_pkt}
+        exp_client_packets = {'exp_client_udp_vxlan_pkt': exp_client_vxlan_pkt}
+        exp_server_packets = {'exp_server_udp_vxlan_pkt': exp_server_vxlan_pkt}
 
         return send_packets, exp_client_packets, exp_server_packets
 
@@ -1286,7 +1286,7 @@ class VnetTrafficMixin:
                              (default Outbound scenario) else to Dst CA MAC (Inbound scenario)
         """
 
-        fake_ca_dst_mac = "AA:12:44:69:05:AA"
+        fake_ca_dst_mac = 'AA:12:44:69:05:AA'
 
         create_inner_pkt, create_outer_pkt = self.define_pkts_creation_func('icmp')
 
@@ -1342,11 +1342,11 @@ class VnetTrafficMixin:
         send_packets = OrderedDict()
 
         # packets for starting udp session
-        send_packets["client_echo_request_vxlan_pkt"] = client_vxlan_pkt
-        send_packets["server_echo_reply_vxlan_pkt"] = server_vxlan_pkt
+        send_packets['client_echo_request_vxlan_pkt'] = client_vxlan_pkt
+        send_packets['server_echo_reply_vxlan_pkt'] = server_vxlan_pkt
 
-        exp_client_packets = {"exp_client_echo_request_pkt": exp_client_vxlan_pkt}
-        exp_server_packets = {"exp_server_echo_reply_pkt": exp_server_vxlan_pkt}
+        exp_client_packets = {'exp_client_echo_request_pkt': exp_client_vxlan_pkt}
+        exp_server_packets = {'exp_server_echo_reply_pkt': exp_server_vxlan_pkt}
 
         return send_packets, exp_client_packets, exp_server_packets
 
@@ -1368,7 +1368,7 @@ class VnetTrafficMixin:
         """
         client_port = randint(1024, 49151)
         http_port = 80
-        fake_ca_dst_mac = "AA:12:44:69:05:AA"
+        fake_ca_dst_mac = 'AA:12:44:69:05:AA'
 
         conn_type = connection.lower()
 
@@ -1445,7 +1445,7 @@ class VnetTrafficMixin:
         Update Flag, Sequence and Acknowledgement fields in given TCP packet
         """
         if tcp_flag is not None:
-            pkt.getlayer("TCP").flags = tcp_flag
+            pkt.getlayer('TCP').flags = tcp_flag
 
-        pkt.getlayer("TCP").seq = seq
-        pkt.getlayer("TCP").ack = ack
+        pkt.getlayer('TCP').seq = seq
+        pkt.getlayer('TCP').ack = ack

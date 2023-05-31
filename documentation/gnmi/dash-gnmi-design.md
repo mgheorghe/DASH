@@ -135,6 +135,3 @@ GNMI client must write DASH_RESET_STATUS before any other DASH configurations, a
 - [SONiC GNMI Server Interface Design](https://github.com/sonic-net/SONiC/blob/master/doc/mgmt/gnmi/SONiC_GNMI_Server_Interface_Design.md)
 - [SONiC-DASH HLD](https://github.com/sonic-net/DASH/blob/main/documentation/general/dash-sonic-hld.md)
 - [Proto for DASH table](https://github.com/Pterosaur/DASH-benchmark/tree/master/memory/proto)
-
-
-

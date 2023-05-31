@@ -61,9 +61,9 @@ int leadingNonZeroBits(const uint32_t ipv4) {
 int leadingNonZeroBits(const sai_ip6_t ipv6) {
     int trailingZeros = 0;
     for (int i = 0; i < 16; i+=4) {
-        auto num = static_cast<uint32_t>(ipv6[i]) +  
-        (static_cast<uint32_t>(ipv6[i+1]) << 8) + 
-        (static_cast<uint32_t>(ipv6[i+2]) << 16) + 
+        auto num = static_cast<uint32_t>(ipv6[i]) +
+        (static_cast<uint32_t>(ipv6[i+1]) << 8) +
+        (static_cast<uint32_t>(ipv6[i+2]) << 16) +
         (static_cast<uint32_t>(ipv6[i+3]) << 24);
         auto firstSetBit  = leadingNonZeroBits(num);
         if (firstSetBit > 0) {
@@ -164,7 +164,7 @@ grpc::StatusCode MutateTableEntry(p4::v1::TableEntry *entry, p4::v1::Update_Type
     update->set_type(updateType);
     auto entity = update->mutable_entity();
     entity->set_allocated_table_entry(entry);
-    
+
     p4::v1::WriteResponse rep;
     grpc::ClientContext context;
     grpc::Status status = stub->Write(&context, request, &rep);

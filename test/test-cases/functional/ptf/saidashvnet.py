@@ -22,8 +22,8 @@ from sai_thrift.sai_headers import *
 from sai_dash_utils import *
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class UnderlayRouteTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     L3 Underlay bidirectional routing test case
@@ -58,7 +58,7 @@ class UnderlayRouteTest(VnetApiEndpoints, VnetTrafficMixin):
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host.client.ip,
@@ -76,7 +76,7 @@ class UnderlayRouteTest(VnetApiEndpoints, VnetTrafficMixin):
 
         self.verify_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=False)
-        print("Overlay config OK\n")
+        print('Overlay config OK\n')
 
     def l3UnderlayHost1toHost2RoutingTest(self):
 
@@ -91,10 +91,10 @@ class UnderlayRouteTest(VnetApiEndpoints, VnetTrafficMixin):
                                            ip_src=self.host_1.ip,
                                            ip_ttl=63)
 
-        print("Sending simple UDP packet host_1 -> host_2, expecting routed packet")
+        print('Sending simple UDP packet host_1 -> host_2, expecting routed packet')
         send_packet(self, self.host_1.port, host_1_pkt)
         verify_packet(self, host_1_exp_pkt, self.host_2.port)
-        print("Underlay Host 1 to Host 2 OK\n")
+        print('Underlay Host 1 to Host 2 OK\n')
 
     def l3UnderlayHost2toHost1RoutingTest(self):
 
@@ -109,14 +109,14 @@ class UnderlayRouteTest(VnetApiEndpoints, VnetTrafficMixin):
                                            ip_src=self.host_2.ip,
                                            ip_ttl=63)
 
-        print("Sending simple UDP packet host_2 -> host_1, expecting routed packet")
+        print('Sending simple UDP packet host_2 -> host_1, expecting routed packet')
         send_packet(self, self.host_2.port, host_2_pkt)
         verify_packet(self, host_2_exp_pkt, self.host_1.port)
-        print("Underlay Host 2 to Host 1 OK\n")
+        print('Underlay Host 2 to Host 1 OK\n')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapPaValidateSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -156,7 +156,7 @@ class Vnet2VnetInboundDecapPaValidateSinglePortTest(VnetApiEndpoints, VnetTraffi
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host.client.vni,
-                                                   sip=self.tx_host.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet)
         # PA validation entry with Permit action
         self.pa_validation_create(self.tx_host.ip, src_vnet)
@@ -183,9 +183,9 @@ class Vnet2VnetInboundDecapPaValidateSinglePortTest(VnetApiEndpoints, VnetTraffi
         """
 
         invalid_vni = 1000
-        invalid_ca_dst_mac = "9e:ba:ce:98:d9:e2"
-        invalid_pa_sip = "10.10.5.1"  # routing missmatch
-        invalid_vip = "10.10.10.10"
+        invalid_ca_dst_mac = '9e:ba:ce:98:d9:e2'
+        invalid_pa_sip = '10.10.5.1'  # routing missmatch
+        invalid_vip = '10.10.10.10'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=False,
@@ -194,7 +194,7 @@ class Vnet2VnetInboundDecapPaValidateSinglePortTest(VnetApiEndpoints, VnetTraffi
                                               invalid_inner_dst_mac=invalid_ca_dst_mac,
                                               invalid_vip=invalid_vip)
 
-        invalid_pa_valid_ip = "10.10.1.25"  # pa validation missmatch
+        invalid_pa_valid_ip = '10.10.1.25'  # pa validation missmatch
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=False,
                                               invalid_outer_src_ip=invalid_pa_valid_ip)
@@ -202,8 +202,8 @@ class Vnet2VnetInboundDecapPaValidateSinglePortTest(VnetApiEndpoints, VnetTraffi
         print('\n', self.vnet2VnetInboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapPaValidateSinglePortOverlayIpv6Test(Vnet2VnetInboundDecapPaValidateSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -218,8 +218,8 @@ class Vnet2VnetInboundDecapPaValidateSinglePortOverlayIpv6Test(Vnet2VnetInboundD
         super(Vnet2VnetInboundDecapPaValidateSinglePortOverlayIpv6Test, self).setUp(overlay_ipv6=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapPaValidateTwoPortsTest(Vnet2VnetInboundDecapPaValidateSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -237,8 +237,8 @@ class Vnet2VnetInboundDecapPaValidateTwoPortsTest(Vnet2VnetInboundDecapPaValidat
         self.vnet2VnetInboundNegativeTest()
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapPaValidateTwoPortsOverlayIpv6Test(Vnet2VnetInboundDecapPaValidateSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -256,8 +256,8 @@ class Vnet2VnetInboundDecapPaValidateTwoPortsOverlayIpv6Test(Vnet2VnetInboundDec
         self.vnet2VnetInboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapSinglePortTest(Vnet2VnetInboundDecapPaValidateSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -287,7 +287,7 @@ class Vnet2VnetInboundDecapSinglePortTest(Vnet2VnetInboundDecapPaValidateSingleP
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_create(eni_id, vni=self.tx_host.client.vni,
-                                          sip=self.tx_host.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host.ip, sip_mask='255.255.255.0')
 
     def vnet2VnetInboundNegativeTest(self):
         """
@@ -299,9 +299,9 @@ class Vnet2VnetInboundDecapSinglePortTest(Vnet2VnetInboundDecapPaValidateSingleP
         """
 
         invalid_vni = 1000
-        invalid_ca_dst_mac = "9e:ba:ce:98:d9:e2"
-        invalid_vip = "10.10.10.10"
-        invalid_pa_sip = "10.10.3.22"
+        invalid_ca_dst_mac = '9e:ba:ce:98:d9:e2'
+        invalid_vip = '10.10.10.10'
+        invalid_pa_sip = '10.10.3.22'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=False,
@@ -313,8 +313,8 @@ class Vnet2VnetInboundDecapSinglePortTest(Vnet2VnetInboundDecapPaValidateSingleP
         print('\n', self.vnet2VnetInboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapSinglePortOverlayIpv6Test(Vnet2VnetInboundDecapSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -329,8 +329,8 @@ class Vnet2VnetInboundDecapSinglePortOverlayIpv6Test(Vnet2VnetInboundDecapSingle
         super(Vnet2VnetInboundDecapSinglePortOverlayIpv6Test, self).setUp(overlay_ipv6=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapTwoPortsTest(Vnet2VnetInboundDecapSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -348,8 +348,8 @@ class Vnet2VnetInboundDecapTwoPortsTest(Vnet2VnetInboundDecapSinglePortTest):
         self.vnet2VnetInboundNegativeTest()
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundDecapTwoPortsOverlayIpv6Test(Vnet2VnetInboundDecapSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -367,8 +367,8 @@ class Vnet2VnetInboundDecapTwoPortsOverlayIpv6Test(Vnet2VnetInboundDecapSinglePo
         self.vnet2VnetInboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound Vnet to Vnet scenario test case with single eni and
@@ -405,35 +405,35 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest(VnetApiEndpoint
 
         self.tx_host_1 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="8.0.0.1",
-                                                      ip_prefix="8.0.0.0/24",
+                                                      ip='8.0.0.1',
+                                                      ip_prefix='8.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.2.1",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.2.1',
                                                       client_vni=10)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="9.0.0.1",
-                                                      ip_prefix="9.0.0.0/24",
+                                                      ip='9.0.0.1',
+                                                      ip_prefix='9.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="192.168.3.1",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='192.168.3.1',
                                                       client_vni=30)
 
         self.tx_host_3 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="11.0.0.1",
-                                                      ip_prefix="11.0.0.1/24",
+                                                      ip='11.0.0.1',
+                                                      ip_prefix='11.0.0.1/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:AA:00:23:CC:20",
-                                                      client_ip="192.168.4.1",
+                                                      client_mac='00:AA:00:23:CC:20',
+                                                      client_ip='192.168.4.1',
                                                       client_vni=40)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -455,25 +455,25 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest(VnetApiEndpoint
 
         # Inbound routing decap
         self.inbound_routing_decap_create(eni_id, vni=self.tx_host_3.client.vni,
-                                          sip=self.tx_host_3.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host_3.ip, sip_mask='255.255.255.0')
 
         # Inbound routing decap PA Validate tx_host_0
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_0)
         # PA validation entry with Permit action tx_host_0
         self.pa_validation_create(self.tx_host_0.ip, src_vnet_0)
 
         # Inbound routing decap PA Validate tx_host_1
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_1.client.vni,
-                                                   sip=self.tx_host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_1)
         # PA validation entry with Permit action tx_host_1
         self.pa_validation_create(self.tx_host_1.ip, src_vnet_1)
 
         # Inbound routing decap PA Validate tx_host_2
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_2.client.vni,
-                                                   sip=self.tx_host_2.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_2.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_2)
         # PA validation entry with Permit action tx_host_2
         self.pa_validation_create(self.tx_host_2.ip, src_vnet_2)
@@ -488,25 +488,25 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest(VnetApiEndpoint
         tx_host_3 -> rx_host (ENI 0) without PA validation
         """
 
-        print("\nVerifying Inbound pkt send tx_host_0 -> rx_host ...")
+        print('\nVerifying Inbound pkt send tx_host_0 -> rx_host ...')
         self.verify_traffic_scenario(client=self.tx_host_0, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt send tx_host_1 -> rx_host ...")
+        print('\nVerifying Inbound pkt send tx_host_1 -> rx_host ...')
         self.verify_traffic_scenario(client=self.tx_host_1, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt send tx_host_2 -> rx_host ...")
+        print('\nVerifying Inbound pkt send tx_host_2 -> rx_host ...')
         self.verify_traffic_scenario(client=self.tx_host_2, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt send tx_host_3 -> rx_host ...")
+        print('\nVerifying Inbound pkt send tx_host_3 -> rx_host ...')
         self.verify_traffic_scenario(client=self.tx_host_3, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
         print('\n', self.vnet2VnetInboundRoutingPositiveTest.__name__, ' OK')
 
@@ -520,39 +520,39 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest(VnetApiEndpoint
         """
 
         invalid_vni = 200
-        invalid_ca_dst_mac = "9e:ba:ce:98:d9:e2"
-        invalid_pa_sip = "10.10.5.1"  # routing missmatch
-        invalid_vip = "10.10.10.10"
+        invalid_ca_dst_mac = '9e:ba:ce:98:d9:e2'
+        invalid_pa_sip = '10.10.5.1'  # routing missmatch
+        invalid_vip = '10.10.10.10'
 
-        print("\nVerifying Inbound pkt drop with invalid VNI tx_host_0 -> rx_host ...")
+        print('\nVerifying Inbound pkt drop with invalid VNI tx_host_0 -> rx_host ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_0, server=self.rx_host,
                                               fake_mac=False,
                                               invalid_vni=invalid_vni)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt drop with invalid ENI mac tx_host_1 -> rx_host ...")
+        print('\nVerifying Inbound pkt drop with invalid ENI mac tx_host_1 -> rx_host ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_1, server=self.rx_host,
                                               fake_mac=False,
                                               invalid_inner_dst_mac=invalid_ca_dst_mac)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt drop with invalid PA IP tx_host_2 -> rx_host ...")
+        print('\nVerifying Inbound pkt drop with invalid PA IP tx_host_2 -> rx_host ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_2, server=self.rx_host,
                                               fake_mac=False,
                                               invalid_outer_src_ip=invalid_pa_sip)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt drop with invalid VIP tx_host_3 -> rx_host ...")
+        print('\nVerifying Inbound pkt drop with invalid VIP tx_host_3 -> rx_host ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_3, server=self.rx_host,
                                               fake_mac=False,
                                               invalid_vip=invalid_vip)
-        print("OK")
+        print('OK')
 
         print('\n', self.vnet2VnetInboundRoutingNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortOverlayIpv6Test(Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -587,35 +587,35 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortOverlayIpv6Test(Vnet
 
         self.tx_host_1 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="8.0.0.1",
-                                                      ip_prefix="8.0.0.0/24",
+                                                      ip='8.0.0.1',
+                                                      ip_prefix='8.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="cccc::60",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='cccc::60',
                                                       client_vni=10)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="9.0.0.1",
-                                                      ip_prefix="9.0.0.0/24",
+                                                      ip='9.0.0.1',
+                                                      ip_prefix='9.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="dddd::14",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='dddd::14',
                                                       client_vni=30)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="11.0.0.1",
-                                                      ip_prefix="11.0.0.1/24",
+                                                      ip='11.0.0.1',
+                                                      ip_prefix='11.0.0.1/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:AA:00:23:CC:20",
-                                                      client_ip="eeee::80",
+                                                      client_mac='00:AA:00:23:CC:20',
+                                                      client_ip='eeee::80',
                                                       client_vni=40)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -637,31 +637,31 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortOverlayIpv6Test(Vnet
 
         # Inbound routing decap
         self.inbound_routing_decap_create(eni_id, vni=self.tx_host_3.client.vni,
-                                          sip=self.tx_host_3.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host_3.ip, sip_mask='255.255.255.0')
 
         # Inbound routing decap PA Validate tx_host_0
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_0)
         # PA validation entry with Permit action tx_host_0
         self.pa_validation_create(self.tx_host_0.ip, src_vnet_0)
 
         # Inbound routing decap PA Validate tx_host_1
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_1.client.vni,
-                                                   sip=self.tx_host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_1)
         # PA validation entry with Permit action tx_host_1
         self.pa_validation_create(self.tx_host_1.ip, src_vnet_1)
 
         # Inbound routing decap PA Validate tx_host_2
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_2.client.vni,
-                                                   sip=self.tx_host_2.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_2.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_2)
         # PA validation entry with Permit action tx_host_2
         self.pa_validation_create(self.tx_host_2.ip, src_vnet_2)
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesSingleEniTwoPortsTest(Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with single eni and
@@ -701,8 +701,8 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniTwoPortsTest(Vnet2VnetInboundM
         self.route_create(self.rx_host.ip_prefix, nhop_1)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesSingleEniTwoPortsOverlayIpv6Test(Vnet2VnetInboundMultiplePaValidatesSingleEniSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -743,8 +743,8 @@ class Vnet2VnetInboundMultiplePaValidatesSingleEniTwoPortsOverlayIpv6Test(Vnet2V
         self.route_create(self.rx_host_1.ip_prefix, nhop_1)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -784,19 +784,19 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.2.1",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.2.1',
                                                       client_vni=10)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="9.0.0.1",
-                                                      ip_prefix="9.0.0.0/24",
+                                                      ip='9.0.0.1',
+                                                      ip_prefix='9.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="192.168.3.1",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='192.168.3.1',
                                                       client_vni=30)
 
         self.rx_host_0 = self.rx_host
@@ -808,8 +808,8 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
-                                                      client_ip="192.168.4.1",
+                                                      client_mac='00:05:00:00:06:17',
+                                                      client_ip='192.168.4.1',
                                                       client_vni=20)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -833,11 +833,11 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
 
         # Inbound routing decap
         self.inbound_routing_decap_create(eni_id_0, vni=self.tx_host_2.client.vni,
-                                          sip=self.tx_host_2.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host_2.ip, sip_mask='255.255.255.0')
 
         # Inbound routing decap PA Validate
         self.inbound_routing_decap_validate_create(eni_id_0, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_0)
         # PA validation entry with Permit action
         self.pa_validation_create(self.tx_host_0.ip, src_vnet_0)
@@ -851,7 +851,7 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_validate_create(eni_id_1, vni=self.tx_host_1.client.vni,
-                                                   sip=self.tx_host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_1)
         # PA validation entry with Permit action
         self.pa_validation_create(self.tx_host_1.ip, src_vnet_1)
@@ -865,20 +865,20 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
         tx_host_2 -> rx_host_0 (ENI 0) without PA validation
         """
 
-        print("\nVerifying Inbound pkt send tx_host_0 -> rx_host_0 ...")
+        print('\nVerifying Inbound pkt send tx_host_0 -> rx_host_0 ...')
         self.verify_traffic_scenario(client=self.tx_host_0, server=self.rx_host_0,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt send tx_host_1 -> rx_host_1 ...")
+        print('\nVerifying Inbound pkt send tx_host_1 -> rx_host_1 ...')
         self.verify_traffic_scenario(client=self.tx_host_1, server=self.rx_host_1,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt send tx_host_2 -> rx_host_0 ...")
+        print('\nVerifying Inbound pkt send tx_host_2 -> rx_host_0 ...')
         self.verify_traffic_scenario(client=self.tx_host_2, server=self.rx_host_0,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
-        print("OK")
+        print('OK')
 
 
         print('\n', self.vnet2VnetInboundRoutingPositiveTest.__name__, ' OK')
@@ -891,26 +891,26 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest(VnetApiEndpoi
         tx_host_2 -> rx_host_1
         """
 
-        print("\nVerifying Inbound pkt drop tx_host_0 -> rx_host_1 ...")
+        print('\nVerifying Inbound pkt drop tx_host_0 -> rx_host_1 ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_0, server=self.rx_host_1,
                                               fake_mac=False, valid_pkt_drop=True)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt drop tx_host_1 -> rx_host_0 ...")
+        print('\nVerifying Inbound pkt drop tx_host_1 -> rx_host_0 ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_1, server=self.rx_host_0,
                                               fake_mac=False, valid_pkt_drop=True)
-        print("OK")
+        print('OK')
 
-        print("\nVerifying Inbound pkt drop tx_host_2 -> rx_host_1 ...")
+        print('\nVerifying Inbound pkt drop tx_host_2 -> rx_host_1 ...')
         self.verify_negative_traffic_scenario(client=self.tx_host_2, server=self.rx_host_1,
                                               fake_mac=False, valid_pkt_drop=True)
-        print("OK")
+        print('OK')
 
         print('\n', self.vnet2VnetInboundRoutingNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test(Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -953,19 +953,19 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test(Vn
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="cccc::30",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='cccc::30',
                                                       client_vni=10)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="9.0.0.1",
-                                                      ip_prefix="9.0.0.0/24",
+                                                      ip='9.0.0.1',
+                                                      ip_prefix='9.0.0.0/24',
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="dddd::40",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='dddd::40',
                                                       client_vni=30)
 
         self.rx_host_0 = self.rx_host
@@ -977,8 +977,8 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test(Vn
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
-                                                      client_ip="eeee::50",
+                                                      client_mac='00:05:00:00:06:17',
+                                                      client_ip='eeee::50',
                                                       client_vni=20)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -1002,11 +1002,11 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test(Vn
 
         # Inbound routing decap
         self.inbound_routing_decap_create(eni_id_0, vni=self.tx_host_2.client.vni,
-                                          sip=self.tx_host_2.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host_2.ip, sip_mask='255.255.255.0')
 
         # Inbound routing decap PA Validate
         self.inbound_routing_decap_validate_create(eni_id_0, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_0)
         # PA validation entry with Permit action
         self.pa_validation_create(self.tx_host_0.ip, src_vnet_0)
@@ -1020,14 +1020,14 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test(Vn
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_validate_create(eni_id_1, vni=self.tx_host_1.client.vni,
-                                                   sip=self.tx_host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet_1)
         # PA validation entry with Permit action
         self.pa_validation_create(self.tx_host_1.ip, src_vnet_1)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesMultipleEniTwoPortsTest(Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -1062,8 +1062,8 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniTwoPortsTest(Vnet2VnetInboun
         self.route_create(self.rx_host_1.ip_prefix, nhop_1)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundMultiplePaValidatesMultipleEniTwoPortsOverlayIpv6Test(Vnet2VnetInboundMultiplePaValidatesMultipleEniSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1099,8 +1099,8 @@ class Vnet2VnetInboundMultiplePaValidatesMultipleEniTwoPortsOverlayIpv6Test(Vnet
         self.route_create(self.rx_host_1.ip_prefix, nhop_1)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -1126,46 +1126,46 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest(VnetApiEndpoin
 
         self.tx_host_1 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.20",
+                                                      ip='10.10.1.20',
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.2.1",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.2.1',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.189",
+                                                      ip='10.10.1.189',
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="192.168.3.1",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='192.168.3.1',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_3 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.200", # for PA validate missmatch
+                                                      ip='10.10.1.200', # for PA validate missmatch
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:AA:00:23:CC:20",
-                                                      client_ip="192.168.4.1",
+                                                      client_mac='00:AA:00:23:CC:20',
+                                                      client_ip='192.168.4.1',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_4 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.2.20", # for Inbound route missmatch
+                                                      ip='10.10.2.20', # for Inbound route missmatch
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:BB:00:00:AC:A0",
-                                                      client_ip="192.168.4.1",
+                                                      client_mac='00:BB:00:00:AC:A0',
+                                                      client_ip='192.168.4.1',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -1184,7 +1184,7 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest(VnetApiEndpoin
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet)
         # PA validation entries with Permit action
         self.pa_validation_create(self.tx_host_0.ip, src_vnet)
@@ -1197,29 +1197,29 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest(VnetApiEndpoin
         Verifies correct packet routing
         """
 
-        print(f"\nPA validate {self.tx_host_0.ip} verification, expect pass")
+        print(f'\nPA validate {self.tx_host_0.ip} verification, expect pass')
         self.verify_traffic_scenario(client=self.tx_host_0, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nPA validate {self.tx_host_1.ip} verification, expect pass")
+        print(f'\nPA validate {self.tx_host_1.ip} verification, expect pass')
         self.verify_traffic_scenario(client=self.tx_host_1, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nPA validate {self.tx_host_2.ip} verification, expect pass")
+        print(f'\nPA validate {self.tx_host_2.ip} verification, expect pass')
         self.verify_traffic_scenario(client=self.tx_host_2, server=self.rx_host,
                                      connection=self.connection, fake_mac=False, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nPA validate {self.tx_host_3.ip} verification, expect drop - PA validation missmatch")
+        print(f'\nPA validate {self.tx_host_3.ip} verification, expect drop - PA validation missmatch')
         self.verify_negative_traffic_scenario(client=self.tx_host_3, server=self.rx_host,
                                               fake_mac=False, valid_pkt_drop=True)
 
-        print(f"\nPA validate {self.tx_host_4.ip} verification, expect drop - Inbound route missmatch")
+        print(f'\nPA validate {self.tx_host_4.ip} verification, expect drop - Inbound route missmatch')
         self.verify_negative_traffic_scenario(client=self.tx_host_4, server=self.rx_host,
                                               fake_mac=False, valid_pkt_drop=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortIpv6Test(Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1249,46 +1249,46 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortIpv6Test(Vnet2VnetS
 
         self.tx_host_1 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.15",
+                                                      ip='10.10.1.15',
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="cccc::40",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='cccc::40',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_2 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.100",
+                                                      ip='10.10.1.100',
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:20",
-                                                      client_ip="dddd::50",
+                                                      client_mac='00:10:00:00:AA:20',
+                                                      client_ip='dddd::50',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_3 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.1.3", # for PA validate missmatch
+                                                      ip='10.10.1.3', # for PA validate missmatch
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:AA:00:23:CC:20",
-                                                      client_ip="eeee::60",
+                                                      client_mac='00:AA:00:23:CC:20',
+                                                      client_ip='eeee::60',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.tx_host_4 = self.define_neighbor_network(port=self.tx_host_0.port,
                                                       mac=self.tx_host_0.mac,
-                                                      ip="10.10.12.20", # for Inbound route missmatch
+                                                      ip='10.10.12.20', # for Inbound route missmatch
                                                       ip_prefix=self.tx_host_0.ip_prefix,
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:BB:00:00:AC:A0",
-                                                      client_ip="2603::10",
+                                                      client_mac='00:BB:00:00:AC:A0',
+                                                      client_ip='2603::10',
                                                       client_vni=self.tx_host_0.client.vni)
 
         self.vip_create(self.tx_host_0.peer.ip)
@@ -1307,7 +1307,7 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortIpv6Test(Vnet2VnetS
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_validate_create(eni_id, vni=self.tx_host_0.client.vni,
-                                                   sip=self.tx_host_0.ip, sip_mask="255.255.255.0",
+                                                   sip=self.tx_host_0.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=src_vnet)
         # PA validation entries with Permit action
         self.pa_validation_create(self.tx_host_0.ip, src_vnet)
@@ -1315,8 +1315,8 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortIpv6Test(Vnet2VnetS
         self.pa_validation_create(self.tx_host_2.ip, src_vnet)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleInboundRouteMultiplePaValidateTwoPortsTest(Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortTest):
     """
     Inbound Vnet to Vnet scenario test case with
@@ -1333,8 +1333,8 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateTwoPortsTest(Vnet2VnetSingleI
         self.vnet2VnetInboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleInboundRouteMultiplePaValidateTwoPortsIpv6Test(Vnet2VnetSingleInboundRouteMultiplePaValidateSinglePortIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1352,8 +1352,8 @@ class Vnet2VnetSingleInboundRouteMultiplePaValidateTwoPortsIpv6Test(Vnet2VnetSin
         self.vnet2VnetInboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound Vnet to Vnet test scenario
@@ -1367,9 +1367,9 @@ class Vnet2VnetInboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficMi
         self.configure_underlay(self.tx_host, add_routes=False)
 
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
-        self.eni_set_admin_state(self.eni_id, "down")
+        self.eni_set_admin_state(self.eni_id, 'down')
         self.vnet2VnetEniDownTrafficTest()
-        self.eni_set_admin_state(self.eni_id, "up")
+        self.eni_set_admin_state(self.eni_id, 'up')
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
 
     def configureTest(self):
@@ -1392,7 +1392,7 @@ class Vnet2VnetInboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficMi
 
         # Inbound routing PA Validate
         self.inbound_routing_decap_create(self.eni_id, vni=self.tx_host.client.vni,
-                                          sip=self.tx_host.ip, sip_mask="255.255.255.0")
+                                          sip=self.tx_host.ip, sip_mask='255.255.255.0')
 
     def vnet2VnetEniUpTrafficTest(self, tx_equal_to_rx):
         """
@@ -1415,8 +1415,8 @@ class Vnet2VnetInboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficMi
         print('\n', self.vnet2VnetEniDownTrafficTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundEniSetUpDownTwoPortsTest(Vnet2VnetInboundEniSetUpDownSinglePortTest):
     """
     Inbound Vnet to Vnet test scenario
@@ -1428,14 +1428,14 @@ class Vnet2VnetInboundEniSetUpDownTwoPortsTest(Vnet2VnetInboundEniSetUpDownSingl
         self.configure_underlay(self.tx_host, self.rx_host)
 
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
-        self.eni_set_admin_state(self.eni_id, "down")
+        self.eni_set_admin_state(self.eni_id, 'down')
         self.vnet2VnetEniDownTrafficTest()
-        self.eni_set_admin_state(self.eni_id, "up")
+        self.eni_set_admin_state(self.eni_id, 'up')
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetDirectSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with Outbound routing entry
@@ -1471,10 +1471,10 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortTest(VnetApiEndpoints, VnetTraff
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
         # outbound routing
-        self.outbound_routing_vnet_direct_create(eni_id, "192.168.1.0/24", dst_vnet,
-                                                 overlay_ip="192.168.1.10")
+        self.outbound_routing_vnet_direct_create(eni_id, '192.168.1.0/24', dst_vnet,
+                                                 overlay_ip='192.168.1.10')
         self.outbound_ca_to_pa_create(dst_vnet,  # DST vnet id
-                                      "192.168.1.10",  # DST IP addr
+                                      '192.168.1.10',  # DST IP addr
                                       self.rx_host.ip,  # Underlay DIP
                                       overlay_dmac=self.rx_host.client.mac)
 
@@ -1497,9 +1497,9 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortTest(VnetApiEndpoints, VnetTraff
         - wrong CA Src MAC (does not match any ENI)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "192.168.200.200"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = '192.168.200.200'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
@@ -1509,8 +1509,8 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortTest(VnetApiEndpoints, VnetTraff
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundRouteVnetDirectSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1541,10 +1541,10 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboun
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
         # outbound routing
-        self.outbound_routing_vnet_direct_create(eni_id, "bbbb::0/64", dst_vnet,
-                                                 overlay_ip="bbbb::bc")
+        self.outbound_routing_vnet_direct_create(eni_id, 'bbbb::0/64', dst_vnet,
+                                                 overlay_ip='bbbb::bc')
         self.outbound_ca_to_pa_create(dst_vnet,  # DST vnet id
-                                      "bbbb::bc",  # DST IP addr
+                                      'bbbb::bc',  # DST IP addr
                                       self.rx_host.ip,  # Underlay DIP
                                       overlay_dmac=self.rx_host.client.mac)
 
@@ -1556,9 +1556,9 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboun
         - wrong CA Src MAC (does not match any ENI)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "dddd::dc"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = 'dddd::dc'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
@@ -1568,8 +1568,8 @@ class Vnet2VnetOutboundRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboun
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetDirectTwoPortsTest(Vnet2VnetOutboundRouteVnetDirectSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with Outbound routing entry
@@ -1585,8 +1585,8 @@ class Vnet2VnetOutboundRouteVnetDirectTwoPortsTest(Vnet2VnetOutboundRouteVnetDir
         self.vnet2VnetOutboundNegativeTest()
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetDirectTwoPortsOverlayIpv6Test(Vnet2VnetOutboundRouteVnetDirectSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1602,8 +1602,8 @@ class Vnet2VnetOutboundRouteVnetDirectTwoPortsOverlayIpv6Test(Vnet2VnetOutboundR
         self.vnet2VnetOutboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with outbound routing entry
@@ -1639,7 +1639,7 @@ class Vnet2VnetOutboundRouteVnetSinglePortTest(VnetApiEndpoints, VnetTrafficMixi
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host.client.ip,
@@ -1668,24 +1668,24 @@ class Vnet2VnetOutboundRouteVnetSinglePortTest(VnetApiEndpoints, VnetTrafficMixi
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "192.168.200.200"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = '192.168.200.200'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "192.168.1.200"
+        wrong_inner_dst_ip = '192.168.1.200'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_inner_dst_ip=wrong_inner_dst_ip)
 
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutboundRouteVnetSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1715,7 +1715,7 @@ class Vnet2VnetOutboundRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutboundRoute
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='bbbb::0/64',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host.client.ip,
@@ -1732,16 +1732,16 @@ class Vnet2VnetOutboundRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutboundRoute
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "dddd::dc"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = 'dddd::dc'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "bbbb::dc"
+        wrong_inner_dst_ip = 'bbbb::dc'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip)
@@ -1749,8 +1749,8 @@ class Vnet2VnetOutboundRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutboundRoute
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetTwoPortsTest(Vnet2VnetOutboundRouteVnetSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with outbound routing entry
@@ -1766,8 +1766,8 @@ class Vnet2VnetOutboundRouteVnetTwoPortsTest(Vnet2VnetOutboundRouteVnetSinglePor
         self.vnet2VnetOutboundNegativeTest()
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteVnetTwoPortsOverlayIpv6Test(Vnet2VnetOutboundRouteVnetSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1783,8 +1783,8 @@ class Vnet2VnetOutboundRouteVnetTwoPortsOverlayIpv6Test(Vnet2VnetOutboundRouteVn
         self.vnet2VnetOutboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario
@@ -1798,9 +1798,9 @@ class Vnet2VnetOutboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficM
         self.configure_underlay(self.tx_host, add_routes=False)
 
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
-        self.eni_set_admin_state(self.eni_id, "down")
+        self.eni_set_admin_state(self.eni_id, 'down')
         self.vnet2VnetEniDownTrafficTest()
-        self.eni_set_admin_state(self.eni_id, "up")
+        self.eni_set_admin_state(self.eni_id, 'up')
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
 
     def configureTest(self):
@@ -1822,7 +1822,7 @@ class Vnet2VnetOutboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficM
                                       vnet_id=src_vnet)
         self.eni_mac_map_create(self.eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=self.eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=self.eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host.client.ip,
@@ -1851,8 +1851,8 @@ class Vnet2VnetOutboundEniSetUpDownSinglePortTest(VnetApiEndpoints, VnetTrafficM
         print('\n', self.vnet2VnetEniDownTrafficTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundEniSetUpDownTwoPortsTest(Vnet2VnetOutboundEniSetUpDownSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario
@@ -1864,14 +1864,14 @@ class Vnet2VnetOutboundEniSetUpDownTwoPortsTest(Vnet2VnetOutboundEniSetUpDownSin
         self.configure_underlay(self.tx_host, self.rx_host)
 
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
-        self.eni_set_admin_state(self.eni_id, "down")
+        self.eni_set_admin_state(self.eni_id, 'down')
         self.vnet2VnetEniDownTrafficTest()
-        self.eni_set_admin_state(self.eni_id, "up")
+        self.eni_set_admin_state(self.eni_id, 'up')
         self.vnet2VnetEniUpTrafficTest(tx_equal_to_rx=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteDirectSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with Outbound routing entry
@@ -1907,7 +1907,7 @@ class Vnet2VnetOutboundRouteDirectSinglePortTest(VnetApiEndpoints, VnetTrafficMi
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)
 
         # outbound routing
-        self.outbound_routing_direct_create(eni_id, "192.168.1.0/24")
+        self.outbound_routing_direct_create(eni_id, '192.168.1.0/24')
 
     def outboundRouteDirectTest(self, tx_equal_to_rx):
 
@@ -1925,16 +1925,16 @@ class Vnet2VnetOutboundRouteDirectSinglePortTest(VnetApiEndpoints, VnetTrafficMi
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "192.168.200.200"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = '192.168.200.200'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "192.168.1.200"
+        wrong_inner_dst_ip = '192.168.1.200'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip)
@@ -1942,8 +1942,8 @@ class Vnet2VnetOutboundRouteDirectSinglePortTest(VnetApiEndpoints, VnetTrafficMi
         print('\n', self.outboundRouteDirectNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundRouteDirectSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -1975,7 +1975,7 @@ class Vnet2VnetOutboundRouteDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundRou
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)
 
         # outbound routing
-        self.outbound_routing_direct_create(eni_id, "bbbb::0/64")
+        self.outbound_routing_direct_create(eni_id, 'bbbb::0/64')
 
     def outboundRouteDirectNegativeTest(self):
         """
@@ -1986,16 +1986,16 @@ class Vnet2VnetOutboundRouteDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundRou
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "dddd::dc"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = 'dddd::dc'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "bbbb::dc"
+        wrong_inner_dst_ip = 'bbbb::dc'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip)
@@ -2003,8 +2003,8 @@ class Vnet2VnetOutboundRouteDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundRou
         print('\n', self.outboundRouteDirectNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteDirectTwoPortsTest(Vnet2VnetOutboundRouteDirectSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with Outbound routing entry
@@ -2019,8 +2019,8 @@ class Vnet2VnetOutboundRouteDirectTwoPortsTest(Vnet2VnetOutboundRouteDirectSingl
         self.outboundRouteDirectTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundRouteDirectTwoPortsOverlayIpv6Test(Vnet2VnetOutboundRouteDirectSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2036,8 +2036,8 @@ class Vnet2VnetOutboundRouteDirectTwoPortsOverlayIpv6Test(Vnet2VnetOutboundRoute
         self.outboundRouteDirectTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with outbound routing entry
@@ -2068,8 +2068,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.1.17",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.1.17',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.rx_host_2 = self.define_neighbor_network(port=self.rx_host_0.port,
@@ -2079,8 +2079,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:08:18",
-                                                      client_ip="192.168.1.199",
+                                                      client_mac='00:05:00:00:08:18',
+                                                      client_ip='192.168.1.199',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.rx_host_3 = self.define_neighbor_network(port=self.rx_host_0.port,
@@ -2090,8 +2090,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:E1",
-                                                      client_ip="192.168.1.77",
+                                                      client_mac='00:10:00:00:AA:E1',
+                                                      client_ip='192.168.1.77',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.vip_create(self.tx_host.peer.ip)
@@ -2107,7 +2107,7 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host_0.client.ip,
@@ -2136,19 +2136,19 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
         Verifies correct packet routing
         """
 
-        print(f"\nVerify outbound route to CA {self.rx_host_0.client.ip}, expect pass")
+        print(f'\nVerify outbound route to CA {self.rx_host_0.client.ip}, expect pass')
         self.verify_traffic_scenario(client=self.tx_host, server=self.rx_host_0,
                                      connection=self.connection, fake_mac=True, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nVerify outbound route to CA {self.rx_host_1.client.ip}, expect pass")
+        print(f'\nVerify outbound route to CA {self.rx_host_1.client.ip}, expect pass')
         self.verify_traffic_scenario(client=self.tx_host, server=self.rx_host_1,
                                      connection=self.connection, fake_mac=True, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nVerify outbound route to CA {self.rx_host_2.client.ip}, expect pass")
+        print(f'\nVerify outbound route to CA {self.rx_host_2.client.ip}, expect pass')
         self.verify_traffic_scenario(client=self.tx_host, server=self.rx_host_2,
                                      connection=self.connection, fake_mac=True, tx_equal_to_rx=tx_equal_to_rx)
 
-        print(f"\nVerify outbound route to CA {self.rx_host_3.client.ip} and use_dst_vnet=False, expect pass")
+        print(f'\nVerify outbound route to CA {self.rx_host_3.client.ip} and use_dst_vnet=False, expect pass')
         self.rx_host_3.client.vni = self.tx_host.client.vni
         self.verify_traffic_scenario(client=self.tx_host, server=self.rx_host_3,
                                      connection=self.connection, fake_mac=True, tx_equal_to_rx=tx_equal_to_rx)
@@ -2164,24 +2164,24 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest(VnetApiEndpoints, 
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "192.168.200.200"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = '192.168.200.200'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "192.168.1.200"
+        wrong_inner_dst_ip = '192.168.1.200'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_inner_dst_ip=wrong_inner_dst_ip)
 
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6
@@ -2207,8 +2207,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingl
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="bbbb:0000:0000:0000:1234::00",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='bbbb:0000:0000:0000:1234::00',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.rx_host_2 = self.define_neighbor_network(port=self.rx_host_0.port,
@@ -2218,8 +2218,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingl
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:08:18",
-                                                      client_ip="bbbb:0000:0000:0000:0000:ab12::00",
+                                                      client_mac='00:05:00:00:08:18',
+                                                      client_ip='bbbb:0000:0000:0000:0000:ab12::00',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.rx_host_3 = self.define_neighbor_network(port=self.rx_host_0.port,
@@ -2229,8 +2229,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingl
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:10:00:00:AA:E1",
-                                                      client_ip="bbbb::40",
+                                                      client_mac='00:10:00:00:AA:E1',
+                                                      client_ip='bbbb::40',
                                                       client_vni=self.rx_host_0.client.vni)
 
         self.vip_create(self.tx_host.peer.ip)
@@ -2246,7 +2246,7 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingl
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='bbbb::0/64',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host_0.client.ip,
@@ -2278,24 +2278,24 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test(Vnet2VnetSingl
         - mapping drop (CA Dst IP matches routing entry prefix but drops by ca_to_pa)
         """
 
-        invalid_vip = "10.10.10.10"
-        wrong_inner_dst_ip = "bbbb:0000:0000:1111::00"
-        wrong_inner_src_ca_mac = "00:aa:00:aa:00:aa"
+        invalid_vip = '10.10.10.10'
+        wrong_inner_dst_ip = 'bbbb:0000:0000:1111::00'
+        wrong_inner_src_ca_mac = '00:aa:00:aa:00:aa'
 
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_vip=invalid_vip,
                                               invalid_inner_dst_ip=wrong_inner_dst_ip,
                                               invalid_inner_src_mac=wrong_inner_src_ca_mac)
 
-        wrong_inner_dst_ip = "bbbb::33"
+        wrong_inner_dst_ip = 'bbbb::33'
         self.verify_negative_traffic_scenario(client=self.tx_host, server=self.rx_host,
                                               fake_mac=True, invalid_inner_dst_ip=wrong_inner_dst_ip)
 
         print('\n', self.vnet2VnetOutboundNegativeTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleOutboundRouteMultipleCa2PaTwoPortsTest(Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with outbound routing entry
@@ -2310,8 +2310,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaTwoPortsTest(Vnet2VnetSingleOutbo
         self.vnet2VnetOutboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetSingleOutboundRouteMultipleCa2PaTwoPortsIpv6Test(Vnet2VnetSingleOutboundRouteMultipleCa2PaSinglePortIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6
@@ -2327,8 +2327,8 @@ class Vnet2VnetSingleOutboundRouteMultipleCa2PaTwoPortsIpv6Test(Vnet2VnetSingleO
         self.vnet2VnetOutboundRoutingTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario that verifies
@@ -2359,8 +2359,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest(VnetApiEndpoints, VnetTr
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.2.1",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.2.1',
                                                       client_vni=3)
 
         # Overlay routing
@@ -2381,7 +2381,7 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest(VnetApiEndpoints, VnetTr
 
         # Outbound routing and CA to PA entries creation
         #  for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet_0)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
                                       dip=self.rx_host_0.client.ip,
@@ -2390,7 +2390,7 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest(VnetApiEndpoints, VnetTr
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.2.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.2.0/24',
                                           dst_vnet_id=dst_vnet_1)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
                                       dip=self.rx_host_1.client.ip,
@@ -2416,8 +2416,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest(VnetApiEndpoints, VnetTr
         print('\n', self.vnet2VnetOutboundDstVnetIdFalseTest.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2444,8 +2444,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutb
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="cccc::30",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='cccc::30',
                                                       client_vni=3)
 
         # Overlay routing
@@ -2466,7 +2466,7 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutb
 
         # Outbound routing and CA to PA entries creation
         #  for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='bbbb::0/64',
                                           dst_vnet_id=dst_vnet_0)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
                                       dip=self.rx_host_0.client.ip,
@@ -2475,7 +2475,7 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutb
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="cccc::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='cccc::0/64',
                                           dst_vnet_id=dst_vnet_1)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
                                       dip=self.rx_host_1.client.ip,
@@ -2484,8 +2484,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test(Vnet2VnetOutb
                                       use_dst_vnet_vni=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetTwoPortsTest(Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario that verifies
@@ -2502,8 +2502,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetTwoPortsTest(Vnet2VnetOutboundDstVnetId
         self.vnet2VnetOutboundDstVnetIdFalseTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetTwoPortsOverlayIpv6Test(Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2521,8 +2521,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetTwoPortsOverlayIpv6Test(Vnet2VnetOutbou
         self.vnet2VnetOutboundDstVnetIdFalseTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortTest(Vnet2VnetOutboundDstVnetIdRouteVnetSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario that verifies
@@ -2553,8 +2553,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortTest(Vnet2VnetOutboundD
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="192.168.2.1",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='192.168.2.1',
                                                       client_vni=3)
 
         # Overlay routing
@@ -2575,28 +2575,28 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortTest(Vnet2VnetOutboundD
 
         # Outbound routing and CA to PA entries creation
         #  for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                                  dst_vnet_id=dst_vnet_0,
-                                                 overlay_ip="192.168.1.111")
+                                                 overlay_ip='192.168.1.111')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
-                                      dip="192.168.1.111",
+                                      dip='192.168.1.111',
                                       underlay_dip=self.rx_host_0.ip,
                                       overlay_dmac=self.rx_host.client.mac,
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm="192.168.2.0/24",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm='192.168.2.0/24',
                                                  dst_vnet_id=dst_vnet_1,
-                                                 overlay_ip="192.168.2.222")
+                                                 overlay_ip='192.168.2.222')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
-                                      dip="192.168.2.222",
+                                      dip='192.168.2.222',
                                       underlay_dip=self.rx_host_1.ip,
                                       overlay_dmac=self.rx_host_1.client.mac,
                                       use_dst_vnet_vni=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2623,8 +2623,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2Vn
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
-                                                      client_ip="cccc::30",
+                                                      client_mac='00:03:00:00:05:16',
+                                                      client_ip='cccc::30',
                                                       client_vni=3)
 
         # Overlay routing
@@ -2645,28 +2645,28 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortOverlayIpv6Test(Vnet2Vn
 
         # Outbound routing and CA to PA entries creation
         #  for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm='bbbb::0/64',
                                                  dst_vnet_id=dst_vnet_0,
-                                                 overlay_ip="bbbb::bc")
+                                                 overlay_ip='bbbb::bc')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
-                                      dip="bbbb::bc",
+                                      dip='bbbb::bc',
                                       underlay_dip=self.rx_host_0.ip,
                                       overlay_dmac=self.rx_host.client.mac,
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm="cccc::0/64",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id, lpm='cccc::0/64',
                                                  dst_vnet_id=dst_vnet_1,
-                                                 overlay_ip="cccc::bc")
+                                                 overlay_ip='cccc::bc')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
-                                      dip="cccc::bc",
+                                      dip='cccc::bc',
                                       underlay_dip=self.rx_host_1.ip,
                                       overlay_dmac=self.rx_host_1.client.mac,
                                       use_dst_vnet_vni=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetDirectTwoPortsTest(Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario that verifies
@@ -2683,8 +2683,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectTwoPortsTest(Vnet2VnetOutboundDst
         self.vnet2VnetOutboundDstVnetIdFalseTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundDstVnetIdRouteVnetDirectTwoPortstOverlayIpv6Test(Vnet2VnetOutboundDstVnetIdRouteVnetDirectSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2702,8 +2702,8 @@ class Vnet2VnetOutboundDstVnetIdRouteVnetDirectTwoPortstOverlayIpv6Test(Vnet2Vne
         self.vnet2VnetOutboundDstVnetIdFalseTest(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Inbound and Outbound Vnet to Vnet test scenario
@@ -2739,8 +2739,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, Vn
                                                    peer_port=self.host_0.peer.port,
                                                    peer_mac=self.host_0.peer.mac,
                                                    peer_ip=self.host_0.peer.ip,
-                                                   client_mac="00:03:00:00:05:16",
-                                                   client_ip="192.168.2.1",
+                                                   client_mac='00:03:00:00:05:16',
+                                                   client_ip='192.168.2.1',
                                                    client_vni=10)
         self.host_2 = self.rx_host
 
@@ -2751,8 +2751,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, Vn
                                                    peer_port=self.host_2.peer.port,
                                                    peer_mac=self.host_2.peer.mac,
                                                    peer_ip=self.host_2.peer.ip,
-                                                   client_mac="00:04:00:00:06:17",
-                                                   client_ip="192.168.3.1",
+                                                   client_mac='00:04:00:00:06:17',
+                                                   client_ip='192.168.3.1',
                                                    client_vni=20)
         # Overlay routing
         self.vip_create(self.host_0.peer.ip)  # Appliance VIP
@@ -2781,12 +2781,12 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, Vn
 
         # ENI 0 inbound/outbound routing
         self.inbound_routing_decap_validate_create(eni_id=eni_id_0, vni=self.host_2.client.vni,
-                                                   sip=self.host_2.ip, sip_mask="255.255.255.0",
+                                                   sip=self.host_2.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=host_2_vnet)
         self.pa_validation_create(sip=self.host_2.ip,
                                   vnet_id=host_2_vnet)
 
-        self.outbound_routing_vnet_create(eni_id_0, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id_0, lpm='192.168.1.0/24',
                                           dst_vnet_id=host_2_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=host_2_vnet,
                                       dip=self.host_2.client.ip,
@@ -2795,12 +2795,12 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, Vn
 
         # ENI 3 inbound/outbound routing
         self.inbound_routing_decap_validate_create(eni_id=eni_id_3, vni=self.host_1.client.vni,
-                                                   sip=self.host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=host_1_vnet)
         self.pa_validation_create(sip=self.host_1.ip,
                                   vnet_id=host_1_vnet)
 
-        self.outbound_routing_vnet_create(eni_id_3, lpm="192.168.2.0/24",
+        self.outbound_routing_vnet_create(eni_id_3, lpm='192.168.2.0/24',
                                           dst_vnet_id=host_1_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=host_1_vnet,
                                       dip=self.host_1.client.ip,
@@ -2848,8 +2848,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest(VnetApiEndpoints, Vn
         print('\n', self.inboundHost1toHost3Test.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2875,8 +2875,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2Vnet
                                                    peer_port=self.host_0.peer.port,
                                                    peer_mac=self.host_0.peer.mac,
                                                    peer_ip=self.host_0.peer.ip,
-                                                   client_mac="00:03:00:00:05:16",
-                                                   client_ip="cccc::30",
+                                                   client_mac='00:03:00:00:05:16',
+                                                   client_ip='cccc::30',
                                                    client_vni=10)
         self.host_2 = self.rx_host
 
@@ -2887,8 +2887,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2Vnet
                                                    peer_port=self.host_2.peer.port,
                                                    peer_mac=self.host_2.peer.mac,
                                                    peer_ip=self.host_2.peer.ip,
-                                                   client_mac="00:04:00:00:06:17",
-                                                   client_ip="dddd::40",
+                                                   client_mac='00:04:00:00:06:17',
+                                                   client_ip='dddd::40',
                                                    client_vni=20)
         # Overlay routing
         self.vip_create(self.host_0.peer.ip)  # Appliance VIP
@@ -2917,12 +2917,12 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2Vnet
 
         # ENI 0 inbound/outbound routing
         self.inbound_routing_decap_validate_create(eni_id=eni_id_0, vni=self.host_2.client.vni,
-                                                   sip=self.host_2.ip, sip_mask="255.255.255.0",
+                                                   sip=self.host_2.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=host_2_vnet)
         self.pa_validation_create(sip=self.host_2.ip,
                                   vnet_id=host_2_vnet)
 
-        self.outbound_routing_vnet_create(eni_id_0, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id_0, lpm='bbbb::0/64',
                                           dst_vnet_id=host_2_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=host_2_vnet,
                                       dip=self.host_2.client.ip,
@@ -2931,12 +2931,12 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2Vnet
 
         # ENI 3 inbound/outbound routing
         self.inbound_routing_decap_validate_create(eni_id=eni_id_3, vni=self.host_1.client.vni,
-                                                   sip=self.host_1.ip, sip_mask="255.255.255.0",
+                                                   sip=self.host_1.ip, sip_mask='255.255.255.0',
                                                    src_vnet_id=host_1_vnet)
         self.pa_validation_create(sip=self.host_1.ip,
                                   vnet_id=host_1_vnet)
 
-        self.outbound_routing_vnet_create(eni_id_3, lpm="cccc::0/64",
+        self.outbound_routing_vnet_create(eni_id_3, lpm='cccc::0/64',
                                           dst_vnet_id=host_1_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=host_1_vnet,
                                       dip=self.host_1.client.ip,
@@ -2944,8 +2944,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test(Vnet2Vnet
                                       overlay_dmac=self.host_1.client.mac)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundOutboundMultipleConfigsTwoPortsTest(Vnet2VnetInboundOutboundMultipleConfigsSinglePortTest):
     """
     Inbound and Outbound Vnet to Vnet test scenario
@@ -2965,8 +2965,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsTwoPortsTest(Vnet2VnetInboundOutbou
         self.inboundHost1toHost3Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetInboundOutboundMultipleConfigsTwoPortsOverlayIpv6Test(Vnet2VnetInboundOutboundMultipleConfigsSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -2987,8 +2987,8 @@ class Vnet2VnetInboundOutboundMultipleConfigsTwoPortsOverlayIpv6Test(Vnet2VnetIn
         self.inboundHost1toHost3Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario when multiple ENI and
@@ -3024,7 +3024,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
+                                                      client_mac='00:03:00:00:05:16',
                                                       client_ip=self.tx_host_0.client.ip,
                                                       client_vni=10)
 
@@ -3035,7 +3035,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:04:00:00:06:17",
+                                                      client_mac='00:04:00:00:06:17',
                                                       client_ip=self.tx_host_0.client.ip,
                                                       client_vni=100)
 
@@ -3048,7 +3048,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
+                                                      client_mac='00:05:00:00:06:17',
                                                       client_ip=self.rx_host.client.ip,
                                                       client_vni=20)
 
@@ -3059,7 +3059,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:06:00:00:07:18",
+                                                      client_mac='00:06:00:00:07:18',
                                                       client_ip=self.rx_host.client.ip,
                                                       client_vni=200)
 
@@ -3099,7 +3099,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
 
         # Outbound routing and CA to PA entries creation
         #  for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_create(eni_id=eni_id_0, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id_0, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet_0)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
                                       dip=self.rx_host_0.client.ip,
@@ -3108,7 +3108,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_create(eni_id=eni_id_1, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id_1, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet_1)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
                                       dip=self.rx_host_1.client.ip,
@@ -3116,11 +3116,11 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
                                       overlay_dmac=self.rx_host_1.client.mac,
                                       use_dst_vnet_vni=False)
 
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id_2, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id_2, lpm='192.168.1.0/24',
                                                  dst_vnet_id=dst_vnet_2,
-                                                 overlay_ip="192.168.1.111")
+                                                 overlay_ip='192.168.1.111')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_2,
-                                      dip="192.168.1.111",
+                                      dip='192.168.1.111',
                                       underlay_dip=self.rx_host_2.ip,
                                       overlay_dmac=self.rx_host_2.client.mac,
                                       use_dst_vnet_vni=True)
@@ -3159,8 +3159,8 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest(VnetApiEndpoints, V
         print('\n', self.outboundEni2Test.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -3191,7 +3191,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:03:00:00:05:16",
+                                                      client_mac='00:03:00:00:05:16',
                                                       client_ip=self.tx_host_0.client.ip,
                                                       client_vni=10)
 
@@ -3202,7 +3202,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                                       peer_port=self.tx_host_0.peer.port,
                                                       peer_mac=self.tx_host_0.peer.mac,
                                                       peer_ip=self.tx_host_0.peer.ip,
-                                                      client_mac="00:04:00:00:06:17",
+                                                      client_mac='00:04:00:00:06:17',
                                                       client_ip=self.tx_host_0.client.ip,
                                                       client_vni=100)
 
@@ -3215,7 +3215,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
+                                                      client_mac='00:05:00:00:06:17',
                                                       client_ip=self.rx_host.client.ip,
                                                       client_vni=20)
 
@@ -3226,7 +3226,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:06:00:00:07:18",
+                                                      client_mac='00:06:00:00:07:18',
                                                       client_ip=self.rx_host.client.ip,
                                                       client_vni=200)
 
@@ -3266,7 +3266,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
 
         # Outbound routing and CA to PA entries creation
         # for use_dst_vnet_vni=True
-        self.outbound_routing_vnet_create(eni_id=eni_id_0, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id_0, lpm='bbbb::0/64',
                                           dst_vnet_id=dst_vnet_0)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_0,
                                       dip=self.rx_host_0.client.ip,
@@ -3275,7 +3275,7 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                       use_dst_vnet_vni=True)
 
         # for use_dst_vnet_vni=False
-        self.outbound_routing_vnet_create(eni_id=eni_id_1, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_create(eni_id=eni_id_1, lpm='bbbb::0/64',
                                           dst_vnet_id=dst_vnet_1)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_1,
                                       dip=self.rx_host_1.client.ip,
@@ -3283,18 +3283,18 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test(Vnet2Vne
                                       overlay_dmac=self.rx_host_1.client.mac,
                                       use_dst_vnet_vni=False)
 
-        self.outbound_routing_vnet_direct_create(eni_id=eni_id_2, lpm="bbbb::0/64",
+        self.outbound_routing_vnet_direct_create(eni_id=eni_id_2, lpm='bbbb::0/64',
                                                  dst_vnet_id=dst_vnet_2,
-                                                 overlay_ip="bbbb::bc")
+                                                 overlay_ip='bbbb::bc')
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet_2,
-                                      dip="bbbb::bc",
+                                      dip='bbbb::bc',
                                       underlay_dip=self.rx_host_2.ip,
                                       overlay_dmac=self.rx_host_2.client.mac,
                                       use_dst_vnet_vni=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundMultipleEniSameIpPrefixTwoPortsTest(Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario when multiple ENI and
@@ -3311,8 +3311,8 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixTwoPortsTest(Vnet2VnetOutboundMult
         self.outboundEni2Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundMultipleEniSameIpPrefixTwoPortsOverlayIpv6Test(Vnet2VnetOutboundMultipleEniSameIpPrefixSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -3330,8 +3330,8 @@ class Vnet2VnetOutboundMultipleEniSameIpPrefixTwoPortsOverlayIpv6Test(Vnet2VnetO
         self.outboundEni2Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with single ENI and
@@ -3359,19 +3359,19 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest(VnetApiEndpoints,
         """
 
         # Update VIP
-        self.tx_host.peer.ip = "12.1.1.1"
-        self.rx_host.peer.ip = "12.1.1.1"
+        self.tx_host.peer.ip = '12.1.1.1'
+        self.rx_host.peer.ip = '12.1.1.1'
 
         # Update some network parameters for ip prefixes overlapping
-        self.tx_host.ip = "192.168.0.1"
-        self.tx_host.ip_prefix = "192.168.0.0/24"
-        self.tx_host.client.ip = "9.0.0.1"
+        self.tx_host.ip = '192.168.0.1'
+        self.tx_host.ip_prefix = '192.168.0.0/24'
+        self.tx_host.client.ip = '9.0.0.1'
 
         self.rx_host_0 = self.rx_host
-        self.rx_host_0.ip = "192.168.1.1"
-        self.rx_host_0.ip_prefix = "192.168.1.0/24"
-        self.rx_host_0.client.ip = "10.5.4.4"
-        rx_host_0_client_ip_prefix = "10.0.0.0/8"
+        self.rx_host_0.ip = '192.168.1.1'
+        self.rx_host_0.ip_prefix = '192.168.1.0/24'
+        self.rx_host_0.client.ip = '10.5.4.4'
+        rx_host_0_client_ip_prefix = '10.0.0.0/8'
 
         self.rx_host_1 = self.define_neighbor_network(port=self.rx_host_0.port,
                                                       mac=self.rx_host_0.mac,
@@ -3380,10 +3380,10 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest(VnetApiEndpoints,
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
-                                                      client_ip="10.0.1.2",
+                                                      client_mac='00:05:00:00:06:17',
+                                                      client_ip='10.0.1.2',
                                                       client_vni=20)
-        rx_host_1_client_ip_prefix = "10.0.1.0/24"
+        rx_host_1_client_ip_prefix = '10.0.1.0/24'
 
         self.rx_host_2 = self.define_neighbor_network(port=self.rx_host_0.port,
                                                       mac=self.rx_host_0.mac,
@@ -3392,10 +3392,10 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest(VnetApiEndpoints,
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:06:00:00:07:18",
-                                                      client_ip="10.1.1.1",
+                                                      client_mac='00:06:00:00:07:18',
+                                                      client_ip='10.1.1.1',
                                                       client_vni=200)
-        rx_host_2_client_ip_prefix = "10.1.1.1/32"
+        rx_host_2_client_ip_prefix = '10.1.1.1/32'
 
         # Overlay routing
         self.vip_create(self.tx_host.peer.ip)  # Appliance VIP
@@ -3488,8 +3488,8 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest(VnetApiEndpoints,
         print('\n', self.singleEniToOutboundVm3Test.__name__, ' OK')
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test(Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -3511,14 +3511,14 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test(Vnet2V
         """
 
         # Update some network parameters for ip prefixes overlapping
-        self.tx_host.ip = "192.168.0.1"
-        self.tx_host.ip_prefix = "192.168.0.0/24"
+        self.tx_host.ip = '192.168.0.1'
+        self.tx_host.ip_prefix = '192.168.0.0/24'
 
         self.rx_host_0 = self.rx_host
-        self.rx_host_0.ip = "192.168.1.1"
-        self.rx_host_0.ip_prefix = "192.168.1.0/24"
-        self.rx_host_0.client.ip = "2001:db8:cad::1"
-        rx_host_0_client_ip_prefix = "2001:db8:cad::0/48"
+        self.rx_host_0.ip = '192.168.1.1'
+        self.rx_host_0.ip_prefix = '192.168.1.0/24'
+        self.rx_host_0.client.ip = '2001:db8:cad::1'
+        rx_host_0_client_ip_prefix = '2001:db8:cad::0/48'
 
         self.rx_host_1 = self.define_neighbor_network(port=self.rx_host_0.port,
                                                       mac=self.rx_host_0.mac,
@@ -3527,10 +3527,10 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test(Vnet2V
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:05:00:00:06:17",
-                                                      client_ip="2001:db8:cad:800::1",
+                                                      client_mac='00:05:00:00:06:17',
+                                                      client_ip='2001:db8:cad:800::1',
                                                       client_vni=20)
-        rx_host_1_client_ip_prefix = "2001:db8:cad:800::0/53"
+        rx_host_1_client_ip_prefix = '2001:db8:cad:800::0/53'
 
         self.rx_host_2 = self.define_neighbor_network(port=self.rx_host_0.port,
                                                       mac=self.rx_host_0.mac,
@@ -3539,10 +3539,10 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test(Vnet2V
                                                       peer_port=self.rx_host_0.peer.port,
                                                       peer_mac=self.rx_host_0.peer.mac,
                                                       peer_ip=self.rx_host_0.peer.ip,
-                                                      client_mac="00:06:00:00:07:18",
-                                                      client_ip="2001:db8:cad:810::1",
+                                                      client_mac='00:06:00:00:07:18',
+                                                      client_ip='2001:db8:cad:810::1',
                                                       client_vni=200)
-        rx_host_2_client_ip_prefix = "2001:db8:cad:810::0/62"
+        rx_host_2_client_ip_prefix = '2001:db8:cad:810::0/62'
 
         # Overlay routing
         self.vip_create(self.tx_host.peer.ip)  # Appliance VIP
@@ -3590,8 +3590,8 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test(Vnet2V
                                       use_dst_vnet_vni=True)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSingleEniMultipleIpPrefixTwoPortsTest(Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with single ENI and
@@ -3608,8 +3608,8 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixTwoPortsTest(Vnet2VnetOutboundSi
         self.singleEniToOutboundVm3Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSingleEniMultipleIpPrefixTwoPortsOverlayIpv6Test(Vnet2VnetOutboundSingleEniMultipleIpPrefixSinglePortOverlayIpv6Test):
     """
     Underlay IPv4 and Overlay IPv6 configs
@@ -3627,8 +3627,8 @@ class Vnet2VnetOutboundSingleEniMultipleIpPrefixTwoPortsOverlayIpv6Test(Vnet2Vne
         self.singleEniToOutboundVm3Test(tx_equal_to_rx=False)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSameCaPaIpPrefixesSinglePortTest(VnetApiEndpoints, VnetTrafficMixin):
     """
     Outbound Vnet to Vnet test scenario with the same
@@ -3649,10 +3649,10 @@ class Vnet2VnetOutboundSameCaPaIpPrefixesSinglePortTest(VnetApiEndpoints, VnetTr
 
         # Update network parameters with the same provider and client ip addresses
         self.tx_host.ip = self.tx_host.client.ip  # 192.168.0.1
-        self.tx_host.ip_prefix = "192.168.0.0/24"
+        self.tx_host.ip_prefix = '192.168.0.0/24'
 
         self.rx_host.ip = self.rx_host.client.ip  # 192.168.1.1
-        self.rx_host.ip_prefix = "192.168.1.0/24"
+        self.rx_host.ip_prefix = '192.168.1.0/24'
 
         # Configure overlay routing
         self.vip_create(self.tx_host.peer.ip)
@@ -3669,7 +3669,7 @@ class Vnet2VnetOutboundSameCaPaIpPrefixesSinglePortTest(VnetApiEndpoints, VnetTr
                                  vnet_id=src_vnet)
         self.eni_mac_map_create(eni_id, self.tx_host.client.mac)  # ENI MAC
 
-        self.outbound_routing_vnet_create(eni_id=eni_id, lpm="192.168.1.0/24",
+        self.outbound_routing_vnet_create(eni_id=eni_id, lpm='192.168.1.0/24',
                                           dst_vnet_id=dst_vnet)
         self.outbound_ca_to_pa_create(dst_vnet_id=dst_vnet,
                                       dip=self.rx_host.client.ip,
@@ -3692,8 +3692,8 @@ class Vnet2VnetOutboundSameCaPaIpPrefixesSinglePortTest(VnetApiEndpoints, VnetTr
                                      tx_equal_to_rx=tx_equal_to_rx)
 
 
-@group("draft")
-@skipIf(test_param_get('target') == 'bmv2', "Blocked on BMv2 by Issue #236")
+@group('draft')
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked on BMv2 by Issue #236')
 class Vnet2VnetOutboundSameCaPaIpPrefixesTwoPortsTest(Vnet2VnetOutboundSameCaPaIpPrefixesSinglePortTest):
     """
     Outbound Vnet to Vnet test scenario with the same

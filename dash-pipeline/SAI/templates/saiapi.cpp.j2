@@ -142,14 +142,14 @@ sai_status_t sai_create_{{ table.name }}(
     expectedParams = {{ action.params|length }};
     {% endfor %}
     {% else %}
-    // Search the action 
+    // Search the action
     for (uint32_t i = 0; i < attr_count; i++) {
         if (SAI_{{ table.name | upper }}_ATTR_ACTION == attr_list[i].id)
         {
             switch(attr_list[i].value.s32) {
                 {% for action in table.actions %}
                 case SAI_{{ table.name | upper }}_ACTION_{{ action.name | upper }}: {
-                    actionId = {{action.id}}; 
+                    actionId = {{action.id}};
                     expectedParams = {{ action.params|length }};
                     break;
                 }
@@ -184,8 +184,8 @@ sai_status_t sai_create_{{ table.name }}(
             {% endfor %}
         }
     }
-    
-    assert((matchedParams == expectedParams)); 
+
+    assert((matchedParams == expectedParams));
 
     if (matchedParams != expectedParams) {
         goto ErrRet;
@@ -276,7 +276,7 @@ sai_status_t sai_get_{{ table.name }}_attribute(
 sai_status_t sai_create_{{ table.name }}(
         _In_ const sai_{{ table.name }}_t *{{ table.name }},
         _In_ uint32_t attr_count,
-        _In_ const sai_attribute_t *attr_list) { 
+        _In_ const sai_attribute_t *attr_list) {
     p4::v1::TableEntry * matchActionEntry = new p4::v1::TableEntry();
     pi_p4_id_t tableId = {{table.id}};
     matchActionEntry->set_table_id(tableId);
@@ -330,12 +330,12 @@ sai_status_t sai_create_{{ table.name }}(
     expectedParams = {{ action.params|length }};
     {% endfor %}
     {% else %}
-    // Search the action 
+    // Search the action
     for (uint32_t i = 0; i < attr_count; i++) {
         switch(attr_list[i].value.s32) {
             {% for action in table.actions %}
             case SAI_{{ table.name | upper }}_ACTION_{{ action.name | upper }}: {
-                actionId = {{action.id}}; 
+                actionId = {{action.id}};
                 expectedParams = {{ action.params|length }};
                 break;
             }
@@ -369,8 +369,8 @@ sai_status_t sai_create_{{ table.name }}(
             {% endfor %}
         }
     }
-    
-    assert((matchedParams == expectedParams)); 
+
+    assert((matchedParams == expectedParams));
 
     if (matchedParams != expectedParams) {
         goto ErrRet;
@@ -412,7 +412,7 @@ sai_status_t sai_create_{{ table.name | replace("entry", "entries") }}(
 }
 
 sai_status_t sai_remove_{{ table.name }}(
-        _In_ const sai_{{ table.name }}_t *{{ table.name }}) { 
+        _In_ const sai_{{ table.name }}_t *{{ table.name }}) {
     p4::v1::TableEntry * matchActionEntry = new p4::v1::TableEntry();
     pi_p4_id_t tableId = {{table.id}};
     matchActionEntry->set_table_id(tableId);

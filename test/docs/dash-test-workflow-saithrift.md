@@ -7,8 +7,8 @@
 
 # DASH Test Workflow with saithrift
 
-This document describes the DASH test workflow with SAI-thrift. In particular, it describes: 
-- The inputs required to create a test  
+This document describes the DASH test workflow with SAI-thrift. In particular, it describes:
+- The inputs required to create a test
 - How these are distributed across various repos
 - The transformation of these input source files into various test artifacts
 - How these artifacts are utilized to create a client-server test framework to be used by test scripts to configure a DUT and test it with packet traffic.
@@ -26,7 +26,7 @@ This document describes the DASH test workflow with SAI-thrift. In particular, i
 - Test scripts consume the test case data and execute code to program the DUT and configure the Traffic Generator to send and receive traffic.
 - Test scripts read the results from the Tgen (and possibly DUT state queries), analyze against expected results and report test outcomes.
 
-## Workflow overview 
+## Workflow overview
 
 In the diagram below, fixed resources such as abstract test-cases, P4 code, SAI headers, etc. reside in GitHub repositories as indicated. These artifacts are transformed roughly from left to right into into various artifacts required to run tests. This is a high-level conceptual diagram which omits many details, such as shell scripts, Makefiles, GitHub automation scripts, etc. In addition, some of the workflow steps take place in different environments or repos, at different points in time.
 
@@ -73,7 +73,7 @@ SAI is defined as a c-language binding (`.h` header files), it is just a "contra
  The DASH project specifies the [saithrift](https://github.com/opencomputeproject/SAI/tree/master/test/saithrift) RPC approach, already used in SONiC testing. The previous figure illustrates the following flow:
  * SAI header files are fed into a saithrift generator toolchain. This is a collection of Perl scripts which generates both client and server [Thrift](https://thrift.apache.org/) code. Thrift is a Remote Procedure Call (RPC) framework which uses an Interface Description language (IDL) schema to specify a client-server communications mechanism.
 * The saithrift toolchain yields Python client libraries which are imported and used by a test program to make remote SAI calls, and a server skeleton with RPC callback methods. These callbacks implement all the SAI RPC function signatures (CRUD operations upon all the conceptual SAI tables). These callbacks in turn make function calls into the vendor-supplied SAI library entrypoints, which must be implemented for each target (DUT).
-* Each DASH device vendor must implement a `libsai` shared library, i.e., a compiled `.so` module which can be linked to the server skeleton to produce a running SAI server image. The library has function calls supporting CRUD operations upon each DASH SAI header definition and attribute. The vendor `libsai` function entrypoints translate the abstract SAI CRUD operations into the underlying platform operations, e.g., typically via the vendor's Software Development Kit (SDK) libraries or equivalent. 
+* Each DASH device vendor must implement a `libsai` shared library, i.e., a compiled `.so` module which can be linked to the server skeleton to produce a running SAI server image. The library has function calls supporting CRUD operations upon each DASH SAI header definition and attribute. The vendor `libsai` function entrypoints translate the abstract SAI CRUD operations into the underlying platform operations, e.g., typically via the vendor's Software Development Kit (SDK) libraries or equivalent.
 * The vendor-supplied `libsai` is compiled with the saithrift server skeleton to produce an executable binary file which is a server daemon. When run, this daemon exposes a socket-based API endpoint. This endpoint is the SAI-thrift API server.
 Test programs can perform SAI RPC calls against the saithrift endpoint. In the previous figure, the PyTest test scripts make SAI calls to configure and query the DUT data plane.
 
@@ -108,15 +108,15 @@ A test script consumes the test data, configures both the DUT and the traffic ge
 
 ## References
 
-- [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
+- [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
 - [PyTest](https://docs.pytest.org/en/6.2.x/)
 - [PyPi](https://pypi.org)
 - [GitHub CI/CD "Action"](https://resources.github.com/devops/tools/automation/actions)
 - [saithrift](https://github.com/opencomputeproject/SAI/tree/master/test/saithrift)
 - [Thrift](https://thrift.apache.org/)
-- [P4-DPDK](https://github.com/p4lang/p4-dpdk-target) 
+- [P4-DPDK](https://github.com/p4lang/p4-dpdk-target)
 - [bmv2](https://github.com/p4lang/behavioral-model)
-- [Open Traffic Generator (OTG)](https://github.com/open-traffic-generator/models) 
+- [Open Traffic Generator (OTG)](https://github.com/open-traffic-generator/models)
 - [snappi](https://github.com/open-traffic-generator/snappi)
 - [Abstract test cases](./dash-test-HLD.md#data-driven-test-cases)
 - [DASH Test High-Level Description](./dash-test-HLD.md#data-driven-test-cases)

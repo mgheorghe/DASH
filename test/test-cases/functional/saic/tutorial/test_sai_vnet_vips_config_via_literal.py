@@ -23,31 +23,31 @@ def make_create_cmds():
     """ Return some configuration entries expressed literally"""
     return [
         {
-            "name": "vip_entry#1",
-            "op": "create",
-            "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
-            "key": {
-            "switch_id": "$SWITCH_ID",
-            "vip": "192.168.0.1"
+            'name': 'vip_entry#1',
+            'op': 'create',
+            'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
+            'key': {
+            'switch_id': '$SWITCH_ID',
+            'vip': '192.168.0.1'
             },
-            "attributes": [
-            "SAI_VIP_ENTRY_ATTR_ACTION",
-            "SAI_VIP_ENTRY_ACTION_ACCEPT"
+            'attributes': [
+            'SAI_VIP_ENTRY_ATTR_ACTION',
+            'SAI_VIP_ENTRY_ACTION_ACCEPT'
             ]
         },
         {
-            "name": "vip_entry#2",
-            "op": "create",
-            "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
-            "key": {
-            "switch_id": "$SWITCH_ID",
-            "vip": "192.168.0.2"
+            'name': 'vip_entry#2',
+            'op': 'create',
+            'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
+            'key': {
+            'switch_id': '$SWITCH_ID',
+            'vip': '192.168.0.2'
             },
-            "attributes": [
-            "SAI_VIP_ENTRY_ATTR_ACTION",
-            "SAI_VIP_ENTRY_ACTION_ACCEPT"
+            'attributes': [
+            'SAI_VIP_ENTRY_ATTR_ACTION',
+            'SAI_VIP_ENTRY_ACTION_ACCEPT'
             ]
-        } 
+        }
         ]
 
 def make_remove_cmds():
@@ -64,7 +64,7 @@ class TestSaiDashVipsLiteral:
         """Verify VIP configuration create
         """
         results = [*dpu.process_commands( (make_create_cmds()) )]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint(results)
 
     @pytest.mark.ptf
@@ -73,7 +73,7 @@ class TestSaiDashVipsLiteral:
         """Verify VIP configuration removal
         """
         results = [*dpu.process_commands(make_remove_cmds())]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         print(results)
 
 if __name__ == '__main__':
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     if not args.a and not args.c and not args.r:
         # must provide at least one flag
-        print ("\n*** Please specify at least one option flag from [acr] to generate output ***\n", file=sys.stderr)
+        print ('\n*** Please specify at least one option flag from [acr] to generate output ***\n', file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(1)
 
@@ -96,5 +96,4 @@ if __name__ == '__main__':
 
     if args.a or args.r:
         print (json.dumps([item for item in make_remove_cmds()],
-                         indent=2)) 
-
+                         indent=2))

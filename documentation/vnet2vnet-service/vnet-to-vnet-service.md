@@ -18,7 +18,7 @@ Last update: 09/20/2022
 - [Appendix](#appendix)
   - [VNET to VNET without DASH optimization](#vnet-to-vnet-without-dash-optimization)
 - [References](#references)
-  
+
 ## Overview
 
 The VNET to VNET scenario is the starting point to design, implement and test
@@ -31,10 +31,10 @@ routing offload. The scenario allows the following:
 - TCP state tracking on flows
 - Telemetry and Monitoring
 
-The goal is to test the following performance properties: 
+The goal is to test the following performance properties:
 
 - **Connections per Second** (CPS)
-- **Flow** 
+- **Flow**
 - **Packet per Second** (PPS)
 - **Rule Scale**
 
@@ -67,7 +67,7 @@ DASH performance enhancements (so called *bump in the wire*) happens.
 ## Packet flow in VNET to VNET
 
 When talking about packet flow, we need to think about a process that involves
-several steps, as explained below. 
+several steps, as explained below.
 
 > [!NOTE] From [SONiC-DASH HLD](../general/dash-sonic-hld.md)
 
@@ -85,13 +85,13 @@ several steps, as explained below.
   is the **appliance VIP**.
 - The pipeline parses the VNI, and for **VM traffic**, the VNI shall be a
   **special reserved VNI**-
-- Everything else shall be treated as network traffic(RX). 
+- Everything else shall be treated as network traffic(RX).
 - The pipeline uses VNI to differentiate the traffic to be VM (**inbound**) or
   Network (**outbound**).
 
 In the outbound flow, the criteria listed below are applied.
 
-- The appliance assumes it is the first appliance to apply the policy. 
+- The appliance assumes it is the first appliance to apply the policy.
 - It applies the outbound ACLs in three stages: **VNIC**, **Subnet** and
   **VNET**. The stages are processed in order, with the outcome being the most
   restrictive of the three ACLs combined.
@@ -109,11 +109,11 @@ In the outbound flow, the criteria listed below are applied.
 
 - The pipeline sets the direction as RX(**inbound**) based on the **incoming
   packet's VNI**, if it does not match against any reserved VNI.
-- Using the inner `dst-mac`, **maps to the corresponding ENI**. 
+- Using the inner `dst-mac`, **maps to the corresponding ENI**.
 - In the inbound flow, Priority-based "Routing Rule" lookup happens based on VNI and optionally SRC PA
   prefix and maps to VNET. (In other words, the VNET is derived from a VNI key or a combination of VNI key and SRC PA based on the routing rule entry.
 - Using the derived VNET mapping tables, the source PA address is validated against the list
-  of mappings. If the check passes, **decap** action is performed, else dropped. 
+  of mappings. If the check passes, **decap** action is performed, else dropped.
 - After the route lookup above, the three ACL stages are processed in order. ACLs can have multiple
   `src/dst` IP ranges or port ranges as match criteria.
 
@@ -127,7 +127,7 @@ types, match/action tables, and routing tables.
 
 ### Configuration example
 
-``` 
+```
 
 /* Define Vnet1 */
 
@@ -137,7 +137,7 @@ DASH_VNET:Vnet1: {
 }
 
 /* Define ENI */
-DASH_ENI:F4939FEFC47E : { 
+DASH_ENI:F4939FEFC47E : {
     "eni_id": "497f23d7-f0ac-4c99-a98f-59b470e8c7bd",
     "mac_address": "F4939FEFC47E",
     "pa_addr": 25.1.1.1,
@@ -149,15 +149,15 @@ DASH_ENI:F4939FEFC47E : {
 
 DASH_ROUTING_TYPE:vnet: [
     {
-         "name": "action1", 
-         "action_type: "maprouting" 
-    } 
+         "name": "action1",
+         "action_type: "maprouting"
+    }
 ]
 
 DASH_ROUTING_TYPE:vnet_direct: [
     {
-         "name": "action1", 
-         "action_type: "maprouting" 
+         "name": "action1",
+         "action_type: "maprouting"
     }
 ]
 
@@ -211,13 +211,13 @@ DASH_VNET_MAPPING_TABLE:Vnet1:10.0.0.6: {
 }
 
 DASH_VNET_MAPPING_TABLE:Vnet1:10.0.0.5: {
-    "routing_type":"vnet_encap", 
+    "routing_type":"vnet_encap",
     "underlay_ip":100.1.2.3,
     "mac_address":F922839922A2
 }
 
 DASH_VNET_MAPPING_TABLE:Vnet1:10.1.1.1: {
-    "routing_type":"vnet_encap", 
+    "routing_type":"vnet_encap",
     "underlay_ip":101.1.2.3,
     "mac_address":F922839922A2
 }
@@ -230,73 +230,73 @@ as specified in the ENI table to Vxlan encapsulate the packet.
 ### Routing a packet to address 10.1.1.1
 
 Using the previous configuration, let's analyze the steps involved in routing a
-packet destined to `10.1.1.1`. Below are the processing pipeline (lookup) steps. 
+packet destined to `10.1.1.1`. Below are the processing pipeline (lookup) steps.
 
 ![routing-packet-10.1.1.1](./images/routing-packet-10.1.1.1.svg)
 
 <figcaption><i>Figure 4 -  Routing a packet to 10.1.1.1</i></figcaption> <br/><br/>
 
-1. Perform LPM lookup. 
+1. Perform LPM lookup.
 2. Select routing table `DASH_ROUTE_TABLE:10.1.0.0/16`. The action is `vnet` and the value is `Vnet1`.
 3. Look up `DASH_ROUTING_TYPE:vnet`. The value for `vnet` is `maprouting`.
-4. Look up `DASH_VNET_MAPPING_TABLE:Vnet1:10.1.1.1`. 
+4. Look up `DASH_VNET_MAPPING_TABLE:Vnet1:10.1.1.1`.
    1. The routing for `routing` is `vnet_encap`.
-5. Perform encap using the Public Address (PA) as specified by the `underlay_ip`=`101.1.2.3`. 
-6. Route the packet. 
+5. Perform encap using the Public Address (PA) as specified by the `underlay_ip`=`101.1.2.3`.
+6. Route the packet.
 
 ## Routing a packet to address 10.1.0.1
 
 Using the previous configuration, let's analyze the steps involved in routing a
-packet destined to `10.1.0.1`. Below are the processing pipeline (lookup) steps. 
+packet destined to `10.1.0.1`. Below are the processing pipeline (lookup) steps.
 
 ![routing-packet-10.1.0.1](./images/routing-packet-10.1.0.1.svg)
 
 <figcaption><i>Figure 5 - Routing a packet to 10.1.0.1</i></figcaption> <br/><br/>
 
-1. Perform LPM lookup. 
-2. Select routing table `DASH_ROUTE_TABLE:10.1.0.0/24`. The action type is `vnet_direct` and the value is `Vnet1`; and the `overlay_ip`=`10.0.0.6`. 
+1. Perform LPM lookup.
+2. Select routing table `DASH_ROUTE_TABLE:10.1.0.0/24`. The action type is `vnet_direct` and the value is `Vnet1`; and the `overlay_ip`=`10.0.0.6`.
 3. Look up `DASH_ROUTING_TYPE:vnet`. The value for `vnet_direct` is `maprouting`.
-4. Look up `DASH_VNET_MAPPING_TABLE:Vnet1:10.0.0.6`. 
+4. Look up `DASH_VNET_MAPPING_TABLE:Vnet1:10.0.0.6`.
    1. The routing for `routing` is `vnet_encap`.
-5. Perform encap using the Public Address (PA) as specified by the `underlay_ip`=`2601:12:7a:1::1234`. 
-6. Route the packet.  
+5. Perform encap using the Public Address (PA) as specified by the `underlay_ip`=`2601:12:7a:1::1234`.
+6. Route the packet.
 
 ## Routing a packet to address 30.0.0.1
 
 Using the previous configuration, let's analyze the steps involved in routing a
-packet destined to `30.0.0.1`. Below are the processing pipeline (lookup) steps. 
+packet destined to `30.0.0.1`. Below are the processing pipeline (lookup) steps.
 
 ![routing-packet-30.0.0.1](./images/routing-packet-30.0.0.1.svg)
 
 <figcaption><i>Figure 6 - Routing a packet to 30.0.0.1</i></figcaption> <br/><br/>
 
-1. Perform LPM lookup. 
+1. Perform LPM lookup.
 2. Select routing table `DASH_ROUTE_TABLE:30.0.0.0/16`. The `action_type` is `direct`.
-3. Route the packet directly without any encap.  
+3. Route the packet directly without any encap.
 
 ## Routing a packet to address 10.2.5.1
 
 Using the previous configuration, let's analyze the steps involved in routing a
-packet destined to `10.2.5.1`. Below are the processing pipeline (lookup) steps. 
+packet destined to `10.2.5.1`. Below are the processing pipeline (lookup) steps.
 
 ![routing-packet-30.0.0.1](./images/routing-packet-10.2.5.1.svg)
 
 <figcaption><i>Figure 7 - Routing a packet to 10.2.5.1</i></figcaption> <br/><br/>
 
-1. Perform LPM lookup. 
+1. Perform LPM lookup.
 2. Select routing table `DASH_ROUTE_TABLE:10.2.5.0/24`. The `action_type` is `drop`.
-3. Drop the packet.  
+3. Drop the packet.
 
 ## Appendix
 
-### VNET to VNET without DASH optimization 
+### VNET to VNET without DASH optimization
 
 The following figure shows the transformation steps in a traditional VNET
 setting i.e., without DASH optimization.
 
 ![packet-transforms-vm-to-vm-in-vnet-without-dash](./images/packet-transforms-vm-to-vm-in-vnet-without-dash.svg)
 
-<figcaption><i>Appendix Figure 1 - VNET to VNET without DASH optimization</i></figcaption> 
+<figcaption><i>Appendix Figure 1 - VNET to VNET without DASH optimization</i></figcaption>
 
 ## References
 

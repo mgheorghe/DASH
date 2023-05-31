@@ -4,17 +4,17 @@
 #
 # PyTest:
 # =======
-# 
+#
 # Note, not all tests involve sending traffic, for example setup/teardown of DUT configurations,
 # so PTF or snappi may not be relevant. Such cases are often marked for both dataplanes.
 #
 # run snappi-enabled tests using snappi dataplane (e.g. ixia-c pktgen):
-#   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m snappi <this-filename> 
+#   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m snappi <this-filename>
 # run PTF-enabled tests using snappi test fixture (e.g. ixia-c pktgen)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m ptf <this-filename>
 # run PTF-enabled tests using PTF dataplane (e.g. scapy)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_ptf.json -m ptf <this-filename>
-#   
+#
 # NOT SUPPORTED: run snappi-capable tests using PTF dataplane (PTF can't support snappi at this writing)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_ptf.json -m snappi <this-filename>
 #
@@ -69,7 +69,7 @@ class TestSaiVnetOutbound:
     def test_create_vnet_scale_config_generated(self, dpu):
         """Generate and apply configuration"""
         results = [*dpu.process_commands( (self.make_create_commands()) )]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint.pprint(results)
 
 
@@ -81,7 +81,7 @@ class TestSaiVnetOutbound:
         We generate configuration on remove stage as well to avoid storing giant objects in memory.
         """
         results = [*dpu.process_commands( (self.make_remove_commands()) )]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         print(results)
 
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
     if not args.a and not args.c and not args.r:
         # must provide at least one flag
-        print ("\n*** Please specify at least one option flag from [acr] to generate output ***\n", file=sys.stderr)
+        print ('\n*** Please specify at least one option flag from [acr] to generate output ***\n', file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(1)
 
@@ -106,4 +106,3 @@ if __name__ == '__main__':
     if args.a or args.r:
         print(json.dumps([cmd for cmd in (TestSaiVnetOutbound().make_remove_commands())],
                          indent=2))
-

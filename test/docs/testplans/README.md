@@ -7,5 +7,5 @@ A test plan template is available [here](https://github.com/sonic-net/SONiC/blob
 
 | Test Plan | Description |
 |----------|-------------|
-| [ACL](acl.md) | Access control list test plan|  
+| [ACL](acl.md) | Access control list test plan|
 | [VNET to VNET](vnet_to_vnet.md) | Describes test plan for testing the mechanisms of VM to VM communication in VNET|

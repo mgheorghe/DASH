@@ -18,37 +18,37 @@ def configure_vnet_outbound_packet_flows(sai_dp, vip, dir_lookup, ca_smac, ca_di
         duration (int): count in seconds to generate traffic for each flow. Default is 0.
     """
 
-    print("\nTest config:")
-    print(f"{vip}\n{dir_lookup}\n{ca_smac}\n{ca_dip}\n")
+    print('\nTest config:')
+    print(f'{vip}\n{dir_lookup}\n{ca_smac}\n{ca_dip}\n')
 
-    print("Adding flows {} > {}:".format(sai_dp.configuration.ports[0].name, sai_dp.configuration.ports[1].name))
+    print('Adding flows {} > {}:'.format(sai_dp.configuration.ports[0].name, sai_dp.configuration.ports[1].name))
     vip_val = vip.start
     for vip_number in range(0, vip.count):
         dir_lookup_val = dir_lookup.start
-        print(f"\tVIP {vip_val}")
+        print(f'\tVIP {vip_val}')
 
         ca_smac_portion = ca_smac.count // dir_lookup.count
         for dir_lookup_number in range(0, dir_lookup.count):
-            print(f"\t\tDIR_LOOKUP VNI {dir_lookup_val}")
+            print(f'\t\tDIR_LOOKUP VNI {dir_lookup_val}')
             ca_smac_val = ca_smac.start
 
             ca_smac_start_index = dir_lookup_number * ca_smac_portion
             for ca_smac_number in range(ca_smac_start_index, ca_smac_start_index + ca_smac_portion):
-                print(f"\t\t\tCA SMAC: {tu.get_next_mac(ca_smac_val, step=ca_smac.step, number=ca_smac_number)}")
-                print(f"\t\t\t\tCA DIP {ca_dip.start}, count: {ca_dip.count}, step: {ca_dip.step}")
-                flow = sai_dp.add_flow("flow {} > {} |vip#{}|dir_lookup#{}|ca_mac#{}|ca_dip#{}".format(
+                print(f'\t\t\tCA SMAC: {tu.get_next_mac(ca_smac_val, step=ca_smac.step, number=ca_smac_number)}')
+                print(f'\t\t\t\tCA DIP {ca_dip.start}, count: {ca_dip.count}, step: {ca_dip.step}')
+                flow = sai_dp.add_flow('flow {} > {} |vip#{}|dir_lookup#{}|ca_mac#{}|ca_dip#{}'.format(
                                             sai_dp.configuration.ports[0].name, sai_dp.configuration.ports[1].name,
                                             vip_number, dir_lookup_number, ca_smac_number, ca_dip.start),
                                        packet_count=ca_dip.count * pkt_count, pps=pps, seconds_count=duration)
 
-                sai_dp.add_ethernet_header(flow, dst_mac="00:00:02:03:04:05", src_mac="00:00:05:06:06:06")
-                sai_dp.add_ipv4_header(flow, dst_ip=vip_val, src_ip="172.16.1.1")
+                sai_dp.add_ethernet_header(flow, dst_mac='00:00:02:03:04:05', src_mac='00:00:05:06:06:06')
+                sai_dp.add_ipv4_header(flow, dst_ip=vip_val, src_ip='172.16.1.1')
                 sai_dp.add_udp_header(flow, dst_port=80, src_port=11638)
                 sai_dp.add_vxlan_header(flow, vni=dir_lookup_val)
-                sai_dp.add_ethernet_header(flow, dst_mac="02:02:02:02:02:02",
+                sai_dp.add_ethernet_header(flow, dst_mac='02:02:02:02:02:02',
                                            src_mac=tu.get_next_mac(ca_smac_val, step=ca_smac.step, number=ca_smac_number))
 
-                sai_dp.add_ipv4_header(flow, dst_ip=ca_dip.start, src_ip="10.1.1.10",
+                sai_dp.add_ipv4_header(flow, dst_ip=ca_dip.start, src_ip='10.1.1.10',
                                        dst_step=ca_dip.step, dst_count=ca_dip.count,
                                     dst_choice=snappi.PatternFlowIpv4Dst.INCREMENT)
                 sai_dp.add_udp_header(flow)
@@ -57,9 +57,9 @@ def configure_vnet_outbound_packet_flows(sai_dp, vip, dir_lookup, ca_smac, ca_di
 
         vip_val = tu.get_next_ip(vip_val, vip.step)
 
-    print(f">>> FLOWS: {len(sai_dp.flows)}")
+    print(f'>>> FLOWS: {len(sai_dp.flows)}')
     for flow in sai_dp.flows:
-        print(f">>>: {flow.name}")
+        print(f'>>>: {flow.name}')
 
 
 def scale_vnet_outbound_flows(sai_dp, test_conf: dict, packets_per_flow=1, pps_per_flow=0, flow_duration=0):
@@ -85,16 +85,16 @@ def scale_vnet_outbound_flows(sai_dp, test_conf: dict, packets_per_flow=1, pps_p
         else:
             return named_tup(conf.get('count', 1), conf.get('start', def_step), conf.get('step', def_step))
 
-    vip = dict_helper(vip_tup, test_conf['DASH_VIP']['vpe']['IPV4'], "0.0.0.1")
+    vip = dict_helper(vip_tup, test_conf['DASH_VIP']['vpe']['IPV4'], '0.0.0.1')
     dir_lookup = dict_helper(dir_lookup_tup, test_conf['DASH_DIRECTION_LOOKUP']['dle']['VNI'], 1)
-    ca_smac = dict_helper(ca_smac_tup, test_conf['DASH_ENI_ETHER_ADDRESS_MAP']['eam']['MAC'], "00:00:00:00:00:01")
-    ca_dip = dict_helper(ca_dip_tup, test_conf['DASH_OUTBOUND_CA_TO_PA']['ocpe']['DIP'], "0.0.0.1")
+    ca_smac = dict_helper(ca_smac_tup, test_conf['DASH_ENI_ETHER_ADDRESS_MAP']['eam']['MAC'], '00:00:00:00:00:01')
+    ca_dip = dict_helper(ca_dip_tup, test_conf['DASH_OUTBOUND_CA_TO_PA']['ocpe']['DIP'], '0.0.0.1')
 
     configure_vnet_outbound_packet_flows(sai_dp, vip, dir_lookup, ca_smac, ca_dip,
                                          pkt_count=packets_per_flow, pps=pps_per_flow, duration=flow_duration)
 
 
-def check_flows_all_packets_metrics(sai_dp, flows, name="Flow group", exp_tx=None, exp_rx=None, show=False):
+def check_flows_all_packets_metrics(sai_dp, flows, name='Flow group', exp_tx=None, exp_rx=None, show=False):
     """
     Get packet count metrics on list of flows.
 
@@ -112,7 +112,7 @@ def check_flows_all_packets_metrics(sai_dp, flows, name="Flow group", exp_tx=Non
     """
 
     if not flows:
-        print("Flows None or empty")
+        print('Flows None or empty')
         return False, None
     if not exp_tx:
         # check if all flows are fixed_packets
@@ -140,7 +140,7 @@ def check_flows_all_packets_metrics(sai_dp, flows, name="Flow group", exp_tx=Non
 
     if show:
         # flow group name | exp tx - act tx | exp rx - act rx
-        print(f"{name} | exp tx:{exp_tx} - tx:{act_tx} | exp rx:{exp_rx} - rx:{act_rx}")
+        print(f'{name} | exp tx:{exp_tx} - tx:{act_tx} | exp rx:{exp_rx} - rx:{act_rx}')
 
     return success, { 'TX': act_tx, 'RX': act_rx }
 
@@ -165,7 +165,7 @@ def check_flow_packets_metrics(sai_dp, flow: snappi.Flow, exp_tx=None, exp_rx=No
         if flow.duration.choice == snappi.FlowDuration.FIXED_PACKETS:
             exp_tx = flow.duration.fixed_packets.packets
         else:
-            print("{}: check for packet count failed. Flow configured to {} instead of {}".format( \
+            print('{}: check for packet count failed. Flow configured to {} instead of {}'.format( \
                     flow.name, flow.duration.choice, snappi.FlowDuration.FIXED_PACKETS))
             return False, None
     if not exp_rx:
@@ -181,7 +181,7 @@ def check_flow_packets_metrics(sai_dp, flow: snappi.Flow, exp_tx=None, exp_rx=No
 
     if show:
         # flow group name | exp tx - act tx | exp rx - act rx
-        print(f"{flow.name} | exp tx:{exp_tx} - tx:{act_tx} | exp rx:{exp_rx} - rx:{act_rx}")
+        print(f'{flow.name} | exp tx:{exp_tx} - tx:{act_tx} | exp rx:{exp_rx} - rx:{act_rx}')
 
     if exp_tx == act_tx and exp_rx == act_rx and \
         res.flow_metrics[0].transmit == snappi.FlowMetric.STOPPED:
@@ -190,7 +190,7 @@ def check_flow_packets_metrics(sai_dp, flow: snappi.Flow, exp_tx=None, exp_rx=No
     return False, { 'TX': act_tx, 'RX': act_rx }
 
 
-def check_flows_all_seconds_metrics(sai_dp, flows, name="Flow group", seconds=None, exp_tx=None, exp_rx=None, delta=None, show=False):
+def check_flows_all_seconds_metrics(sai_dp, flows, name='Flow group', seconds=None, exp_tx=None, exp_rx=None, delta=None, show=False):
     """
     Get packet count metrics per given time on list of flows.
 
@@ -210,7 +210,7 @@ def check_flows_all_seconds_metrics(sai_dp, flows, name="Flow group", seconds=No
     """
 
     if not flows:
-        print("Flows None or empty")
+        print('Flows None or empty')
         return False, None
     if not seconds:
         if sum([flow.duration.choice == snappi.FlowDuration.FIXED_SECONDS for flow in flows]) == len(flows):
@@ -242,8 +242,8 @@ def check_flows_all_seconds_metrics(sai_dp, flows, name="Flow group", seconds=No
 
     if show:
         # flow group name | [exp tx +-delta] - act tx | [exp rx +-delta] - act rx
-        print(f"{name} | exp tx:[{exp_tx - delta}, {exp_tx + delta}] - tx:{act_tx} | \
-exp rx:[{exp_rx - delta}, {exp_rx + delta}] - rx:{act_rx}")
+        print(f'{name} | exp tx:[{exp_tx - delta}, {exp_tx + delta}] - tx:{act_tx} | \
+exp rx:[{exp_rx - delta}, {exp_rx + delta}] - rx:{act_rx}')
 
     return success, { 'TX': act_tx, 'RX': act_rx }
 
@@ -270,7 +270,7 @@ def check_flow_seconds_metrics(sai_dp, flow: snappi.Flow, seconds=None, exp_tx=N
         if flow.duration.choice == snappi.FlowDuration.FIXED_SECONDS:
             seconds = flow.duration.fixed_seconds.seconds
         else:
-            print("{}: check for packet count failed. Flow configured to {} instead of {}".format(
+            print('{}: check for packet count failed. Flow configured to {} instead of {}'.format(
                     flow.name, flow.duration.choice, snappi.FlowDuration.FIXED_SECONDS))
             return False, None
     if not exp_tx:
@@ -292,8 +292,8 @@ def check_flow_seconds_metrics(sai_dp, flow: snappi.Flow, seconds=None, exp_tx=N
 
     if show:
         # flow group name | [exp tx +-delta] - act tx | [exp rx +-delta] - act rx
-        print(f"{flow.name} | exp tx:[{exp_tx - delta}, {exp_tx + delta}] - tx:{act_tx} | \
-exp rx:[{exp_rx - delta}, {exp_rx + delta}] - rx:{act_rx}")
+        print(f'{flow.name} | exp tx:[{exp_tx - delta}, {exp_tx + delta}] - tx:{act_tx} | \
+exp rx:[{exp_rx - delta}, {exp_rx + delta}] - rx:{act_rx}')
 
     if act_tx in range(exp_tx - delta, exp_tx + delta) and \
         act_rx in range(exp_rx - delta, exp_rx + delta) and \

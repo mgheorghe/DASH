@@ -71,7 +71,7 @@ Tests shall be tagged with appropriate markers to allow selecting or deselecting
 **TODO** More details, replace "shall" language with actual guidelines.
 
 ## Vendor/Platform Agnostic Traffic Generators
-Where feasible, test should be designed against an abstract, vendor-neutral, platform-neutral Traffic Generator data model and API, to avoid lock-in. The [OpenTrafficGenerator](https://github.com/open-traffic-generator) project provides suitable data models and the derived [snappi libraries](https://github.com/open-traffic-generator/snappi) simplify writing client interfaces. Free (SW-only) and commercial (SW and HW) traffic generators adhering to the OTG specifications are available. These comprise the recommended solutions. 
+Where feasible, test should be designed against an abstract, vendor-neutral, platform-neutral Traffic Generator data model and API, to avoid lock-in. The [OpenTrafficGenerator](https://github.com/open-traffic-generator) project provides suitable data models and the derived [snappi libraries](https://github.com/open-traffic-generator/snappi) simplify writing client interfaces. Free (SW-only) and commercial (SW and HW) traffic generators adhering to the OTG specifications are available. These comprise the recommended solutions.
 
 When traffic test stimuli demand non-agnostic traffic-generator solutions, suitable  commercial solutions shall be utilized as required. Test automation software *should* implement generic wrappers in the main code to reduce vendor lock-in.
 

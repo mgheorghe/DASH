@@ -4,7 +4,7 @@ from pprint import pprint
 import time
 import pytest
 import sys
-sys.path.append("../utils")
+sys.path.append('../utils')
 import snappi_utils as su
 
 current_file_dir = Path(__file__).parent
@@ -19,19 +19,19 @@ vnet to vnet communication with UDP traffic flow on bidirectional traffic :
 
 Configure DUT on bidirectional routing direction
 Configure TGEN vxlan UDP traffic flow as one vnet to another vnet of two OpenTrafficGenerator ports
-Verify Traffic flow between vnet to vnet through DPU  
+Verify Traffic flow between vnet to vnet through DPU
 
 
 Topology Used :
 
-       --------          -------          -------- 
+       --------          -------          --------
       |        |        |       |        |        |
       |        |        |       |        |        |
       |  TGEN  |--------|  DUT  |--------|  TGEN  |
       |        |        |       |        |        |
       |        |        |       |        |        |
-       --------          -------          -------- 
-       
+       --------          -------          --------
+
 """
 
 
@@ -40,10 +40,10 @@ Topology Used :
 ###############################################################
 
 
-@pytest.mark.skip(reason="https://github.com/sonic-net/DASH/issues/345")
+@pytest.mark.skip(reason='https://github.com/sonic-net/DASH/issues/345')
 class TestUdpBidir:
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup_config(self):
         """
         Fixture returns the content of the file with SAI configuration commands.
@@ -54,7 +54,7 @@ class TestUdpBidir:
     @pytest.mark.dependency()
     def test_setup(self, dpu, setup_config):
         results = [*dpu.process_commands(setup_config)]
-        print("\n======= SAI setup commands RETURN values =======")
+        print('\n======= SAI setup commands RETURN values =======')
         pprint(results)
 
     @pytest.mark.dependency(depends=['TestUdpBidir::test_setup'])
@@ -62,9 +62,9 @@ class TestUdpBidir:
 
         # Configure TGEN
 
-        print("\n======= Configure Flow1 from ENI to NETWORK =======")        
+        print('\n======= Configure Flow1 from ENI to NETWORK =======')
         # Flow1 settings
-        f1 = dataplane.configuration.flows.flow(name="ENI_TO_NETWORK")[-1]
+        f1 = dataplane.configuration.flows.flow(name='ENI_TO_NETWORK')[-1]
         f1.tx_rx.port.tx_name = dataplane.configuration.ports[0].name
         f1.tx_rx.port.rx_name = dataplane.configuration.ports[1].name
         f1.size.fixed = PACKET_LENGTH
@@ -88,7 +88,7 @@ class TestUdpBidir:
         udp1.src_port.value = 11638
         udp1.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan1.vni.value = 11
         vxlan1.reserved0.value = 0
         vxlan1.reserved1.value = 0
@@ -102,9 +102,9 @@ class TestUdpBidir:
         inner_udp1.src_port.value = 10000
         inner_udp1.dst_port.value = 20000
 
-        print("\n======= Configure Flow2 from NETWORK to ENI =======")        
+        print('\n======= Configure Flow2 from NETWORK to ENI =======')
         # Flow2 settings
-        f2 = dataplane.configuration.flows.flow(name="NETWORK_TO_ENI")[-1]
+        f2 = dataplane.configuration.flows.flow(name='NETWORK_TO_ENI')[-1]
         f2.tx_rx.port.tx_name = dataplane.configuration.ports[1].name
         f2.tx_rx.port.rx_name = dataplane.configuration.ports[0].name
         f2.size.fixed = PACKET_LENGTH
@@ -117,9 +117,9 @@ class TestUdpBidir:
         outer_eth, ip, udp, vxlan, inner_eth, inner_ip , inner_udp= (
                 f2.packet.ethernet().ipv4().udp().vxlan().ethernet().ipv4().udp()
         )
-        
+
         outer_eth.src.value = OUTER_SRC_MAC_F2
-        outer_eth.dst.value = OUTER_DST_MAC_F2  
+        outer_eth.dst.value = OUTER_DST_MAC_F2
         outer_eth.ether_type.value = 2048
 
         ip.src.value = NETWORK_VTEP_IP
@@ -128,7 +128,7 @@ class TestUdpBidir:
         udp.src_port.value = 11638
         udp.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan.vni.value = 101
         vxlan.reserved0.value = 0
         vxlan.reserved1.value = 0
@@ -142,10 +142,10 @@ class TestUdpBidir:
         inner_udp.src_port.value = 20000
         inner_udp.dst_port.value = 10000
 
-        print("\n======= Configure Flow3 from ENI to NETWORK2 =======")        
+        print('\n======= Configure Flow3 from ENI to NETWORK2 =======')
 
         # Flow3 settings
-        f3 = dataplane.configuration.flows.flow(name="ENI_TO_NETWORK2")[-1]
+        f3 = dataplane.configuration.flows.flow(name='ENI_TO_NETWORK2')[-1]
         f3.tx_rx.port.tx_name = dataplane.configuration.ports[0].name
         f3.tx_rx.port.rx_name = dataplane.configuration.ports[1].name
         f3.size.fixed = PACKET_LENGTH
@@ -169,7 +169,7 @@ class TestUdpBidir:
         udp.src_port.value = 11638
         udp.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan.vni.value = 11
         vxlan.reserved0.value = 0
         vxlan.reserved1.value = 0
@@ -177,16 +177,16 @@ class TestUdpBidir:
         inner_eth.src.value = INNER_SRC_MAC
         inner_eth.dst.value = INNER_DST_MAC2
 
-        
+
         inner_ip.src.value = ENI_IP    #ENI
         inner_ip.dst.value = NETWORK_IP2  #world
 
         inner_udp.src_port.value = 10000
         inner_udp.dst_port.value = 20000
 
-        print("\n======= Configure Flow4 from NETWORK2 to ENI =======")        
+        print('\n======= Configure Flow4 from NETWORK2 to ENI =======')
         # Flow4 settings
-        f4 = dataplane.configuration.flows.flow(name="NETWORK2_TO_ENI")[-1]
+        f4 = dataplane.configuration.flows.flow(name='NETWORK2_TO_ENI')[-1]
         f4.tx_rx.port.tx_name = dataplane.configuration.ports[1].name
         f4.tx_rx.port.rx_name = dataplane.configuration.ports[0].name
         f4.size.fixed = PACKET_LENGTH
@@ -199,9 +199,9 @@ class TestUdpBidir:
         outer_eth, ip, udp, vxlan, inner_eth, inner_ip , inner_udp= (
                 f4.packet.ethernet().ipv4().udp().vxlan().ethernet().ipv4().udp()
         )
-        
+
         outer_eth.src.value = OUTER_SRC_MAC_F2
-        outer_eth.dst.value = OUTER_DST_MAC_F2 
+        outer_eth.dst.value = OUTER_DST_MAC_F2
         outer_eth.ether_type.value = 2048
 
         ip.src.value = NETWORK_VTEP_IP
@@ -210,7 +210,7 @@ class TestUdpBidir:
         udp.src_port.value = 11638
         udp.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan.vni.value = 101
         vxlan.reserved0.value = 0
         vxlan.reserved1.value = 0
@@ -226,7 +226,7 @@ class TestUdpBidir:
         dataplane.set_config()
 
         # Verify Traffic
-        print("\n======= Start Traffic  =======")        
+        print('\n======= Start Traffic  =======')
         su.start_traffic(dataplane, f1.name)
         su.start_traffic(dataplane, f3.name)
         time.sleep(0.5)
@@ -236,27 +236,27 @@ class TestUdpBidir:
         while(True):
             if (dataplane.is_traffic_stopped(flow_names)):
                 break
-        print("\n======= Stop Traffic  =======")                    
+        print('\n======= Stop Traffic  =======')
         dataplane.stop_traffic()
 
-        print("\n======= Verify Traffic flows   =======")        
+        print('\n======= Verify Traffic flows   =======')
         res1 = su.check_flow_tx_rx_frames_stats(dataplane, f1.name)
         res2 = su.check_flow_tx_rx_frames_stats(dataplane, f2.name)
         res3 = su.check_flow_tx_rx_frames_stats(dataplane, f3.name)
         res4 = su.check_flow_tx_rx_frames_stats(dataplane, f4.name)
-        
+
         dataplane.teardown()
 
-        # Validate test result  
-        print("\n======= Print Test Results  =======")     
-        print("Tx and Rx packet match result of flow {} is {}".format(f1.name, res1))
-        print("Tx and Rx packet match result of flow {} is {}".format(f2.name, res2))
-        print("Tx and Rx packet match result of flow {} is {}".format(f3.name, res3))
-        print("Tx and Rx packet match result of flow {} is {}".format(f4.name, res4))
-        assert res1, "Traffic test failure"
-        assert res2, "Traffic test failure"
-        assert res3, "Traffic test failure"
-        assert res4, "Traffic test failure"
+        # Validate test result
+        print('\n======= Print Test Results  =======')
+        print('Tx and Rx packet match result of flow {} is {}'.format(f1.name, res1))
+        print('Tx and Rx packet match result of flow {} is {}'.format(f2.name, res2))
+        print('Tx and Rx packet match result of flow {} is {}'.format(f3.name, res3))
+        print('Tx and Rx packet match result of flow {} is {}'.format(f4.name, res4))
+        assert res1, 'Traffic test failure'
+        assert res2, 'Traffic test failure'
+        assert res3, 'Traffic test failure'
+        assert res4, 'Traffic test failure'
 
     @pytest.mark.dependency(depends=['TestUdpBidir::test_setup'])
     def test_cleanup(self, dpu, setup_config):
@@ -270,5 +270,4 @@ class TestUdpBidir:
         for command in cleanup_commands:
             results.append(dpu.command_processor.process_command(command))
         print (results)
-        print("\n======= SAI teardown commands RETURN values =======")
-                
+        print('\n======= SAI teardown commands RETURN values =======')

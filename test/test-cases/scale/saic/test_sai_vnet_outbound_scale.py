@@ -4,17 +4,17 @@
 #
 # PyTest:
 # =======
-# 
+#
 # Note, not all tests involve sending traffic, for example setup/teardown of DUT configurations,
 # so PTF or snappi may not be relevant. Such cases are often marked for both dataplanes.
 #
 # run snappi-enabled tests using snappi dataplane (e.g. ixia-c pktgen):
-#   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m snappi <this-filename> 
+#   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m snappi <this-filename>
 # run PTF-enabled tests using snappi test fixture (e.g. ixia-c pktgen)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_snappi.json -m ptf <this-filename>
 # run PTF-enabled tests using PTF dataplane (e.g. scapy)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_ptf.json -m ptf <this-filename>
-#   
+#
 # NOT SUPPORTED: run snappi-capable tests using PTF dataplane (PTF can't support snappi at this writing)
 #   PYTHONPATH=. pytest -sv --setup sai_dpu_client_server_ptf.json -m snappi <this-filename>
 #
@@ -31,7 +31,7 @@ from pprint import pprint
 import pytest
 import saichallenger.common.sai_dataplane.snappi.snappi_traffic_utils as stu
 import sys
-sys.path.append("../utils")
+sys.path.append('../utils')
 import vnet2vnet_helper as dh
 
 current_file_dir = Path(__file__).parent
@@ -69,7 +69,7 @@ TEST_VNET_OUTBOUND_CONFIG_SCALE = {
                                 },
     'DASH_ENI_ETHER_ADDRESS_MAP': {'eam': {
                                              'count': NUMBER_OF_EAM,'SWITCH_ID': '$SWITCH_ID',
-                                             'MAC': {'count': NUMBER_OF_EAM,'start': '00:1A:C5:00:00:01','step': "00:00:00:00:00:01"},
+                                             'MAC': {'count': NUMBER_OF_EAM,'start': '00:1A:C5:00:00:01','step': '00:00:00:00:00:01'},
                                              'ENI_ID': {'count': NUMBER_OF_ENI,'start': '$eni_#{0}'}
                                 }
                                 },
@@ -79,7 +79,7 @@ TEST_VNET_OUTBOUND_CONFIG_SCALE = {
             'count': NUMBER_OF_ENI * NUMBER_OF_ORE,  # Full count: OREs per ENI and VNET
             'SWITCH_ID': '$SWITCH_ID',
             'ACTION': 'ROUTE_VNET',
-            'DESTINATION': 	{'count': NUMBER_OF_ORE,'start': "1.128.0.1/9",'step': '0.0.0.2'},
+            'DESTINATION': 	{'count': NUMBER_OF_ORE,'start': '1.128.0.1/9','step': '0.0.0.2'},
             'ENI_ID': 		{'count': NUMBER_OF_ENI,'start': '$eni_#{0}','delay': NUMBER_OF_ORE},
             'DST_VNET_ID': 	{'count': NUMBER_OF_VNET,'start': '$vnet_#{0}','delay': NUMBER_OF_ORE}
         }
@@ -140,8 +140,8 @@ class TestSaiVnetOutbound:
 
         # The following function waits for expected counters and fail if no success during time out.
         stu.wait_for(lambda: dh.check_flows_all_packets_metrics(dataplane, dataplane.flows,
-                                                                name="Custom flow group", show=True)[0],
-                    "Test", timeout_seconds=5)
+                                                                name='Custom flow group', show=True)[0],
+                    'Test', timeout_seconds=5)
 
     @pytest.mark.snappi
     def test_run_traffic_check_fixed_duration(self, dpu, dataplane):
@@ -157,8 +157,8 @@ class TestSaiVnetOutbound:
         dataplane.set_config()
         dataplane.start_traffic()
         stu.wait_for(lambda: dh.check_flows_all_seconds_metrics(dataplane, dataplane.flows,
-                                                                name="Custom flow group", show=True)[0],
-                    "Test", timeout_seconds=test_duration + 1)
+                                                                name='Custom flow group', show=True)[0],
+                    'Test', timeout_seconds=test_duration + 1)
 
     @pytest.mark.ptf
     @pytest.mark.snappi
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
     if not args.a and not args.c and not args.r:
         # must provide at least one flag
-        print ("\n*** Please specify at least one option flag from [acr] to generate output ***\n", file=sys.stderr)
+        print ('\n*** Please specify at least one option flag from [acr] to generate output ***\n', file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(1)
 
@@ -191,4 +191,3 @@ if __name__ == '__main__':
     if args.a or args.r:
         print(json.dumps([cmd for cmd in (TestSaiVnetOutbound().make_remove_vnet_config())],
                          indent=2))
-

@@ -48,7 +48,7 @@
     sudo systemctl enable libvirtd
     sudo systemctl start libvirtd
     ```
- 
+
  - enable root (optional)
     ```
     sudo apt -y install mc
@@ -96,7 +96,7 @@ docker tag dash/keysight:latest dash/keysight:1.0.0
 ```
 
 - VMs
-    - create vms folder 
+    - create vms folder
     ```
     mkdir /vms
     chmod 775 -R /vms
@@ -108,17 +108,17 @@ docker tag dash/keysight:latest dash/keysight:1.0.0
     - download [IxLoad kvm installer](https://downloads.ixiacom.com/support/downloads_and_updates/public/ixload/9.20/IxLoad_Web_9.20_KVM.sh)
     - copy `IxLoad_Web_9.20_KVM.sh` to `/vms/` on your testbed server.
 
-    
+
 - start the VMs:
     ```
     cd /vms
-    
+
     tar xjf IxNetworkWeb_KVM_9.20.2114.1.qcow2.tar.bz2
     ./IxLoad_Web_9.20_KVM.sh -z -e Y
-    
+
     virt-install --name IxNetwork-920 --memory 16000 --vcpus 8 --disk /vms/IxNetworkWeb_KVM_9.20.2112.27.qcow2,bus=sata --import --os-variant centos7.0 --network bridge=br1,model=virtio --noautoconsole
     virsh autostart IxNetwork-920
-    
+
     virt-install --name IxLoad-920 --memory 16000 --vcpus 8 --disk /vms/9.20.0.279_ixload/IxLoad_Web_9.20_KVM.qcow2,bus=sata --import --os-variant ubuntu20.04 --network bridge=br1,model=virtio
     virsh autostart IxLoad-920
     ```

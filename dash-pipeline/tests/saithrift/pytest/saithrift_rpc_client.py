@@ -19,12 +19,11 @@ class SaithriftRpcClient:
         Set up thrift client and contact RPC server
         """
 
-        print ("making thrift connection to %s:%d" % (self.server, self.port))
+        print ('making thrift connection to %s:%d' % (self.server, self.port))
         self.transport = TSocket.TSocket(self.server, THRIFT_PORT)
         self.transport = TTransport.TBufferedTransport(self.transport)
         self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)
 
         self.client = sai_rpc.Client(self.protocol)
-        self.transport.open()    
-        print ("sai-thrift connection established with %s:%d" % (self.server, self.port))
-       
+        self.transport.open()
+        print ('sai-thrift connection established with %s:%d' % (self.server, self.port))

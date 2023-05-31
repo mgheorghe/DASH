@@ -25,16 +25,16 @@ def make_create_cmds(vip_start=1,d1=1,d2=1):
     """
     return [
         {
-            "name": "vip_entry#%02d" % (x-d1+1),
-            "op": "create",
-            "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
-            "key": {
-            "switch_id": "$SWITCH_ID",
-            "vip": "192.168.0.%d" % x
+            'name': 'vip_entry#%02d' % (x-d1+1),
+            'op': 'create',
+            'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
+            'key': {
+            'switch_id': '$SWITCH_ID',
+            'vip': '192.168.0.%d' % x
             },
-            "attributes": [
-            "SAI_VIP_ENTRY_ATTR_ACTION",
-            "SAI_VIP_ENTRY_ACTION_ACCEPT"
+            'attributes': [
+            'SAI_VIP_ENTRY_ATTR_ACTION',
+            'SAI_VIP_ENTRY_ACTION_ACCEPT'
             ]
         } for x in range (d1,d2+1)]
 
@@ -55,7 +55,7 @@ class TestSaiDashVipsListComprehension:
         """Verify VIP configuration create
         """
         results = [*dpu.process_commands( (make_create_cmds()) )]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint(results)
 
     @pytest.mark.ptf
@@ -64,7 +64,7 @@ class TestSaiDashVipsListComprehension:
         """Verify VIP configuration removal
         """
         results = [*dpu.process_commands(make_remove_cmds())]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         print(results)
 
 if __name__ == '__main__':
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     if not args.a and not args.c and not args.r:
         # must provide at least one flag
-        print ("\n*** Please specify at least one option flag from [acr] to generate output ***\n", file=sys.stderr)
+        print ('\n*** Please specify at least one option flag from [acr] to generate output ***\n', file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(1)
 
@@ -92,5 +92,4 @@ if __name__ == '__main__':
     if args.a or args.r:
         print (json.dumps([item for item in make_remove_cmds(args.vip_start, \
                                                             args.d1,args.d2)],
-                         indent=2)) 
-
+                         indent=2))

@@ -54,4 +54,3 @@ jobs:
       run:  make docker-dash-p4c-dpdk
     - name: Build P4 software switch (dpdk) and P4Info
       run:  DOCKER_FLAGS=$docker_fg_flags make p4c-dpdk-pna
-      

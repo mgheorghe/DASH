@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     attr.id = SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION;
     attr.value.u32 = SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION;
     attrs.push_back(attr);
-    
+
     /* sai_status_t status = sai_dash_api_impl.create_direction_lookup_entry(&dle, attrs.size(), attrs.data()); */
     sai_status_t status = sai_create_direction_lookup_entry(&dle, attrs.size(), attrs.data());
     if (status != SAI_STATUS_SUCCESS)
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
     attr.id = SAI_VNET_ATTR_VNI;
     attr.value.u32 = 9;
     attrs.push_back(attr);
-    
+
     status = sai_create_vnet(&vnet_id, switch_id, attrs.size(), attrs.data());
     if (status != SAI_STATUS_SUCCESS)
     {

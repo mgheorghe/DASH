@@ -8,7 +8,7 @@ try:
     import copy
     from jinja2 import Template, Environment, FileSystemLoader
 except ImportError as ie:
-    print("Import failed for " + ie.name)
+    print('Import failed for ' + ie.name)
     exit(1)
 
 NAME_TAG = 'name'
@@ -57,33 +57,33 @@ def p4_annotation_to_sai_attr(p4rt, sai_attr):
                 elif kv['key'] == 'objects':
                     sai_attr['objectName'] = kv['value']['stringValue']
                 else:
-                    print("Unknown attr annotation " + kv['key'])
+                    print('Unknown attr annotation ' + kv['key'])
                     exit(1)
     sai_attr['field'] = sai_type_to_field[sai_attr['type']]
 
 def get_sai_key_type(key_size, key_header, key_field):
     if key_size == 1:
-        return 'bool', "booldata"
+        return 'bool', 'booldata'
     elif key_size <= 8:
-        return 'sai_uint8_t', "u8"
+        return 'sai_uint8_t', 'u8'
     elif key_size == 16 and ('_id' in key_field):
-        return 'sai_object_id_t', "u16"
+        return 'sai_object_id_t', 'u16'
     elif key_size <= 16:
-        return 'sai_uint16_t', "u16"
+        return 'sai_uint16_t', 'u16'
     elif key_size == 32 and ('ip_addr_family' in key_field):
-        return 'sai_ip_addr_family_t', "u32"
+        return 'sai_ip_addr_family_t', 'u32'
     elif key_size == 32 and ('addr' in key_field or 'ip' in key_header):
-        return 'sai_ip_address_t', "ipaddr"
+        return 'sai_ip_address_t', 'ipaddr'
     elif key_size == 32 and ('_id' in key_field):
-        return 'sai_object_id_t', "u32"
+        return 'sai_object_id_t', 'u32'
     elif key_size <= 32:
-        return 'sai_uint32_t', "u32"
+        return 'sai_uint32_t', 'u32'
     elif key_size == 48 and ('addr' in key_field or 'mac' in key_header):
-        return 'sai_mac_t', "mac"
+        return 'sai_mac_t', 'mac'
     elif key_size <= 64:
-        return 'sai_uint64_t', "u64"
+        return 'sai_uint64_t', 'u64'
     elif key_size == 128:
-        return 'sai_ip_address_t', "ipaddr"
+        return 'sai_ip_address_t', 'ipaddr'
     else:
         raise ValueError(f'key_size={key_size} is not supported')
 
@@ -98,15 +98,15 @@ def get_sai_lpm_type(key_size, key_header, key_field):
 
 def get_sai_list_type(key_size, key_header, key_field):
     if key_size <= 8:
-        return 'sai_u8_list_t', "u8list"
+        return 'sai_u8_list_t', 'u8list'
     elif key_size <= 16:
-        return 'sai_u16_list_t', "u16list"
+        return 'sai_u16_list_t', 'u16list'
     elif key_size == 32 and ('addr' in key_field or 'ip' in key_header):
-        return 'sai_ip_prefix_list_t', "ipprefixlist"
+        return 'sai_ip_prefix_list_t', 'ipprefixlist'
     elif key_size <= 32:
-        return 'sai_u32_list_t', "u32list"
+        return 'sai_u32_list_t', 'u32list'
     elif key_size == 128 and ('addr' in key_field or 'ip' in key_header):
-        return 'sai_ip_prefix_list_t', "ipprefixlist"
+        return 'sai_ip_prefix_list_t', 'ipprefixlist'
     else:
         raise ValueError(f'key_size={key_size} is not supported')
 
@@ -217,8 +217,8 @@ def fill_action_params(table_params, param_names, action):
         if 'v4_or_v6' in param[NAME_TAG]:
             v4_or_v6_param_name = param[NAME_TAG]
             for param2 in  action[PARAMS_TAG]:
-                if "is_" + param2[NAME_TAG] + "_v4_or_v6" == param[NAME_TAG]:
-                    param2["v4_or_v6_id"] = param['id']
+                if 'is_' + param2[NAME_TAG] + '_v4_or_v6' == param[NAME_TAG]:
+                    param2['v4_or_v6_id'] = param['id']
                     break
 
 
@@ -282,8 +282,8 @@ def generate_sai_apis(program, ignore_tables):
             if 'v4_or_v6' in key[NAME_TAG]:
                 _, v4_or_v6_key_name = key[NAME_TAG].split(':')
                 for key2 in sai_table_data['keys']:
-                    if "is_" + key2['sai_key_name'] + "_v4_or_v6" == v4_or_v6_key_name:
-                        key2["v4_or_v6_id"] = key['id']
+                    if 'is_' + key2['sai_key_name'] + '_v4_or_v6' == v4_or_v6_key_name:
+                        key2['v4_or_v6_id'] = key['id']
                         break
 
         for key in sai_table_data['keys']:
@@ -295,7 +295,7 @@ def generate_sai_apis(program, ignore_tables):
 
         param_names = []
         for action in table[ACTION_REFS_TAG]:
-            action_id = action["id"]
+            action_id = action['id']
             if all_actions[action_id][NAME_TAG] != NOACTION and not (SCOPE_TAG in action and action[SCOPE_TAG] == 'DEFAULT_ONLY'):
                 fill_action_params(sai_table_data[ACTION_PARAMS_TAG], param_names, all_actions[action_id])
                 sai_table_data[ACTIONS_TAG].append(all_actions[action_id])
@@ -410,7 +410,7 @@ def write_sai_files(sai_api):
     new_lines = []
     for line in lines:
         if 'Add new experimental object types above this line' in line:
-            
+
             for table in sai_api[TABLES_TAG]:
                 new_line = '    SAI_OBJECT_TYPE_' + table[NAME_TAG].upper() + ',\n'
                 if new_line not in lines:
@@ -459,9 +459,9 @@ if not os.path.isfile(args.filepath):
     print('File ' + args.filepath + ' does not exist')
     exit(1)
 
-# 
+#
 # Get SAI dictionary from P4 dictionary
-print("Generating SAI API...")
+print('Generating SAI API...')
 with open(args.filepath) as json_program_file:
     json_program = json.load(json_program_file)
 
@@ -474,7 +474,7 @@ for sai_api in sai_apis:
     for table in sai_api[TABLES_TAG]:
         for param in table[ACTION_PARAMS_TAG]:
             if param['type'] == 'sai_object_id_t':
-                table_ref = param[NAME_TAG][:-len("_id")]
+                table_ref = param[NAME_TAG][:-len('_id')]
                 for table_name in all_table_names:
                     if table_ref.endswith(table_name):
                         param[OBJECT_NAME_TAG] = table_name
@@ -483,7 +483,7 @@ for sai_api in sai_apis:
         for key in table['keys']:
             if 'type' in key:
                 if key['type'] == 'sai_object_id_t':
-                    table_ref = key['sai_key_name'][:-len("_id")]
+                    table_ref = key['sai_key_name'][:-len('_id')]
                     for table_name in all_table_names:
                         if table_ref.endswith(table_name):
                             key[OBJECT_NAME_TAG] = table_name
