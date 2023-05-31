@@ -109,7 +109,7 @@ We'll show how to configure devices using the following techniques. Traffic test
 * Simple example using a custom generator with streaming records
 * Complex configuration generated using [dpugen](https://pypi.org/project/dpugen/) with streaming records.
 
-Along the way we're refer to some common design patterns and themes which we've collected in an [Appendix](#appendix---common-themes-and-design-patterns). You can jump ahead and read that now, or refer to it as you walk through examples. 
+Along the way we're refer to some common design patterns and themes which we've collected in an [Appendix](#appendix---common-themes-and-design-patterns). You can jump ahead and read that now, or refer to it as you walk through examples.
 A variety of techniques are illustrated by a series of test files.
 
 >**NOTE:** the section headings are links to the test programs for easy navigation.
@@ -316,10 +316,10 @@ Here is a typical sequence of records as you can view in [test_sai_vnet_outbound
       "SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION"
     ]
   },
-  
+
   ... etc.
 ```
-For each record, SAI Challenger invokes a parser, makes DUT API calls over the chosen RPC interface (e.g. sai-thrift), checks the return values and 
+For each record, SAI Challenger invokes a parser, makes DUT API calls over the chosen RPC interface (e.g. sai-thrift), checks the return values and
 stores the OIDs of the created objects in a dictionary which can be referred to by the `name` in each record, e.g. `vip_#1`.
 
 To teardown the configuration, we convert the *create* records into *remove* records containing just the `op` and name. We made a helper to do this as described in [Pattern: `make_remove_cmds()` helper](#pattern-make_remove_cmds-helper).
@@ -335,7 +335,7 @@ A list of remove records, taken from [test_sai_vnet_outbound_small_scale_config_
     "name": "outbound_ca_to_pa_#1",
     "op": "remove"
   },
-  
+
   ...etc.
 ```
 
@@ -397,7 +397,7 @@ if __name__ == '__main__':
 
     if args.a or args.r:
         print (json.dumps([item for item in make_remove_cmds()],
-                         indent=2)) 
+                         indent=2))
 ```
 
 >**NOTE:** The output might contain diagnostic messages captured from `stdout`, so some hand-trimming of JSON may be needed. Check the file contents and edit as requires.
@@ -417,7 +417,7 @@ PYTHONPATH=.. ./test_sai_vnet_outbound_small_scale_config_via_dpugen.py -r > tes
 Generating device setup commands can be simple or complex, as the tutorials and production test cases illustrate. These are run at the start of a test case.
 
 In our tutorials, we use a wrapper method to get the configuration as a list or an iterator. This allows us to make a corresponding `remove()` helper as described ahead, in a consistent and concise way. It also makes it easy to implement the command-line mode which prints the configurations in JSON format.
->**NOTE:** Some of the examples have parameterized `make_create_cmds()` 
+>**NOTE:** Some of the examples have parameterized `make_create_cmds()`
 ## Pattern: `make_remove_cmds()` helper
 
 At the end of a test, device configuration is "torn down" to prepare for a subsequent test, leaving the DUT in a clean, known state. It is advisable to remove the config entries in the exact reverse order of their creation, in order to avoid dependency errors in the device. For example, some items are contained in other items, and the proper removal order might be enforced.

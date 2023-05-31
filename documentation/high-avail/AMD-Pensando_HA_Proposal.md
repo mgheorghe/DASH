@@ -59,7 +59,7 @@ The heartbeat has to use a separate channel than any other control plane message
 
 ## State Synchronization
 
-State synchronization between the 2 DPUs uses the CNIP IP. All state synchronization happens at the granularity of the DP-VIP and happens from the primary of the DP-VIP towards the secondary. 
+State synchronization between the 2 DPUs uses the CNIP IP. All state synchronization happens at the granularity of the DP-VIP and happens from the primary of the DP-VIP towards the secondary.
 
 One of the goals of this design is to ensure that any traffic that was forwarded before switchover continues to be forwarded after switchover. This is important because although the controller ensures that configured policies on the two paired nodes will be eventually consistent, there are windows where the configurations can be out of sync between the nodes for windows of time since the configuration push is not atomic between the paired nodes. To provide consistency in forwarding on switchover the design uses the policy lookup on the primary to be the source of truth between the pair. State synchronization from the primary to the secondary carries for each flow the results of the lookup on the primary. On switchover the new Primary continues to forward based on the old primary’s results hence maintaining continuity. The Controller can then trigger an update of the state (Flow reconciliation) when configuration on the new primary is up-to-date.
 

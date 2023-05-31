@@ -66,5 +66,5 @@ saithrift-server-clean:
 	rm -rf $(SAI)/test/saithriftv2/gen-cpp/
 	rm -rf $(SAI)/test/saithriftv2/obj/
 	rm -rf $(RPC_INST_DIR)
-	
+
 clean: saithrift-server-clean

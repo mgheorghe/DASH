@@ -15,16 +15,16 @@ from saichallenger.common.sai_dataplane.utils.ptf_testutils import (send_packet,
 current_file_dir = Path(__file__).parent
 
 # Constants
-VIP = "10.10.1.1"
+VIP = '10.10.1.1'
 SWITCH_ID = 1
 DIR_LOOKUP_VNI = 60
 VM_VNI = 9
-ENI_MAC = "00:00:00:09:03:14"
-PA_VALIDATION_SIP = "10.10.2.10"
-PA_VALIDATION_DIP = "10.10.2.20"
+ENI_MAC = '00:00:00:09:03:14'
+PA_VALIDATION_SIP = '10.10.2.10'
+PA_VALIDATION_DIP = '10.10.2.20'
 INBOUND_ROUTING_VNI = 2
-INNER_VM_IP = "172.19.1.100"
-INNER_REMOTE_IP = "172.19.1.1"
+INNER_VM_IP = '172.19.1.100'
+INNER_REMOTE_IP = '172.19.1.1'
 
 # TODO: Fix configuration once issue is addressed: https://github.com/sonic-net/DASH/issues/233
 TEST_VNET_INBOUND_CONFIG = {
@@ -112,7 +112,7 @@ TEST_VNET_INBOUND_CONFIG = {
 }
 
 
-@pytest.mark.skip(reason="https://github.com/sonic-net/DASH/issues/345 [P4Runtime] Invalid match type")
+@pytest.mark.skip(reason='https://github.com/sonic-net/DASH/issues/345 [P4Runtime] Invalid match type')
 class TestSaiVnetInbound:
 
     def test_vnet_inbound_create(self, dpu):
@@ -126,18 +126,18 @@ class TestSaiVnetInbound:
         with (current_file_dir / 'vnet_inbound_setup_commands.json').open(mode='r') as config_file:
             vnet_inbound_setup_commands = json.load(config_file)
         result = [*dpu.process_commands(vnet_inbound_setup_commands)]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint(result)
 
     @pytest.mark.ptf
-    @pytest.mark.xfail(reason="https://github.com/sonic-net/DASH/issues/233")
+    @pytest.mark.xfail(reason='https://github.com/sonic-net/DASH/issues/233')
     def test_vnet_inbound_traffic_check(self, dpu, dataplane):
         """Verify traffic forwarding in PTF style"""
 
-        outer_smac = "00:0a:05:06:06:06"
-        outer_dmac = "00:0b:05:06:06:06"
-        inner_smac = "00:0a:04:06:06:06"
-        inner_dmac = "00:0b:04:06:06:06"
+        outer_smac = '00:0a:05:06:06:06'
+        outer_dmac = '00:0b:05:06:06:06'
+        inner_smac = '00:0a:04:06:06:06'
+        inner_dmac = '00:0b:04:06:06:06'
 
         # PAcket to send
         inner_pkt = simple_udp_packet(eth_dst=ENI_MAC,
@@ -158,8 +158,8 @@ class TestSaiVnetInbound:
                                             eth_src=ENI_MAC,
                                             ip_dst=INNER_VM_IP,
                                             ip_src=INNER_REMOTE_IP)
-        vxlan_exp_pkt = simple_vxlan_packet(eth_dst="00:00:00:00:00:00",
-                                        eth_src="00:00:00:00:00:00",
+        vxlan_exp_pkt = simple_vxlan_packet(eth_dst='00:00:00:00:00:00',
+                                        eth_src='00:00:00:00:00:00',
                                         ip_dst=PA_VALIDATION_DIP,
                                         ip_src=PA_VALIDATION_SIP,
                                         udp_sport=11638,
@@ -168,10 +168,10 @@ class TestSaiVnetInbound:
                                         inner_frame=inner_exp_pkt)
 
         # dataplane.start_capture()
-        print("\nSending outbound packet...\n\n", vxlan_pkt.__repr__())
+        print('\nSending outbound packet...\n\n', vxlan_pkt.__repr__())
         send_packet(dataplane, 0, vxlan_pkt)
 
-        print("\nVerifying packet...\n", vxlan_exp_pkt.__repr__())
+        print('\nVerifying packet...\n', vxlan_exp_pkt.__repr__())
         verify_packet(dataplane, vxlan_exp_pkt, 1)
 
     def test_vnet_inbound_remove(self, dpu):
@@ -190,5 +190,5 @@ class TestSaiVnetInbound:
             cleanup_commands.append({'name': cmd['name'], 'op': 'remove'})
 
         result = [*dpu.process_commands(cleanup_commands)]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint(result)

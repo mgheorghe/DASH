@@ -13,80 +13,80 @@ class TestSaiVnetVni:
 
         commands = [
             {
-                "name": "vnet",
-                "op": "create",
-                "type": "SAI_OBJECT_TYPE_VNET",
-                "attributes": [
-                    "SAI_VNET_ATTR_VNI",
-                    "2000"
+                'name': 'vnet',
+                'op': 'create',
+                'type': 'SAI_OBJECT_TYPE_VNET',
+                'attributes': [
+                    'SAI_VNET_ATTR_VNI',
+                    '2000'
                 ]
             },
         ]
         results = [*dpu.process_commands(commands)]
-        print("\n======= SAI commands RETURN values create =======")
+        print('\n======= SAI commands RETURN values create =======')
         pprint(results)
 
-    @pytest.mark.skip(reason="get and set not implemented, yet")
+    @pytest.mark.skip(reason='get and set not implemented, yet')
     def test_vnet_vni_get1(self, dpu):
 
         commands = [
             {
-                "name": "vnet",
-                "vnet_oid": "$vnet",
-                "op": "get",
-                "type": "SAI_OBJECT_TYPE_VNET",
-                "attributes": ["SAI_VNET_ATTR_VNI", 0]
+                'name': 'vnet',
+                'vnet_oid': '$vnet',
+                'op': 'get',
+                'type': 'SAI_OBJECT_TYPE_VNET',
+                'attributes': ['SAI_VNET_ATTR_VNI', 0]
             }
         ]
         results = [*dpu.process_commands(commands)]
-        print("\n======= SAI commands RETURN values get =======")
+        print('\n======= SAI commands RETURN values get =======')
         pprint(results)
 
-    @pytest.mark.skip(reason="get and set not implemented, yet")
+    @pytest.mark.skip(reason='get and set not implemented, yet')
     def test_vnet_vni_set(self, dpu):
 
         commands = [
             {
-                "name": "vnet",
-                "vnet_oid": "$vnet",
-                "op": "set",
-                "type": "SAI_OBJECT_TYPE_VNET",
-                "attributes": [
-                    "SAI_VNET_ATTR_VNI",
-                    "4000"
+                'name': 'vnet',
+                'vnet_oid': '$vnet',
+                'op': 'set',
+                'type': 'SAI_OBJECT_TYPE_VNET',
+                'attributes': [
+                    'SAI_VNET_ATTR_VNI',
+                    '4000'
                 ]
             },
         ]
         results = [*dpu.process_commands(commands)]
-        print("\n======= SAI commands RETURN values set =======")
+        print('\n======= SAI commands RETURN values set =======')
         pprint(results)
 
-    @pytest.mark.skip(reason="get and set not implemented, yet")
+    @pytest.mark.skip(reason='get and set not implemented, yet')
     def test_vnet_vni_get2(self, dpu):
 
         commands = [
             {
-                "name": "vnet",
-                "vnet_oid": "$vnet",
-                "op": "get",
-                "type": "SAI_OBJECT_TYPE_VNET",
-                "attributes": ["SAI_VNET_ATTR_VNI", 0]
+                'name': 'vnet',
+                'vnet_oid': '$vnet',
+                'op': 'get',
+                'type': 'SAI_OBJECT_TYPE_VNET',
+                'attributes': ['SAI_VNET_ATTR_VNI', 0]
             }
         ]
         results = [*dpu.process_commands(commands)]
-        print("\n======= SAI commands RETURN values get =======")
+        print('\n======= SAI commands RETURN values get =======')
         pprint(results)
 
     def test_vnet_vni_remove(self, dpu):
 
         commands = [
             {
-                "name": "vnet",
-                "op": "remove",
-                "type": "SAI_OBJECT_TYPE_VNET"
+                'name': 'vnet',
+                'op': 'remove',
+                'type': 'SAI_OBJECT_TYPE_VNET'
             },
         ]
 
         results = [*dpu.process_commands(commands)]
-        print("\n======= SAI commands RETURN values remove =======")
+        print('\n======= SAI commands RETURN values remove =======')
         pprint(results)

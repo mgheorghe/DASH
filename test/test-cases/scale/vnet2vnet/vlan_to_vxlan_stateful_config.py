@@ -3,10 +3,10 @@ import requests
 from testdata_vxlan_1vpc_1ip import testdata as TD
 
 import sys
-sys.path.append("../.")
+sys.path.append('../.')
 from testbed import TESTBED as TB
 
-url = "http://{}:30180/srp4/api/v1/config".format(TB["stateful"][0]["vxlan"][0]["tgen"][0][0])
+url = 'http://{}:30180/srp4/api/v1/config'.format(TB['stateful'][0]['vxlan'][0]['tgen'][0][0])
 headers = {'Accept': 'application/json'}
 
 conf = r"""
@@ -76,12 +76,12 @@ conf = r"""
     }
 }"""
 
-ip_split = TD["val_map"][2]["oipv4pool"]['ip'].split('.')
+ip_split = TD['val_map'][2]['oipv4pool']['ip'].split('.')
 ip_split[3] = str(int(ip_split[3])+100)
 converted_ip = '.'.join(ip_split)
 
-conf_string = conf % (TD["val_map"][1]["vxlan"]["RemoteVtepIpv4"], TD["val_map"][1]["oipv4pool"]["ip"],
-                      TD["val_map"][1]["vxlan"]["RemoteVtepIpv4"], converted_ip)
+conf_string = conf % (TD['val_map'][1]['vxlan']['RemoteVtepIpv4'], TD['val_map'][1]['oipv4pool']['ip'],
+                      TD['val_map'][1]['vxlan']['RemoteVtepIpv4'], converted_ip)
 
 data = json.loads(conf_string)
 
@@ -90,4 +90,4 @@ response = requests.post(url, headers=headers, json=data)
 if response.status_code == 200:
     print(response.headers)
 else:
-    print("Error while making request, status code = {}, message {}".format(response.status_code, response.text))
+    print('Error while making request, status code = {}, message {}'.format(response.status_code, response.text))

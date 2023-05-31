@@ -11,18 +11,18 @@ from tabulate import tabulate
 
 if sys.version_info[0] >= 3:
     unicode = str       # alias str as unicode for python3 and above
-TESTBED_FILE = "testbed.py"                     # path to settings.json relative root dir
+TESTBED_FILE = 'testbed.py'                     # path to settings.json relative root dir
 
 opd, opj, opj = os.path.dirname, os.path.join, os.path.join
 
 
 def ss(mssg, st):
     for remaining in range(st, 0, -1):
-        sys.stdout.write("\r")
-        sys.stdout.write(mssg + " {:2d} seconds remaining.".format(remaining))
+        sys.stdout.write('\r')
+        sys.stdout.write(mssg + ' {:2d} seconds remaining.'.format(remaining))
         sys.stdout.flush()
         time.sleep(1)
-    print("\n")
+    print('\n')
 
 
 def human_format(number):
@@ -39,7 +39,7 @@ def byteify(val):
         return [byteify(element) for element in val]
     # change u'string' to 'string' only for python2
     elif isinstance(val, unicode) and sys.version_info[0] == 2:
-        return val.encode("utf-8")
+        return val.encode('utf-8')
     else:
         return val
 
@@ -59,15 +59,15 @@ class bcolors:
 def printStats(api, vName, printoptions={}):
     transpose = True
     try:
-        transpose = printoptions[vName]["transpose"]
+        transpose = printoptions[vName]['transpose']
     except:
         pass
     view = StatViewAssistant(api, vName)
     data = view.Rows.RawData
     columnCaptions = view.ColumnHeaders
     cheader = columnCaptions[:]
-    if vName in printoptions and "toprint" in printoptions[vName]:
-        cheader = printoptions[vName]["toprint"]
+    if vName in printoptions and 'toprint' in printoptions[vName]:
+        cheader = printoptions[vName]['toprint']
     if vName in printoptions and 'nottoprint' in printoptions[vName]:
         [cheader.remove(st) for st in printoptions[vName]['nottoprint']]
     rows = []
@@ -78,7 +78,7 @@ def printStats(api, vName, printoptions={}):
         rows.insert(0, cheader)
         rows = list(zip(*rows))
         cheader = []
-    print(tabulate(rows, headers=cheader, tablefmt="psql"))
+    print(tabulate(rows, headers=cheader, tablefmt='psql'))
     return rows[0]
 
 
@@ -88,7 +88,7 @@ def print_stats_acl(api, vName, printoptions={}):
     else:
         transpose = True
         try:
-            transpose = printoptions[vName]["transpose"]
+            transpose = printoptions[vName]['transpose']
         except:
             pass
         view = StatViewAssistant(api, vName)
@@ -96,39 +96,39 @@ def print_stats_acl(api, vName, printoptions={}):
         columnCaptions = view.ColumnHeaders
         cheader = columnCaptions[:]
 
-        if vName in printoptions and "toprint" in printoptions[vName]:
-            cheader = printoptions[vName]["toprint"]
+        if vName in printoptions and 'toprint' in printoptions[vName]:
+            cheader = printoptions[vName]['toprint']
         if vName in printoptions and 'nottoprint' in printoptions[vName]:
             [cheader.remove(st) for st in printoptions[vName]['nottoprint']]
         rows = []
         for row in data:
             tmp = [row[columnCaptions.index(col)] for col in cheader]
-            pf = f"{bcolors.FAIL}FAIL{bcolors.ENDC}"
-            if row[columnCaptions.index("Traffic Item")] in ["Priority 2", "Priority 8", "Priority 5"]:
-                if int(float(row[columnCaptions.index("Loss %")])) == 100:
-                    pf = f"{bcolors.OKGREEN}%s{bcolors.ENDC}" % "PASS"
+            pf = f'{bcolors.FAIL}FAIL{bcolors.ENDC}'
+            if row[columnCaptions.index('Traffic Item')] in ['Priority 2', 'Priority 8', 'Priority 5']:
+                if int(float(row[columnCaptions.index('Loss %')])) == 100:
+                    pf = f'{bcolors.OKGREEN}%s{bcolors.ENDC}' % 'PASS'
             else:
-                if int(float(row[columnCaptions.index("Loss %")])) == 0:
-                    pf = f"{bcolors.OKGREEN}%s{bcolors.ENDC}" % "PASS"
+                if int(float(row[columnCaptions.index('Loss %')])) == 0:
+                    pf = f'{bcolors.OKGREEN}%s{bcolors.ENDC}' % 'PASS'
             tmp.append(pf)
             rows.append(tmp[:])
-        cheader.append("PASS/FAIL")
+        cheader.append('PASS/FAIL')
         if transpose:
             rows.insert(0, cheader)
             rows = list(zip(*rows))
             cheader = []
-        print('\n"%s"\n' % (vName,)+tabulate(rows, headers=cheader, tablefmt="psql"))
+        print('\n"%s"\n' % (vName,)+tabulate(rows, headers=cheader, tablefmt='psql'))
 
 
 def start_portocols(api):
-    print('Starting All protocols', len(api.Vport.find(Name="^Tx"))+len(api.Vport.find(Name="^Rx")))
+    print('Starting All protocols', len(api.Vport.find(Name='^Tx'))+len(api.Vport.find(Name='^Rx')))
     api.StartAllProtocols()
 
     try:
         print('Verify protocol sessions')
         protocolsSummary = StatViewAssistant(api, 'Protocols Summary')
         protocolsSummary.CheckCondition('Sessions Down', StatViewAssistant.EQUAL, 0)
-        protocolsSummary.CheckCondition('Sessions Up', StatViewAssistant.EQUAL, len(api.Vport.find(Name="^Tx"))+len(api.Vport.find(Name="^Rx")))
+        protocolsSummary.CheckCondition('Sessions Up', StatViewAssistant.EQUAL, len(api.Vport.find(Name='^Tx'))+len(api.Vport.find(Name='^Rx')))
     except Exception as e:
         raise Exception(str(e))
 
@@ -140,7 +140,7 @@ def start_traffic(api):
     try:
         ti.CheckCondition('Tx Frames', StatViewAssistant.GREATER_THAN, 0)
     except Exception as ex:
-        raise Exception("Stats Missing")
+        raise Exception('Stats Missing')
 
 
 def stop_traffic(api, blocking=True):
@@ -148,17 +148,17 @@ def stop_traffic(api, blocking=True):
     api.Traffic.StopStatelessTrafficBlocking()
     attempts = 0
     while api.Traffic.IsTrafficRunning and attempts < 18:
-        print("\t\t\tTraffic is Still Running")
+        print('\t\t\tTraffic is Still Running')
         time.sleep(5)
         attempts += 1
     if attempts > 18:
-        raise Exception("Traffic not stopped after 90 Seconds")
-    print("\t\t\tTraffic stopped")
+        raise Exception('Traffic not stopped after 90 Seconds')
+    print('\t\t\tTraffic stopped')
     ti = StatViewAssistant(api, 'Traffic Item Statistics')
     try:
         ti.CheckCondition('Tx Frames', StatViewAssistant.GREATER_THAN, 0)
     except Exception as ex:
-        raise Exception("Stats Missing")
+        raise Exception('Stats Missing')
 
 
 def seconds_elapsed(start_seconds):
@@ -193,16 +193,16 @@ def wait_for(func, condition_str, interval_seconds=None, timeout_seconds=None):
         timeout_seconds = settings.timeout_seconds
     start_seconds = int(time.time())
 
-    print("\n\nWaiting for %s ..." % condition_str)
+    print('\n\nWaiting for %s ...' % condition_str)
     while True:
         res = func()
         if res:
-            print("Done waiting for %s" % condition_str)
+            print('Done waiting for %s' % condition_str)
             break
         if res is None:
-            raise Exception("Wait aborted for %s" % condition_str)
+            raise Exception('Wait aborted for %s' % condition_str)
         if timed_out(start_seconds, timeout_seconds):
-            msg = "Time out occurred while waiting for %s" % condition_str
+            msg = 'Time out occurred while waiting for %s' % condition_str
             raise Exception(msg)
 
         time.sleep(interval_seconds)
@@ -212,14 +212,14 @@ def get_all_stats(api, print_output=True):
     """
     Returns all port and flow stats
     """
-    print("Fetching all port stats ...")
+    print('Fetching all port stats ...')
     request = api.metrics_request()
     request.port.port_names = []
     port_results = api.get_metrics(request).port_metrics
     if port_results is None:
         port_results = []
 
-    print("Fetching all flow stats ...")
+    print('Fetching all flow stats ...')
     request = api.metrics_request()
     request.flow.flow_names = []
     flow_results = api.get_metrics(request).flow_metrics
@@ -253,21 +253,21 @@ def print_stats(port_stats=None, flow_stats=None, clear_screen=None):
         clear_screen = settings.dynamic_stats_output
 
     if clear_screen:
-        os.system("clear")
+        os.system('clear')
 
     if port_stats is not None:
-        row_format = "{:>15}" * 6
-        border = "-" * (15 * 6 + 5)
-        print("\nPort Stats")
+        row_format = '{:>15}' * 6
+        border = '-' * (15 * 6 + 5)
+        print('\nPort Stats')
         print(border)
         print(
             row_format.format(
-                "Port",
-                "Tx Frames",
-                "Tx Bytes",
-                "Rx Frames",
-                "Rx Bytes",
-                "Tx FPS",
+                'Port',
+                'Tx Frames',
+                'Tx Bytes',
+                'Rx Frames',
+                'Rx Bytes',
+                'Tx FPS',
             )
         )
         for stat in port_stats:
@@ -282,25 +282,25 @@ def print_stats(port_stats=None, flow_stats=None, clear_screen=None):
                 )
             )
         print(border)
-        print("")
-        print("")
+        print('')
+        print('')
 
     if flow_stats is not None:
-        row_format = "{:>15}" * 3
-        border = "-" * (15 * 3 + 5)
-        print("Flow Stats")
+        row_format = '{:>15}' * 3
+        border = '-' * (15 * 3 + 5)
+        print('Flow Stats')
         print(border)
-        print(row_format.format("Flow", "Rx Frames", "Rx Bytes"))
+        print(row_format.format('Flow', 'Rx Frames', 'Rx Bytes'))
         for stat in flow_stats:
             print(row_format.format(stat.name, stat.frames_rx, stat.bytes_rx))
         print(border)
-        print("")
-        print("")
+        print('')
+        print('')
 
 
 def check_warnings(response):
     if response.warnings:
-        print("Warning: %s" % str(response.warnings))
+        print('Warning: %s' % str(response.warnings))
 
 
 def get_all_captures(api, cfg):
@@ -310,7 +310,7 @@ def get_all_captures(api, cfg):
     """
     cap_dict = {}
     for name in get_capture_port_names(cfg):
-        print("Fetching captures from port %s" % name)
+        print('Fetching captures from port %s' % name)
         request = api.capture_request()
         request.port_name = name
         pcap_bytes = api.get_capture(request)
@@ -331,7 +331,7 @@ def get_capture_port_names(cfg):
     """
     names = []
     for cap in cfg.captures:
-        if cap._properties.get("port_names"):
+        if cap._properties.get('port_names'):
             for name in cap.port_names:
                 if name not in names:
                     names.append(name)
@@ -347,13 +347,13 @@ def mac_or_ip_to_num(mac_or_ip_addr, mac=True):
     mac_or_ip_to_num('10.1.1.1', False)
     returns: 167837953
     """
-    sep = ":" if mac else "."
+    sep = ':' if mac else '.'
     addr = []
     if mac:
         addr = mac_or_ip_addr.split(sep)
     else:
-        addr = ["{:02x}".format(int(i)) for i in mac_or_ip_addr.split(sep)]
-    return int("".join(addr), 16)
+        addr = ['{:02x}'.format(int(i)) for i in mac_or_ip_addr.split(sep)]
+    return int(''.join(addr), 16)
 
 
 def num_to_mac_or_ip(mac_or_ip_addr, mac=True):
@@ -364,8 +364,8 @@ def num_to_mac_or_ip(mac_or_ip_addr, mac=True):
     num_to_mac_or_ip(167837953, False)
     returns: '10.1.1.1'
     """
-    sep = ":" if mac else "."
-    fmt = "{:012x}" if mac else "{:08x}"
+    sep = ':' if mac else '.'
+    fmt = '{:012x}' if mac else '{:08x}'
     rng = 12 if mac else 8
     mac_or_ip = fmt.format(mac_or_ip_addr)
     addr = []
@@ -415,5 +415,5 @@ def to_hex(lst):
     from functools import reduce
 
     value = reduce(lambda x, y: hex(x) + hex(y), lst)
-    value = value[0:2] + value[2:].replace("0x", "").lstrip("0")
+    value = value[0:2] + value[2:].replace('0x', '').lstrip('0')
     return value

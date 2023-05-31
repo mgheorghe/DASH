@@ -1,4 +1,4 @@
-# IXIA-C 
+# IXIA-C
 
 Ixia-c is a modern, powerful and API-driven traffic generator available for free and distributed / deployed as a multi-container application consisting of a controller, a traffic-engine and an app-usage-reporter.
 Ixia-c supports client APIs in various languages, most prevalent being [snappi](https://pypi.org/project/snappi/) (Python API).

@@ -8,7 +8,7 @@ action vxlan_encap(inout headers_t hdr,
                    in EthernetAddress underlay_smac,
                    in IPv4Address underlay_dip,
                    in IPv4Address underlay_sip,
-                   in EthernetAddress overlay_dmac, 
+                   in EthernetAddress overlay_dmac,
                    in bit<24> vni) {
     hdr.inner_ethernet = hdr.ethernet;
     hdr.inner_ethernet.dst_addr = overlay_dmac;
@@ -64,7 +64,7 @@ action vxlan_encap(inout headers_t hdr,
     hdr.ipv4.dst_addr = underlay_dip;
     hdr.ipv4.src_addr = underlay_sip;
     hdr.ipv4.hdr_checksum = 0;
-    
+
     hdr.udp.setValid();
     hdr.udp.src_port = 0;
     hdr.udp.dst_port = UDP_PORT_VXLAN;
@@ -81,7 +81,7 @@ action vxlan_encap(inout headers_t hdr,
         inner_ip_len);
 #endif // TARGET_DPDK_PNA
     hdr.udp.checksum = 0;
-    
+
     hdr.vxlan.setValid();
     hdr.vxlan.reserved = 0;
     hdr.vxlan.reserved_2 = 0;

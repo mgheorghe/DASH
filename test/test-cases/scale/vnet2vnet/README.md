@@ -1,4 +1,4 @@
-# VNET to VNET 
+# VNET to VNET
 
 The SONiC-DASH testbed provides a common test platform to examine an extensive collection of test cases and allow ease of duplication and modification.  The directory structure is arranged for configuring a variety of test SKUs and to reduce testing design time.
 
@@ -32,7 +32,7 @@ This builds on top of the previous test.
 
 Intent here is to get closer to reality where we will have more than 1 flow at a time.
 
-For highly parallel implementations have 1 flow per processing unit and it should provide the best performance numbers. 
+For highly parallel implementations have 1 flow per processing unit and it should provide the best performance numbers.
 
 obtain PPS and latency numbers
 
@@ -81,7 +81,7 @@ connection rate value will be observed while maintaining 6M concurrent sessions
   - IPv6 version of the tests
   - IPv4 with IPv6 mix, 25% IPv4, 25% IPv6, 25% IPv4 over IPv6, 25% IPv6 over IPv4
   - ...
-# VNET to VNET 
+# VNET to VNET
 
 The SONiC-DASH testbed provides a common test platform to examine an extensive collection of test cases and allow ease of duplication and modification.  The directory structure is arranged for configuring a variety of test SKUs and to reduce testing design time.
 

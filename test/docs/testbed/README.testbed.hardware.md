@@ -7,7 +7,7 @@
 Key components in the physical connection:
 * DPU cards
 * DPU host server (2+ PCI 4.0 16x slots)
-* Hardware-based packet generator with minimum of 2 x 100G ports. 
+* Hardware-based packet generator with minimum of 2 x 100G ports.
     <br>Example:
     * Keysight XGS12-HSL Chassis
     * Keysight Novus 100G load module

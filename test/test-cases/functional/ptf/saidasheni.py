@@ -170,7 +170,7 @@ class CreateDeleteEniTest(VnetAPI):
 
         self.inbound_routing_entry = self.inbound_routing_decap_validate_create(
             eni_id=self.eni, vni=self.vm_vni,
-            sip=self.sip, sip_mask="255.255.255.0",
+            sip=self.sip, sip_mask='255.255.255.0',
             src_vnet_id=self.outbound_vnet
         )
 
@@ -190,11 +190,11 @@ class CreateDeleteEniTest(VnetAPI):
 
         Note: test should be run after createEniTest
         """
-        self.overlay_ip = "192.168.2.22"
+        self.overlay_ip = '192.168.2.22'
 
         self.outbound_routing_entry = self.outbound_routing_vnet_direct_create(
             eni_id=self.eni,
-            lpm="192.168.2.0/24",
+            lpm='192.168.2.0/24',
             dst_vnet_id=self.outbound_vnet,
             overlay_ip=self.overlay_ip)
         # TODO: add counter
@@ -850,7 +850,7 @@ class CreateDeleteEniTest(VnetAPI):
         try:
             test_action = SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET
             test_dst_vnet = self.vnet_create(vni=9999)
-            test_overlay_ip = "9.9.9.9"
+            test_overlay_ip = '9.9.9.9'
 
             # set and verify new action
             sai_thrift_set_outbound_routing_entry_attribute(self.client,
@@ -921,8 +921,8 @@ class CreateDeleteEniTest(VnetAPI):
         self.assertEqual(attr['use_dst_vnet_vni'], True)
         # TODO: add get counter verification
 
-        test_dip = "10.10.10.1"
-        test_overlay_dmac = "AA:11:BB:22:CC:33"
+        test_dip = '10.10.10.1'
+        test_overlay_dmac = 'AA:11:BB:22:CC:33'
 
         # set and verify new values
         sai_thrift_set_outbound_ca_to_pa_entry_attribute(self.client,
@@ -975,7 +975,7 @@ class CreateDeleteEniTest(VnetAPI):
         self.assertEqual(self.status(), SAI_STATUS_SUCCESS)
 
 
-@skipIf(test_param_get('target') == 'bmv2', "Blocked by Issue #233. Inbound Routing is not supported in BMv2.")
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked by Issue #233. Inbound Routing is not supported in BMv2.')
 class EniScaleTest(VnetAPI):
     """
     Verifies ENI scaling:
@@ -991,7 +991,7 @@ class EniScaleTest(VnetAPI):
         self.MIN_ENI = 64  # Expected min number of ENI entries per card
         self.vm_vni = 0    # ENI VM VNI (increments during ENIs creation)
         self.outbound_vni = 100  # VNI for inbound/outbound routing entries creation
-        self.vm_underlay_dip = sai_ipaddress("10.10.0.1")
+        self.vm_underlay_dip = sai_ipaddress('10.10.0.1')
 
         # Create list with MIN_ENI number of unique MAC addresses for ENI creation
         self.eni_mac_list = []
@@ -1006,10 +1006,10 @@ class EniScaleTest(VnetAPI):
     def runTest(self):
         self.eniScaleTest()
 
-        print("\n\tClear configuration")
+        print('\n\tClear configuration')
         self.destroy_teardown_obj()    # remove all created entries
         self.teardown_objects.clear()  # clear teardown_objects to not remove all entries again in tearDown
-        print("PASS")
+        print('PASS')
 
         self.vm_vni = 0                # reset values
         self.outbound_vni = 100
@@ -1025,7 +1025,7 @@ class EniScaleTest(VnetAPI):
         Min required number of ENI entries hardcoded in MIN_ENI value.
         """
 
-        print(f"\n\tEni Scale Test")
+        print(f'\n\tEni Scale Test')
 
         for indx in range(self.MIN_ENI):
             try:
@@ -1061,27 +1061,27 @@ class EniScaleTest(VnetAPI):
                 # create inbound_routing_entry
                 self.inbound_routing_decap_create(eni_id=eni,
                                                   vni=self.outbound_vni,
-                                                  sip="10.10.2.0",
-                                                  sip_mask="255.255.255.0")
+                                                  sip='10.10.2.0',
+                                                  sip_mask='255.255.255.0')
 
                 # create outbound_routing_entry
                 self.outbound_routing_vnet_direct_create(eni_id=eni,
-                                                         lpm="192.168.1.0/24",
+                                                         lpm='192.168.1.0/24',
                                                          dst_vnet_id=outbound_vnet,
-                                                         overlay_ip="192.168.1.10")
+                                                         overlay_ip='192.168.1.10')
 
             except AssertionError as ae:
                 if self.status() == SAI_STATUS_INSUFFICIENT_RESOURCES:
-                    print(f"\nSAI_STATUS_INSUFFICIENT_RESOURCES: failed on iteration # {self.vm_vni}\n")
+                    print(f'\nSAI_STATUS_INSUFFICIENT_RESOURCES: failed on iteration # {self.vm_vni}\n')
                     raise ae
                 else:
-                    print(f"\nFailed on iteration # {self.vm_vni}\n")
+                    print(f'\nFailed on iteration # {self.vm_vni}\n')
                     raise ae
 
-        print("PASS")
+        print('PASS')
 
 
-@skipIf(test_param_get('target') == 'bmv2', "Blocked by Issue #233. Inbound Routing is not supported in BMv2.")
+@skipIf(test_param_get('target') == 'bmv2', 'Blocked by Issue #233. Inbound Routing is not supported in BMv2.')
 class CreateTwoSameEnisNegativeTest(VnetAPI):
     """
     Verifies failure in case of creation the same ENIs in one VNET
@@ -1089,10 +1089,10 @@ class CreateTwoSameEnisNegativeTest(VnetAPI):
 
     def runTest(self):
 
-        vip = "10.1.1.1"
+        vip = '10.1.1.1'
         vm_vni = 1
-        vm_underlay_dip = "10.10.1.10"
-        eni_mac = "00:01:00:00:03:14"
+        vm_underlay_dip = '10.10.1.10'
+        eni_mac = '00:01:00:00:03:14'
 
         self.vip_create(vip=vip)
 

@@ -6,10 +6,10 @@ def config_l1_properties(dataplane, usd_speed):
     So we are disabling auto_nagotiation when setting speed
     """
 
-    ly = dataplane.configuration.layer1.layer1(name="ly")[-1]
+    ly = dataplane.configuration.layer1.layer1(name='ly')[-1]
     ly.port_names = [p.name for p in dataplane.configuration.ports]
     val = getattr(ly , usd_speed )
-    setattr(ly , "speed", val)  
+    setattr(ly , 'speed', val)
     ly.ieee_media_defaults = False
     ly.auto_negotiation.rs_fec = True
     ly.auto_negotiation.link_training = False
@@ -25,7 +25,7 @@ def check_flow_tx_rx_frames_stats(dataplane, flow_name):
     req = dataplane.api.metrics_request()
     req.flow.flow_names = [flow_name]
     flow_stats = dataplane.api.get_metrics(req)
-    print("statistics : {}".format(flow_stats))
+    print('statistics : {}'.format(flow_stats))
     frames_tx = sum([m.frames_tx for m in flow_stats.flow_metrics])
     frames_rx = sum([m.frames_rx for m in flow_stats.flow_metrics])
     return frames_tx == frames_rx
@@ -40,28 +40,28 @@ def check_port_tx_rx_frames_stats(dataplane, port_name):
     req.port.port_names = [port_name]
     req.port.column_names = [req.port.FRAMES_TX, req.port.FRAMES_RX]
     port_stats = dataplane.api.get_metrics(req)
-    print("statistics : {}".format(port_stats))
+    print('statistics : {}'.format(port_stats))
     frames_tx = sum([m.frames_tx for m in port_stats.port_metrics])
     frames_rx = sum([m.frames_rx for m in port_stats.port_metrics])
     return frames_tx == frames_rx
 
 def check_bgp_neighborship_established(dataplane):
     """
-    This function used to verify BGP neighborships Established. 
-    It Verifies all the configured BGP protocol sessions are up. 
-    If any one of the BGP protocol session down, it returs false  
+    This function used to verify BGP neighborships Established.
+    It Verifies all the configured BGP protocol sessions are up.
+    If any one of the BGP protocol session down, it returs false
     """
 
     req =dataplane.api.metrics_request()
-    req.bgpv4.column_names = ["session_state"]
+    req.bgpv4.column_names = ['session_state']
     results = dataplane.api.get_metrics(req)
     ok = []
     for r in results.bgpv4_metrics:
-        ok.append(r.session_state == "up")
+        ok.append(r.session_state == 'up')
     return all(ok)
 
 
-def check_ping(dataplane, ip_obj_name, ip, addr_family="ipv4"):
+def check_ping(dataplane, ip_obj_name, ip, addr_family='ipv4'):
     """
     This function will verify ping connectivity between TGEN and DUT
     Ping request would be sent from TGEN
@@ -69,7 +69,7 @@ def check_ping(dataplane, ip_obj_name, ip, addr_family="ipv4"):
     ip is DUT ip address which connectivity to be tested from TGEN
     """
     req = dataplane.api.ping_request()
-    if addr_family == "ipv4":
+    if addr_family == 'ipv4':
 
         p1 = req.endpoints.ipv4()
     else:
@@ -92,5 +92,3 @@ def start_traffic(dataplane, flow_name=None):
         ts.flow_names = [flow_name]
     res = dataplane.api.set_transmit_state(ts)
     assert dataplane.api_results_ok(res), res
-    
-

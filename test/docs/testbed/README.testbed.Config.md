@@ -47,7 +47,7 @@ TESTBED = {
 
 `credentials.py` (rename `credentials.py.template` to `credentials.py`[^1])
 ```
-# do not sumbit this file back 
+# do not sumbit this file back
 
 CREDENTIALS = {
     '10.36.77.101': {'user': 'admin', 'password': 'admin', 'key': '0000000000000000'},

@@ -4,12 +4,11 @@ from sai_base_test import *
 class TestSaiThriftSession(SaiHelperSimplified):
     """ Test saithrift client connection only"""
     def setUp(self):
-        print ("setUp()")
+        print ('setUp()')
 
     def runTest(self):
-        print ("TestSaiThriftSession OK")
+        print ('TestSaiThriftSession OK')
 
 
     def tearDown(self):
-        print ("tearDown()")
-
+        print ('tearDown()')

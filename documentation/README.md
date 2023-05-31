@@ -1,10 +1,10 @@
-# DASH Documentation 
+# DASH Documentation
 
 Documentation comprises system descriptions, High-level design (HLD) documents and detailed compliance requirements. These are contained in the [DASH/documentation](./) directory and subdirectories.
 
 The testing framework, methodology, documentation and testing artifacts are stored in the [DASH/test](../test) directory
 
-See also DASH [FAQ](https://github.com/sonic-net/DASH/wiki/FAQ) and [Glossary](https://github.com/sonic-net/DASH/wiki/Glossary). 
+See also DASH [FAQ](https://github.com/sonic-net/DASH/wiki/FAQ) and [Glossary](https://github.com/sonic-net/DASH/wiki/Glossary).
 
 # Contents
 
@@ -43,8 +43,8 @@ The diagram below shows how High-Level Descriptions beget Compliance requirement
 Some of the guiding principles for this approach are:
 * Define the objectives and the design or proposal separately from performance and requirement details.
 * Describe **hard requirements** separately from the design and architecture descriptions This allows the requirements to be easily defined, maintained, and referenced from other downstream "consumers," e.g., **test cases**. All requirements must be identified with some designator which allows traceability in test cases, scripts and results.
-* We encourage the creation of simultaneous **human** and **machine-readable** data which can **drive test cases**.  
-* We must avoid burying test parameters into the test scripts. This allows the requirements to be maintained/defined independently from the (often complex) code which executes tests. 
+* We encourage the creation of simultaneous **human** and **machine-readable** data which can **drive test cases**.
+* We must avoid burying test parameters into the test scripts. This allows the requirements to be maintained/defined independently from the (often complex) code which executes tests.
 * Many projects exist where only a programmer can locate and ferret out actual test criteria, often expressed as hard-coded constants buried within thousands of lines of test automation code. For quality control, these criteria must be easily accessible, reviewable and maintainable, to anyone familiar with the project.
 * We advocate complete auditability and traceability of tests cases, test results, associated specs and DUT/SUT configuration. This means a test run will record versions of every item including GitHub repository commit SHA ids, branches, tags, SW versions, API versions, etc.
 * Clear, concise and to the point human-readable reports, plus machine-readable results allowing dashboards, rolling-up of results, etc.
@@ -65,5 +65,3 @@ Some of the guiding principles for this approach are:
 
 - [Glossary](https://github.com/sonic-net/DASH/wiki/Glossary)
 - [FAQ](https://github.com/sonic-net/DASH/wiki/FAQ)
-
-

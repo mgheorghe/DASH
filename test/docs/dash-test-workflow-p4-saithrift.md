@@ -16,7 +16,7 @@ We will describe how it relates to the DASH test workflow.
 
 > **NOTE**: This captures the current state of work which is very much in progress. It reflects updates from the Working Group Meeting on Dec 15, 2021. It might lag behind actual developments. We will strive to keep it updated in a timely fashion.
 
-## Workflow overview 
+## Workflow overview
 
 ![dash-test-wflow-p4-saithrift](../images/dash-test-wflow-p4-saithrift.svg)
 
@@ -33,7 +33,7 @@ The P4 Simulator tests will use a subset of the standard DASH test cases using t
 * "Data plane performance tests" might need to be scaled back to match the performance of some simulators (e.g. P4-DPDK), or eliminated entirely for others (bmv2).
 
 ## SAI Data plane Programming Interface
-A simulator must provide a standard DASH SAI programming interface allowing integration with the DASH test fixtures, via a saithrift endpoint. The simulator must have an associated `libsai` shared library which can be linked to the saithrift server skeleton. The resulting saithrift server executes in the simulator and converts saithrift API calls into the  simulator's underlying internal operations, whose details are not apparent to the client using the sai interface. 
+A simulator must provide a standard DASH SAI programming interface allowing integration with the DASH test fixtures, via a saithrift endpoint. The simulator must have an associated `libsai` shared library which can be linked to the saithrift server skeleton. The resulting saithrift server executes in the simulator and converts saithrift API calls into the  simulator's underlying internal operations, whose details are not apparent to the client using the sai interface.
 
 This approach will also allow integration with the SONiC stack by building a `syncd` image linked to the device's libsai and executing it on the device. This would allow a pure-software simulation of SONiC DASH including traffic processing. A `syncd` daemon would replace the `saithrift` server shown in the diagram. It would interface to the standard lower SONiC stack, e.g. talk to the redis ASIC DB. This might be used if DASH testing is extended to use the `sairedis` interface as done in PLVision's [SAI Challenger](https://plvision.eu/rd-lab/blog/opensource/sai-challenger-sonic-based-framework) which is being offered to the [Open Compute Project (OCP)](https://www.opencompute.org/) Community, which hosts the SAI project.
 
@@ -88,7 +88,7 @@ The P4-DPDK data plane is bound to host veth ports at startup.  These are "wired
 - [CI/CD](https://en.wikipedia.org/wiki/CI/CD)
 - [SAI Challenger](https://plvision.eu/rd-lab/blog/opensource/sai-challenger-sonic-based-framework)
 - [Open Compute Project (OCP)](https://www.opencompute.org/)
-- [SONiC Architecture](https://github.com/Azure/SONiC/wiki/Architecture) 
+- [SONiC Architecture](https://github.com/Azure/SONiC/wiki/Architecture)
 - [P4Runtime](https://github.com/p4lang/p4runtime)
 - [bmv2](https://github.com/p4lang/behavioral-model)
 - [P4-DPDK](https://github.com/p4lang/p4-dpdk-target)

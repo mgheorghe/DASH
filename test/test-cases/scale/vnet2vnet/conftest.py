@@ -12,37 +12,37 @@ from ixload import IxRestUtils as IxRestUtils
 from ixnetwork_restpy import SessionAssistant
 from ixnetwork_restpy.testplatform.testplatform import TestPlatform
 
-targets_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "targets"))
+targets_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'targets'))
 sys.path.insert(0, targets_dir)
 
-test_cases_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+test_cases_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, test_cases_dir)
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def tbinfo(request):
     """Create and return testbed information"""
     from credentials import CREDENTIALS as CR
     from testbed import TESTBED as TB
-    TB["CR"] = CR
+    TB['CR'] = CR
     return TB
 
 
-@pytest.fixture(name="smartnics", scope="session")
+@pytest.fixture(name='smartnics', scope='session')
 def fixture_smartnics(tbinfo):
     test_type = tbinfo['stateless'][0]['dpu'][0]['type']
     if test_type:
-        modname = test_type.lower() + "." + test_type.lower()
+        modname = test_type.lower() + '.' + test_type.lower()
     else:
         raise Exception('Fail to load module %s' % modname)
     try:
         imod = importlib.import_module(modname)
-        cls = getattr(imod, test_type.title() + "Test")
+        cls = getattr(imod, test_type.title() + 'Test')
         return cls(**tbinfo)
     except:
         raise Exception('Fail to load module %s' % modname)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def utils():
     return util
 
@@ -63,10 +63,10 @@ def create_ixload_session_url(tbinfo):
         # TEST CONFIG
         test_settings = TestSettings.IxLoadTestSettings()
         test_settings.gatewayServer = tbinfo['stateful'][0]['server'][0]['addr']
-        test_settings.gatewayPort = "8080"
+        test_settings.gatewayPort = '8080'
         test_settings.httpRedirect = True
-        test_settings.apiVersion = "v0"
-        test_settings.ixLoadVersion = "9.20.115.79"
+        test_settings.apiVersion = 'v0'
+        test_settings.ixLoadVersion = '9.20.115.79'
 
         # aggregated 2ips
         slot1 = tg['tgen'][0]['interfaces'][0][1]
@@ -79,8 +79,8 @@ def create_ixload_session_url(tbinfo):
 
         test_settings.portListPerCommunity = {
             # format: { community name : [ port list ] }
-            "Traffic1@Network1": [(1, slot1, s1port1), (1, slot1, s1port2)],
-            "Traffic2@Network2": [(1, slot2, s2port1), (1, slot2, s2port2)]
+            'Traffic1@Network1': [(1, slot1, s1port1), (1, slot1, s1port2)],
+            'Traffic2@Network2': [(1, slot2, s2port1), (1, slot2, s2port2)]
         }
         chassisList = tg['tgen'][0]['interfaces'][0][0]
         test_settings.chassisList = [chassisList]
@@ -108,12 +108,12 @@ def create_ixload_session_url(tbinfo):
 
 def getTestClass(*args, **kwargs):
     if test_type:
-        modname = test_type.lower() + "." + test_type.lower()
+        modname = test_type.lower() + '.' + test_type.lower()
     else:
         raise Exception('Fail to load module %s' % modname)
     try:
         imod = importlib.import_module(modname)
-        cls = getattr(imod, test_type.title() + "Test")
+        cls = getattr(imod, test_type.title() + 'Test')
         return cls(*args, **kwargs)
     except:
         raise Exception('Fail to load module %s' % modname)

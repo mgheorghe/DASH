@@ -81,7 +81,7 @@ class AclRuleTest(object):
         else:
             self.test_dip = self.dip
         self.meta = copy.copy(self.__dict__)
-        del self.meta["saithrift"]
+        del self.meta['saithrift']
 
     def runTest(self):
         inner_pkt = simple_udp_packet(eth_dst=self.saithrift.dst_ca_mac,
@@ -104,8 +104,8 @@ class AclRuleTest(object):
                                           ip_src=self.test_sip,
                                           udp_sport=self.src_port,
                                           udp_dport=self.dst_port)
-        vxlan_exp_pkt = simple_vxlan_packet(eth_dst="00:00:00:00:00:00",
-                                            eth_src="00:00:00:00:00:00",
+        vxlan_exp_pkt = simple_vxlan_packet(eth_dst='00:00:00:00:00:00',
+                                            eth_src='00:00:00:00:00:00',
                                             ip_dst=self.saithrift.dst_pa_ip,
                                             ip_src=self.saithrift.vip,
                                             udp_sport=0,
@@ -116,17 +116,17 @@ class AclRuleTest(object):
         vxlan_exp_pkt[IP][UDP][VXLAN].flags = 0
 
         pkt_exp = vxlan_exp_pkt
-        print("Sending packet...\n", vxlan_pkt.__repr__())
+        print('Sending packet...\n', vxlan_pkt.__repr__())
         send_packet(self.saithrift, 0, vxlan_pkt)
-        print("\n")
+        print('\n')
         if self.exp_receive:
-            print("Verifying packet...\n", pkt_exp.__repr__())
+            print('Verifying packet...\n', pkt_exp.__repr__())
             verify_packet(self.saithrift, pkt_exp, 0)
         else:
-            print("Verifying drop...")
+            print('Verifying drop...')
             verify_no_other_packets(self.saithrift)
-        print("\n")
-        print("Acl test {} OK".format(self.meta))
+        print('\n')
+        print('Acl test {} OK'.format(self.meta))
 
 
 class SaiThriftDashAclTest(VnetAPI):
@@ -148,14 +148,14 @@ class SaiThriftDashAclTest(VnetAPI):
         self.switch_id = 5
         self.outbound_vni = 60
         self.vnet_vni = 100
-        self.eni_mac = "00:cc:cc:cc:cc:cc"
-        self.our_mac = "00:00:02:03:04:05"
-        self.dst_ca_mac = "00:dd:dd:dd:dd:dd"
-        self.vip = "172.16.1.100"
+        self.eni_mac = '00:cc:cc:cc:cc:cc'
+        self.our_mac = '00:00:02:03:04:05'
+        self.dst_ca_mac = '00:dd:dd:dd:dd:dd'
+        self.vip = '172.16.1.100'
         self.outbound_vni = 100
-        self.dst_ca_ip = "10.1.2.50"
-        self.dst_pa_ip = "172.16.1.20"
-        self.src_vm_pa_ip = "172.16.1.1"
+        self.dst_ca_ip = '10.1.2.50'
+        self.dst_pa_ip = '172.16.1.20'
+        self.src_vm_pa_ip = '172.16.1.1'
 
         vip = sai_thrift_ip_address_t(addr_family=SAI_IP_ADDR_FAMILY_IPV4,
                                       addr=sai_thrift_ip_addr_t(ip4=self.vip))
@@ -241,8 +241,8 @@ class SaiThriftDashAclTest(VnetAPI):
 
         ca_prefix = sai_thrift_ip_prefix_t(addr_family=SAI_IP_ADDR_FAMILY_IPV4,
                                            addr=sai_thrift_ip_addr_t(
-                                               ip4="10.1.0.0"),
-                                           mask=sai_thrift_ip_addr_t(ip4="255.255.0.0"))
+                                               ip4='10.1.0.0'),
+                                           mask=sai_thrift_ip_addr_t(ip4='255.255.0.0'))
         self.ore = sai_thrift_outbound_routing_entry_t(
             switch_id=self.switch_id, eni_id=self.eni, destination=ca_prefix)
 
@@ -261,7 +261,7 @@ class SaiThriftDashAclTest(VnetAPI):
         self.tests.append(AclRuleTest(self,
                                       acl_group=self.out_v4_stage1_acl_group_id,
                                       protocol=17,
-                                      sip="10.1.1.1",
+                                      sip='10.1.1.1',
                                       dip=self.dst_ca_ip,
                                       priority=1,
                                       action=SAI_DASH_ACL_RULE_ACTION_PERMIT,
@@ -269,13 +269,13 @@ class SaiThriftDashAclTest(VnetAPI):
         self.tests.append(AclRuleTest(self,
                                       acl_group=self.out_v4_stage1_acl_group_id,
                                       protocol=17,
-                                      sip="10.1.1.2",
+                                      sip='10.1.1.2',
                                       dip=self.dst_ca_ip,
                                       priority=2,
                                       action=SAI_DASH_ACL_RULE_ACTION_DENY,
                                       exp_receive=False))
 
-        self.tag1 = Tag(self, ip = "10.1.2.4", mask = "255.255.255.254", tag = 0x11)
+        self.tag1 = Tag(self, ip = '10.1.2.4', mask = '255.255.255.254', tag = 0x11)
         self.tests.append(AclRuleTest(self,
                                       acl_group=self.out_v4_stage1_acl_group_id,
                                       protocol=17,
@@ -284,13 +284,13 @@ class SaiThriftDashAclTest(VnetAPI):
                                       src_port=1234,
                                       action=SAI_DASH_ACL_RULE_ACTION_PERMIT,
                                       exp_receive=True,
-                                      test_sip = "10.1.2.4",
+                                      test_sip = '10.1.2.4',
                                       test_dip = self.dst_ca_ip))
         self.tests.append(AclRuleTest(self,
                                       acl_group=None,
                                       exp_receive=True,
                                       src_port=1234,
-                                      test_sip = "10.1.2.5",
+                                      test_sip = '10.1.2.5',
                                       test_dip = self.dst_ca_ip))
         self.tests.append(AclRuleTest(self,
                                       acl_group=self.out_v4_stage1_acl_group_id,
@@ -300,22 +300,22 @@ class SaiThriftDashAclTest(VnetAPI):
                                       src_port=4321,
                                       action=SAI_DASH_ACL_RULE_ACTION_DENY,
                                       exp_receive=False,
-                                      test_sip = "10.1.2.4",
+                                      test_sip = '10.1.2.4',
                                       test_dip = self.dst_ca_ip))
         self.tests.append(AclRuleTest(self,
                                       acl_group=None,
                                       exp_receive=False,
                                       src_port=4321,
-                                      test_sip = "10.1.2.5",
+                                      test_sip = '10.1.2.5',
                                       test_dip = self.dst_ca_ip))
         self.tests.append(AclRuleTest(self,
                                       acl_group=None,
                                       exp_receive=False,
                                       src_port=1111,
-                                      test_sip = "10.1.2.4",
+                                      test_sip = '10.1.2.4',
                                       test_dip = self.dst_ca_ip))
 
-        self.tag2 = Tag(self, ip = self.dst_ca_ip, mask = "255.255.255.255", tag = 0x100)
+        self.tag2 = Tag(self, ip = self.dst_ca_ip, mask = '255.255.255.255', tag = 0x100)
         self.tests.append(AclRuleTest(self,
                                       acl_group=self.out_v4_stage1_acl_group_id,
                                       protocol=17,
@@ -324,7 +324,7 @@ class SaiThriftDashAclTest(VnetAPI):
                                       src_port=2222,
                                       action=SAI_DASH_ACL_RULE_ACTION_PERMIT,
                                       exp_receive=True,
-                                      test_sip = "10.1.2.6",
+                                      test_sip = '10.1.2.6',
                                       test_dip = self.dst_ca_ip))
 
     def setUp(self):
@@ -342,7 +342,7 @@ class SaiThriftDashAclTest(VnetAPI):
 
     def runTest(self):
         for test in self.tests:
-            print("\n\n")
+            print('\n\n')
             test.runTest()
 
     def tearDown(self):

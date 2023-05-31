@@ -38,16 +38,16 @@ def vip_generate(vip_start=1, a1=192, a2=192, b1=168, b2=168, c1=0, c2=0, d1=1, 
                 for d in range(d1,d2+1):
                     yield \
                     {
-                        "name": "vip_entry#%d" % v,
-                        "op": "create",
-                        "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
-                        "key": {
-                        "switch_id": "$SWITCH_ID",
-                        "vip": "%d.%d.%d.%d" % (a,b,c,d)
+                        'name': 'vip_entry#%d' % v,
+                        'op': 'create',
+                        'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
+                        'key': {
+                        'switch_id': '$SWITCH_ID',
+                        'vip': '%d.%d.%d.%d' % (a,b,c,d)
                         },
-                        "attributes": [
-                        "SAI_VIP_ENTRY_ATTR_ACTION",
-                        "SAI_VIP_ENTRY_ACTION_ACCEPT"
+                        'attributes': [
+                        'SAI_VIP_ENTRY_ATTR_ACTION',
+                        'SAI_VIP_ENTRY_ACTION_ACCEPT'
                         ]
                     }
                     v+= 1
@@ -88,7 +88,7 @@ class TestSaiDashVipsGenerator:
         """Verify VIP configuration create
         """
         results = [*dpu.process_commands( (make_create_cmds()) )]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         pprint(results)
 
     @pytest.mark.ptf
@@ -97,7 +97,7 @@ class TestSaiDashVipsGenerator:
         """Verify VIP configuration removal
         """
         results = [*dpu.process_commands(make_remove_cmds())]
-        print("\n======= SAI commands RETURN values =======")
+        print('\n======= SAI commands RETURN values =======')
         print(results)
 
 if __name__ == '__main__':
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     if not args.a and not args.c and not args.r:
         # must provide at least one flag
-        print ("\n*** Please specify at least one option flag from [acr] to generate output ***\n", file=sys.stderr)
+        print ('\n*** Please specify at least one option flag from [acr] to generate output ***\n', file=sys.stderr)
         parser.print_help(sys.stderr)
         sys.exit(1)
 
@@ -137,5 +137,4 @@ if __name__ == '__main__':
                                                             args.b1,args.b2,\
                                                             args.c1,args.c2,
                                                             args.d1,args.d2)],
-                         indent=2)) 
-
+                         indent=2))
