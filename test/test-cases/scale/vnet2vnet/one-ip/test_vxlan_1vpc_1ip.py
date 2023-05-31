@@ -881,4 +881,3 @@ class Test_Dpu:
         _print_final_table(test_run_results)
 
         IxLoadUtils.deleteAllSessions(connection)
-

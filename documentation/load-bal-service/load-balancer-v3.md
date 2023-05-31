@@ -2,7 +2,7 @@
 
 ## Overview
 
-FastPath is the feature that switches traffic from using VIP-to-VIP 
+FastPath is the feature that switches traffic from using VIP-to-VIP
 connectivity (which involves transiting SLB MUXes), into using a direct
 path between VMs (direct PA to PA path).
 
@@ -25,23 +25,23 @@ path between VMs (direct PA to PA path).
     - Destination IP: VIP (of destination service/VM).
     - In this case traffic in both directions transits SLB MUXes.
 
-1. When traffic destined toward the VIP lands on SLB MUX (SYN packet), the MUX picks the actual 
-destination VM (from a list of healthy VMs in the backend pool). 
+1. When traffic destined toward the VIP lands on SLB MUX (SYN packet), the MUX picks the actual
+destination VM (from a list of healthy VMs in the backend pool).
 It should redirect the packet accordingly (standard load balancing functionality).
 
     Once the VM is selected, the SLB MUX forwards the packet to the destination VM.
 
-1. The SLB MUX (in addition to forwarding packet to destination) **may** (often is!!!) 
+1. The SLB MUX (in addition to forwarding packet to destination) **may** (often is!!!)
 sending the ICMP redirect packet towards the source VM from which the SYN packet originated.
 
     This ICMP redirect will have information that the SLB MUX selected specific destination VM (will have VM PA information).
 
-1. The Source side (currently VFP) listens for ICMP redirect packets, and once received 
-performs "flow fixup" (updates the flow to redirect next packets not to Destination VIP, 
+1. The Source side (currently VFP) listens for ICMP redirect packets, and once received
+performs "flow fixup" (updates the flow to redirect next packets not to Destination VIP,
 but directly to the Destination PA/DIP that arrived in the ICMP redirect packet from SLB MUX).
 
-1. Once flow is "fixed up", the next packets are direct and bypass the SLB MUX in that direction. 
-This achieves high performance, as after initial connection handshake (SYN, SYN+ACK, ACK), the remaining 
+1. Once flow is "fixed up", the next packets are direct and bypass the SLB MUX in that direction.
+This achieves high performance, as after initial connection handshake (SYN, SYN+ACK, ACK), the remaining
 traffic is direct between VMs and does not transit the SLB MUXes.
 
 **Notes**

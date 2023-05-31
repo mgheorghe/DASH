@@ -15,5 +15,3 @@ dashone: test.cpp
 	    -lpthread \
 	    -labsl_synchronization \
 	    -g
-
-

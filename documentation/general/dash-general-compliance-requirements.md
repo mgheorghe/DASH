@@ -18,4 +18,3 @@ Continuous integration verifies the correctness of each committed configuration.
 
 ## Reference Architectures
 Reference architectures for test scenarios are described in [test/docs/dash-test-ref-arch.md](../../../test/docs/dash-test-ref-arch.md)
-

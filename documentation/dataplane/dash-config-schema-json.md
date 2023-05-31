@@ -1,5 +1,5 @@
 ---
-description: Configuration schema example - Only for educational / collaboration purposes. Not to be used in production.  
+description: Configuration schema example - Only for educational / collaboration purposes. Not to be used in production.
 last update: 04/12/2022
 ---
 
@@ -170,7 +170,7 @@ last update: 04/12/2022
 
     "routing-types-config": [
         {
-            "direct": { 
+            "direct": {
                 "routing-type": "direct",
                 "actions": [ // up to 4 actions
                     {
@@ -478,7 +478,7 @@ last update: 04/12/2022
                             "overlay-ip-address": "", // do not override the overlay-ip-address - use dest ip from packet
                             "underlay-ip-address": "", // do not override the overlay-ip-address - use dest ip from packet
                             "overlay-sip": "fd40:108:0:d204:0:200::0", // not unique
-                            "overlay-dip": "2603:10e1:100:2::3401:203" // not unique       
+                            "overlay-dip": "2603:10e1:100:2::3401:203" // not unique
                         },
                         "metering-bucket": 887
                     },
@@ -546,7 +546,7 @@ last update: 04/12/2022
                         "priority": 100,
                         "action": "allow",
                         "terminating": "false",
-                        "protocols": [ 
+                        "protocols": [
                             6, // tcp + udp
                             17
                         ],
@@ -571,7 +571,7 @@ last update: 04/12/2022
                         "priority": 101,
                         "action": "allow",
                         "terminating": "false",
-                        "protocols": [ 
+                        "protocols": [
                             6 // tcp only
                         ],
                         "src_addrs": [
@@ -593,7 +593,7 @@ last update: 04/12/2022
                         "priority": 102,
                         "action": "allow",
                         "terminating": "true",
-                        "protocols": [ 
+                        "protocols": [
                             1 // icmp
                         ],
                         "src_addrs": [
@@ -609,7 +609,7 @@ last update: 04/12/2022
                         "priority": 110,
                         "action": "deny",
                         "terminating": "true",
-                        "protocols": [ 
+                        "protocols": [
                             6,
                             17
                         ],
@@ -639,7 +639,7 @@ last update: 04/12/2022
                         "priority": 100,
                         "action": "allow",
                         "terminating": "false",
-                        "protocols": [ 
+                        "protocols": [
                             6, // tcp + udp
                             17
                         ],
@@ -666,7 +666,7 @@ last update: 04/12/2022
                         "priority": 101,
                         "action": "allow",
                         "terminating": "false",
-                        "protocols": [ 
+                        "protocols": [
                             6 // tcp only
                         ],
                         "src_addrs": [
@@ -688,7 +688,7 @@ last update: 04/12/2022
                         "priority": 102,
                         "action": "allow",
                         "terminating": "true",
-                        "protocols": [ 
+                        "protocols": [
                             1 // icmp
                         ],
                         "src_addrs": [
@@ -704,7 +704,7 @@ last update: 04/12/2022
                         "priority": 110,
                         "action": "deny",
                         "terminating": "true",
-                        "protocols": [ 
+                        "protocols": [
                             6,
                             17
                         ],

@@ -410,7 +410,7 @@ def write_sai_files(sai_api):
     new_lines = []
     for line in lines:
         if 'Add new experimental object types above this line' in line:
-            
+
             for table in sai_api[TABLES_TAG]:
                 new_line = '    SAI_OBJECT_TYPE_' + table[NAME_TAG].upper() + ',\n'
                 if new_line not in lines:
@@ -459,7 +459,7 @@ if not os.path.isfile(args.filepath):
     print('File ' + args.filepath + ' does not exist')
     exit(1)
 
-# 
+#
 # Get SAI dictionary from P4 dictionary
 print("Generating SAI API...")
 with open(args.filepath) as json_program_file:

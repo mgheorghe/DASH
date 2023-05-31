@@ -23,14 +23,14 @@ Test vnet to vnet communication with ACL on inbound direction:
 
 Topology Used :
 
-       --------          -------          -------- 
+       --------          -------          --------
       |        |        |       |        |        |
       |        |        |       |        |        |
       |  TGEN  |--------|  DUT  |--------|  TGEN  |
       |        |        |       |        |        |
       |        |        |       |        |        |
-       --------          -------          -------- 
-       
+       --------          -------          --------
+
 """
 
 ###############################################################
@@ -58,7 +58,7 @@ class TestAclInbound:
     def test_vm_to_vm_commn_acl_inbound(self, dataplane):
 
         # configure Tgen properties
-        
+
         # inbound Flow settings
         f2 = dataplane.configuration.flows.flow(name="INBOUND")[-1]
         f2.tx_rx.port.tx_name = dataplane.configuration.ports[1].name
@@ -73,9 +73,9 @@ class TestAclInbound:
         outer_eth, ip, udp, vxlan, inner_eth, inner_ip , inner_udp= (
                 f2.packet.ethernet().ipv4().udp().vxlan().ethernet().ipv4().udp()
         )
-        
+
         outer_eth.src.value = "80:09:02:02:00:01"
-        outer_eth.dst.value = "c8:2c:2b:00:d1:34"   
+        outer_eth.dst.value = "c8:2c:2b:00:d1:34"
         outer_eth.ether_type.value = 2048
 
         ip.src.value = NETWORK_VTEP_IP
@@ -84,7 +84,7 @@ class TestAclInbound:
         udp.src_port.value = 11638
         udp.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan.vni.value = 101
         vxlan.reserved0.value = 0
         vxlan.reserved1.value = 0
@@ -116,7 +116,7 @@ class TestAclInbound:
         acl_traffic_result1 = su.check_flow_tx_rx_frames_stats(dataplane, f2.name)
         # Print Result of the test
         print("Tx and Rx packet match result of flow {} is {}".format(f2.name, acl_traffic_result1))
-        
+
         inner_ip.src.value = NETWORK_IP2 #world
         inner_ip.dst.value = ENI_IP   # ENI
 
@@ -124,7 +124,7 @@ class TestAclInbound:
         inner_udp.dst_port.value = 10000
 
         dataplane.set_config()
-        
+
         # Verify Traffic
         print("\n======= Verify traffic with denied packets failing =======")
         print("\n======= Start traffic =======")
@@ -135,7 +135,7 @@ class TestAclInbound:
                 break
         print("\n======= Stop traffic =======")
         dataplane.stop_traffic()
-        
+
         #Packets should be denied
         print("\n======= Verify packet TX and RX not matching =======")
         acl_traffic_result2 = su.check_flow_tx_rx_frames_stats(dataplane, f2.name)

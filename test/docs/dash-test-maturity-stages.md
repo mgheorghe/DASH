@@ -17,7 +17,7 @@ This document describes the DASH test maturity stages. The intent is to articula
 ## Legend
 In the diagrams below, the dashed "callout" notes indicate the prerequisites/dependencies needed to achieve this stage of testing, for example:
 
-![dash-test-maturity-stages-prereq](../images/dash-test-maturity-stages-prereq.png) 
+![dash-test-maturity-stages-prereq](../images/dash-test-maturity-stages-prereq.png)
 
 # Single Device Testing
 This section describes incremental approaches to test a single DASH device, including bottoms-up (data plane first) and top-down (SDN northbound first) approaches.
@@ -30,7 +30,7 @@ The data plane can be progressively tested by configuring the DUT through succes
 
 ### Data plane Testing Stage 1: Manual/Ad-hoc Testing
 
-![dash-test-maturity-stages-manual](../images/dash-test-maturity-stages-manual.png) 
+![dash-test-maturity-stages-manual](../images/dash-test-maturity-stages-manual.png)
 
 This testing stage represents internal, vendor-specific testing approaches and as a practical matter, probably precedes the use of any DASH community-specified tests. This stage is distinguished by:
 
@@ -39,7 +39,7 @@ This testing stage represents internal, vendor-specific testing approaches and a
 
 ### Data plane Testing Stage 2: Standardized, Automated Test Cases
 
-![dash-test-maturity-stages-std-test-cases](../images/dash-test-maturity-stages-std-test-cases.png) 
+![dash-test-maturity-stages-std-test-cases](../images/dash-test-maturity-stages-std-test-cases.png)
 
 This testing stage utilizes standardized, automated test cases which are used by the community. This stage is distinguished by:
 
@@ -48,7 +48,7 @@ This testing stage utilizes standardized, automated test cases which are used by
 * Standardized, model-based Traffic Generator config formats, e.g. [OpenTrafficGenerator](https://github.com/open-traffic-generator) using the [snappi](https://github.com/open-traffic-generator/snappi) client library
 ### Data plane Testing Stage 3: DUT configuration via SAI-Thrift
 
-![dash-test-maturity-stages-dut-config-sai](../images/dash-test-maturity-stages-dut-config-sai.png) 
+![dash-test-maturity-stages-dut-config-sai](../images/dash-test-maturity-stages-dut-config-sai.png)
 
 This stage represents a crucial milestone for DASH-SONiC development because it verifies the ability to integrate with the SONiC stack. Later on, it allows comparing the performance and behavior of a DUT with and without SONiC, to identify potential issues. This stage is distinguished by:
 
@@ -57,7 +57,7 @@ This stage represents a crucial milestone for DASH-SONiC development because it 
 
 ### Data plane Testing Stage 4: DUT configuration via SAI-Redis
 
-![dash-test-maturity-stages-dut-config-redis](../images/dash-test-maturity-stages-dut-config-sairedis.png) 
+![dash-test-maturity-stages-dut-config-redis](../images/dash-test-maturity-stages-dut-config-sairedis.png)
 
 This stage tests integration with the "lower SONiC stack" which consists of the redis datastore `ASIC_DB` and the `syncd` daemon.
 >**TODO** - identify other SONiC stack components required for/verified by this stage.
@@ -67,7 +67,7 @@ This stage is distinguished by:
 * Test scripts configure the DUT via sai-redis
 ### Data plane Testing Stage 5: DUT configuration via SONiC Northbound API
 
-![dash-test-maturity-stages-dut-config-north](../images/dash-test-maturity-stages-dut-config-north.png) 
+![dash-test-maturity-stages-dut-config-north](../images/dash-test-maturity-stages-dut-config-north.png)
 
 This stage is the culmination of DUT data plane integrated with the SONiC stack and is distinguished by:
 
@@ -119,7 +119,7 @@ This stage verifies that the SONiC-DASH northbound API can correctly access a Fa
 ### SONiC-DASH Stack Testing Stage 5 - Full stack northbound through to DUT
 This is identical to [Data plane Testing Stage 5: DUT configuration via SONiC Northbound API](#dataplane-testing-stage-5-dut-configuration-via-sonic-northbound-api) and represents the convergence of the data plane and northbound API/SONiC stack. The content below is repeated from above.
 
-![dash-test-maturity-stages-dut-config-north](../images/dash-test-maturity-stages-dut-config-north.png) 
+![dash-test-maturity-stages-dut-config-north](../images/dash-test-maturity-stages-dut-config-north.png)
 
 This stage is the culmination of DUT data plane integrated with the SONiC stack and is distinguished by:
 
@@ -129,4 +129,4 @@ This stage is the culmination of DUT data plane integrated with the SONiC stack 
 ## Common Options - Fake libsai, P4 simulator
 The figures below highlight various options which may be incorporated into various test stages to use a "Fake" libsai backend implementation, or a P4-simulated backend. This is a placeholder for future discussion.
 
-![dash-test-maturity-stages-options](../images/dash-test-maturity-stages-options.png) 
+![dash-test-maturity-stages-options](../images/dash-test-maturity-stages-options.png)

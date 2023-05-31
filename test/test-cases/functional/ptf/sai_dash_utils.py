@@ -173,7 +173,7 @@ class VnetAPI(VnetObjects):
         self.add_teardown_obj(self.eni_remove, eni_id)
 
         return eni_id
-    
+
     def eni_set_admin_state(self, eni_oid, state):
         sai_thrift_set_eni_attribute(self.client, eni_oid, admin_state=(state == "up"))
         self.assertEqual(self.status(), SAI_STATUS_SUCCESS)
@@ -469,7 +469,7 @@ class VnetApiEndpoints(VnetAPI):
                         "Unknown connection protocol! Supported protocols: tcp|udp|icmp")
         self.connection = test_param_get("connection").lower()
         print(f"{self.connection.upper()} protocol is used for traffic verification.")
-        
+
         self.underlay_ipv6 = underlay_ipv6
         self.overlay_ipv6 = overlay_ipv6
 

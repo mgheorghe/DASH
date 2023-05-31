@@ -35,18 +35,18 @@ ENV PI_DEPS automake \
             make
 
 ENV LD_LIBRARY_PATH=/usr/local/lib
-ENV DEPS $PI_DEPS 
+ENV DEPS $PI_DEPS
 
 WORKDIR /
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     $DEPS
-    
+
     #  && \
     #   apt-get purge -qq $DEPS && \
     #   apt-get autoremove --purge -qq && \
-    #   rm -rf /var/cache/apt/* /var/lib/apt/lists/* 
+    #   rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 WORKDIR /usr/local/lib/
 
@@ -60,7 +60,7 @@ COPY --from=grpc /usr/local/lib/lib*grpc*.so* \
         /usr/local/lib/libssl*.so* \
         /usr/local/lib/libcrypto*.so* \
         ./
-   
+
 ARG user
 ARG uid
 ARG group

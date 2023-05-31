@@ -322,9 +322,9 @@ both scenarios:
 
 IXIA module: NOVUS100GE8Q28
 
-![msft-lab-ixia-config-01](images/req/msft-lab-ixia-config-01.png) 
+![msft-lab-ixia-config-01](images/req/msft-lab-ixia-config-01.png)
 
-![msft-lab-ixia-config-02](images/req/msft-lab-ixia-config-02.png) 
+![msft-lab-ixia-config-02](images/req/msft-lab-ixia-config-02.png)
 
 ### Streams
 
@@ -350,13 +350,13 @@ will be split across 64 vnics that are pre-configured.
 
 ``` cmd
 MAC: ------  MAC Header  ------
-MAC: 
+MAC:
 MAC: Destination Address : 00 AE CD 01 CD 26
 MAC: Source Address      : 00 AE CD 20 00 01
 MAC: Type                : 0x0800 (Ethernet II)
-MAC: 
+MAC:
 IP: ------  IP Header  -----------
-IP: 
+IP:
 IP: Version                        = 04 (0x04)
 IP: Header Length                  = 20 (0x14)
 IP: Differentiated Services Field  = 0 (0x00)
@@ -380,14 +380,14 @@ IP: Protocol                       = UDP
 IP: Checksum                       = 0x7885
 IP: Source Address                 = 1.0.0.3
 IP: Destination Address            = 1.0.0.2
-IP: 
+IP:
 UDP: ------  UDP Header  -----------
-UDP: 
+UDP:
 UDP: Source Port         = 50686 (0xC5FE)
 UDP: Destination Port    = 4789 (0x12B5)
 UDP: Length              = 80 (0x0050)
 UDP: Checksum            = 1770 (0x06EA)
-UDP: 
+UDP:
 
 ```
 - MSFT-8V-1M-RX-PPS-Learning
@@ -429,13 +429,13 @@ will be used to verify the total 100Gbps bandwidth.
 
 ```cmd
 MAC: ------  MAC Header  ------
-MAC: 
+MAC:
 MAC: Destination Address : 00 AE CD 01 CD 26
 MAC: Source Address      : 00 AE CD 20 00 01
 MAC: Type                : 0x0800 (Ethernet II)
-MAC: 
+MAC:
 IP: ------  IP Header  -----------
-IP: 
+IP:
 IP: Version                        = 04 (0x04)
 IP: Header Length                  = 20 (0x14)
 IP: Differentiated Services Field  = 0 (0x00)
@@ -459,14 +459,14 @@ IP: Protocol                       = UDP
 IP: Checksum                       = 0x731F
 IP: Source Address                 = 1.0.0.3
 IP: Destination Address            = 1.0.0.2
-IP: 
+IP:
 UDP: ------  UDP Header  -----------
-UDP: 
+UDP:
 UDP: Source Port         = 50686 (0xC5FE)
 UDP: Destination Port    = 4789 (0x12B5)
 UDP: Length              = 80 (0x0050)
 UDP: Checksum            = 1770 (0x06EA)
-UDP: 
+UDP:
 
 ```
 

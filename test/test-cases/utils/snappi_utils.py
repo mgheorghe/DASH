@@ -9,7 +9,7 @@ def config_l1_properties(dataplane, usd_speed):
     ly = dataplane.configuration.layer1.layer1(name="ly")[-1]
     ly.port_names = [p.name for p in dataplane.configuration.ports]
     val = getattr(ly , usd_speed )
-    setattr(ly , "speed", val)  
+    setattr(ly , "speed", val)
     ly.ieee_media_defaults = False
     ly.auto_negotiation.rs_fec = True
     ly.auto_negotiation.link_training = False
@@ -47,9 +47,9 @@ def check_port_tx_rx_frames_stats(dataplane, port_name):
 
 def check_bgp_neighborship_established(dataplane):
     """
-    This function used to verify BGP neighborships Established. 
-    It Verifies all the configured BGP protocol sessions are up. 
-    If any one of the BGP protocol session down, it returs false  
+    This function used to verify BGP neighborships Established.
+    It Verifies all the configured BGP protocol sessions are up.
+    If any one of the BGP protocol session down, it returs false
     """
 
     req =dataplane.api.metrics_request()
@@ -92,5 +92,3 @@ def start_traffic(dataplane, flow_name=None):
         ts.flow_names = [flow_name]
     res = dataplane.api.set_transmit_state(ts)
     assert dataplane.api_results_ok(res), res
-    
-

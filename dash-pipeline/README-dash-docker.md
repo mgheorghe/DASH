@@ -70,8 +70,8 @@ The `make docker-XXX` targets create a docker images named `dash-XXX` where XXX 
 Example (not necessarily current):
 ```
 DASH/dash-pipeline$ make docker-[TAB]
-docker-bmv2-bldr               docker-dash-p4c                docker-publish-dash-grpc       docker-publish-saithrift-bldr  docker-pull-dash-grpc          docker-pull-saithrift-bldr     
-docker-dash-grpc               docker-publish-bmv2-bldr       docker-publish-dash-p4c        docker-pull-bmv2-bldr          docker-pull-dash-p4c           docker-saithrift-bldr       
+docker-bmv2-bldr               docker-dash-p4c                docker-publish-dash-grpc       docker-publish-saithrift-bldr  docker-pull-dash-grpc          docker-pull-saithrift-bldr
+docker-dash-grpc               docker-publish-bmv2-bldr       docker-publish-dash-p4c        docker-pull-bmv2-bldr          docker-pull-dash-p4c           docker-saithrift-bldr
 ```
 ### Best Practices
 We strive to follow best practices in our Dockerfiles, such as:
@@ -99,7 +99,7 @@ DOCKER_P4C_BMV2_IMG=p4lang/p4c:stable make p4 # temporarily override image
 ```
 If you do multiple make targets in one command (e.g. `make all`), you can override multiple image names in the same command line by setting appropriate environment variables.
 ## Optional - Docker image developers - build a new Docker image
-This step builds a new Docker image on demand, i.e. if you're developing or maintaining them. For routine code development (e.g. P4 code), you shouldn't have to do this; instead, you use the prebuilt one retrieved from a Docker registry. Note, this can be very time-consuming. 
+This step builds a new Docker image on demand, i.e. if you're developing or maintaining them. For routine code development (e.g. P4 code), you shouldn't have to do this; instead, you use the prebuilt one retrieved from a Docker registry. Note, this can be very time-consuming.
 ```
 make docker-XXX  ### where XXX = image name, e.g. bmv2-bldr
 ```
@@ -138,7 +138,7 @@ As explained above, credentials are required to push docker images to ACR. There
 
 Conditionals are used in the CI jobs to gate their execution.
 
-For example, this snippet containing an `if:` clause ensures we only push an image if we are running in the context of the `sonic-net/DASH` project (any branch), not in a fork. Similarly, the same expression but with the `!=` operator, is used in CI action scripts which should only run in a fork, *not* the main repo. 
+For example, this snippet containing an `if:` clause ensures we only push an image if we are running in the context of the `sonic-net/DASH` project (any branch), not in a fork. Similarly, the same expression but with the `!=` operator, is used in CI action scripts which should only run in a fork, *not* the main repo.
 ```
 jobs:
   build:
@@ -219,6 +219,6 @@ For example, the file [dash-bmv2-bldr-docker-acr.yml](../.github/workflows/dash-
       with:
         login-server: ${{ secrets.DASH_ACR_LOGIN_SERVER }}
         username: ${{ secrets.DASH_ACR_USERNAME }}
-        password: ${{ secrets.DASH_ACR_PASSWORD }}   
+        password: ${{ secrets.DASH_ACR_PASSWORD }}
 ```
 This snippet accomplishes login to ACR so that subsequent `docker push` commands can succeed.

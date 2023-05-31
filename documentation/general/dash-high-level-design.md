@@ -2,7 +2,7 @@
 Last update: 09/20/2022
 ---
 
-# Disaggregated API for SONiC Hosts (DASH) high level design 
+# Disaggregated API for SONiC Hosts (DASH) high level design
 
 - [Introduction](#introduction)
   - [Why DASH?](#why-dash)
@@ -56,16 +56,16 @@ DASH is an open source project with the goal of delivering a **behavioral
 model** and related **test cases** to confirm conformance and performance
 requirements. Technology providers will conform to the model and test cases when
 designing and building programmable hardware technology. These devices are meant
-to **deliver enterprise network performance to critical cloud applications**. 
+to **deliver enterprise network performance to critical cloud applications**.
 
 DASH extends SONiC APIs and a related comprehensive set of object models to
 describe networking services for the cloud. The project enlists cloud and
 enterprise technology providers to collaborate and further extend DASH to meet
 their specific needs.
 
-### Why DASH? 
+### Why DASH?
 
-Because it has been difficult/impossible to target each specific technology provider's implementation(s), the technologies in the market currently provide general purpose APIs to perform general purpose actions (such as ACLs, forwarding tables, metering, etc...).  Again, these are not targeted to specific cloud/enterprise usage.  Obviously, a general purpose approach delivers only so much, and may work against high performance connectivity. 
+Because it has been difficult/impossible to target each specific technology provider's implementation(s), the technologies in the market currently provide general purpose APIs to perform general purpose actions (such as ACLs, forwarding tables, metering, etc...).  Again, these are not targeted to specific cloud/enterprise usage.  Obviously, a general purpose approach delivers only so much, and may work against high performance connectivity.
 
 DASH takes a different approach. DASH is publicizing Behavioral Models to optimize exactly 'what' clouds/enterprises are doing, to optimize against their services. This is the first time 'what we do' has been exposed.  It does not make assumptions or enforce implementation details, such as a programming language. It delegates these decisions to technology providers in order to best employ their expertise and competitive edge to obtain the best possible results (*given that the agreed upon
 DASH behavioral model and test cases are satisfied*).
@@ -82,7 +82,7 @@ achieve **10x or even 100x stateful connection performance** with hardware offlo
     accelerator enabling flexible and efficient data center networking, security and storage
     It offloads from server CPU a set of tasks such as
     how to process and route packets of data.
-  - **SmartSwitches**. A smart switch is a network switch with programmable DPUs/IPUs/EPUs, etc...) SmartNIC hardware integrated into the switch design, with a selected number of options for management. 
+  - **SmartSwitches**. A smart switch is a network switch with programmable DPUs/IPUs/EPUs, etc...) SmartNIC hardware integrated into the switch design, with a selected number of options for management.
   - **SmartAppliances**. An appliance is a multi-tenant network appliance. It
     has multiple data processing units (DPUs) supporting virtual ports.
 - Optimize **stateful L4** performance and connection scale by 10x or even 100x,
@@ -96,7 +96,7 @@ achieve **10x or even 100x stateful connection performance** with hardware offlo
   deploy DASH as well.  It should be noted that innovations for **in-service
   software upgrades** (ISSU) and **high availability** (HA) are key tenets of
   the DASH charter.
-  
+
 ## Compliance and requirements
 
 > [!NOTE] TBD - Some intro here from SDN packets transform document.
@@ -123,7 +123,7 @@ further extend DASH to meet their specific needs.
 This scenario is the starting point to design, implement and test the core DASH
 mechanisms. In particular it allows the following features: VM to VM
 communication in VNET, route support, LPM support, ACL support. This is to
-verify the following performance properties: CPS, flow, PPS, and rule scale. 
+verify the following performance properties: CPS, flow, PPS, and rule scale.
 1. [VNET
    Peering](https://github.com/sonic-net/DASH/tree/main/documentation/vnet-peering-service).
    Virtual network peering connects two virtual networks
@@ -152,7 +152,7 @@ verify the following performance properties: CPS, flow, PPS, and rule scale.
 
 ## Azure provisioning example
 
-This is an Azure example, other Cloud providers may host their implementation.  
+This is an Azure example, other Cloud providers may host their implementation.
 
 Customers will use the [Azure portal](portal.azure.com) to provision the
 high-performant Connections per Second (CPS) offerings (via the portal UI,
@@ -168,7 +168,7 @@ interface to agnostically configure hardware for the scenarios outlined in the
 > [!NOTES] We just capture the gist of these scenarios and then we link to the
 > related documentation.
 
-## DASH project 
+## DASH project
 
 The following figure shows the DASH project main components.
 
@@ -181,7 +181,7 @@ The following figure shows the DASH project main components.
   testing**  concerned with validating whether the device works as intended with
   SONiC. For more information, see [SONiC testbed deployment and setup, SONiC
   testing, test report
-  processing](https://github.com/Azure/sonic-mgmt/tree/master/docs).  
+  processing](https://github.com/Azure/sonic-mgmt/tree/master/docs).
 - **SDN**. The SDN with its controller is primarily responsible for controlling
 the DASH overlay services; the traditional SONiC application containers are used
 to manage the underlay (L3 routing) and hardware platform. The SDN controller
@@ -200,7 +200,7 @@ section.
   to ensure that scale, monitoring, reliability, availability and constant
   innovation are proven and hardened. Other enterprise and cloud providers may
   deploy DASH as well. For more information, see the [Deployment](#deployment)
-  section. 
+  section.
 - **P4 behavioral model**. We are developing a P4 defined behavioral model to
   describe the behaviors per scenario and document them in a repeatable format.
   From there we will be able to auto-generate the APIs. The implementation
@@ -210,7 +210,7 @@ section.
 providers, we are collaborating to create an open forum capitalizing on the use
 of programmable hardware including **SmartNICs**, **SmartSwitches**, and
 **SmartAppliances**. The documentation related to these devices will be made
-available by the providers themselves.  
+available by the providers themselves.
 - **Scenarios**. Cover DASH extending SONiC APIs and related comprehensive set
 of objects to describe networking services for the cloud. The 7 initial services
 (in draft) describe this in more detail. We will also work with cloud and
@@ -221,9 +221,9 @@ For more information,see the [Scenarios](#scenarios) section.
   requirements. For more information about test documentation, test scripts,
   test configurations and other artifacts required to test a DASH device or
   devices, see [Performance
-  testing](https://github.com/sonic-net/DASH/tree/main/test). 
+  testing](https://github.com/sonic-net/DASH/tree/main/test).
 
-## Logical architecture (software stack) 
+## Logical architecture (software stack)
 
  DASH builds upon the traditional SONiC architecture, which is documented in the
  SONiC Wiki under [SONiC System
@@ -256,10 +256,10 @@ capacity, etc. via the  **NorthBound interface APIs**.
 ##### SDN and DPU High-Availability (HA)
 
 High Availability (HA) is important for hardware failover incidents. The SDN
-controller selects a pair of cards and configures them identically.  
+controller selects a pair of cards and configures them identically.
 The SDN controller will set up the L3 routes through the ToR switch levels,
 possibly even T2 levels for a third backup appliance or smart ToR and configure
-the HA "Peers." 
+the HA "Peers."
 
 > [!NOTE] HA sync protocols are WIP and will be standardized and interoperable,
 > not vendor-specified.
@@ -275,7 +275,7 @@ Scale](../high-avail/high-availability-and-scale.md) document.
 
 The SDN controller communicates with a DASH device through a
 **[gNMI](https://github.com/sonic-net/DASH/wiki/Glossary#gnmi) endpoint** served by
-a new DASH SDN agent **running inside a new SONiC DASH container**.  
+a new DASH SDN agent **running inside a new SONiC DASH container**.
 
 In summary:
 
@@ -284,7 +284,7 @@ In summary:
   schema so in effect, the gNMI server is a thin RPC shim layer to the DB.
 - The **SONiC orchagent** inside the Switch State Service (SWSS) Container will
   be enhanced to transform and translate these objects into **ASIC_DB objects**,
-  including the new **DASH-specific SAI objects**.  
+  including the new **DASH-specific SAI objects**.
 - An **enhanced syncd** will then configure the data plane using the **technology
   supplier-specific SAI library**.
 
@@ -294,7 +294,7 @@ A **gNMI schema** will manage the following DASH components:
 - Access Control Lists (ACLs)
 - Routing and mappings
 - Encapsulations
-- Other  
+- Other
 
 > [!NOTE] See also work in progress PR [doc-ref-config-example
 > #93](https://github.com/sonic-net/DASH/pull/93).
@@ -310,12 +310,12 @@ In the case of a multiple DPUs device the following applies:
   separate entity.
 - To conserve IPv4 addresses, such an appliance or switch *might* contain a
   proxy (NAT) function to map a single IP address:port combination into multiple
-  DPU endpoints with unique IPv4 addresses.  
+  DPU endpoints with unique IPv4 addresses.
 - No complex logic will run on the switches (switches do not have a top-level
   view of other/neighboring switches in the infrastructure).
 
-> [!NOTE] 
-> Each DPU shall have an instance of SONiC DASH OS that exposes the gNMI APIs to the SDN controller. 
+> [!NOTE]
+> Each DPU shall have an instance of SONiC DASH OS that exposes the gNMI APIs to the SDN controller.
 
 ### SONiC app containers
 
@@ -331,7 +331,7 @@ In the case of a multiple DPUs device the following applies:
 
 The SWSS container comprises many daemons which operate on conceptual SONIC
 config objects across several databases. For more information and details about
-the integration, see [SONiC DASH HLD](dash-sonic-hld.md). 
+the integration, see [SONiC DASH HLD](dash-sonic-hld.md).
 
 ### Switch Abstraction Interface (SAI) DASH extension
 
@@ -350,7 +350,7 @@ metadata header files. The **underlay** and **overlay** schema have different or
 - DASH SAI **underlay** headers. Traditional **SAI headers** are defined in the [OCP SAI project
   repo](https://github.com/opencomputeproject/SAI/tree/master/inc).These are
   **hand-generated** and **maintained**. DASH uses a subset of these to manage "**underlay**"
-  functions, e.g. device management, Layer 3 routing and so forth. For more information, see [SWSS Lite (Underlay)](dash-sonic-hld.md#333-swss-lite-underlay). 
+  functions, e.g. device management, Layer 3 routing and so forth. For more information, see [SWSS Lite (Underlay)](dash-sonic-hld.md#333-swss-lite-underlay).
 - DASH SAI **overlay** objects. They are derived from a [P4 Behavioral
   Model](https://github.com/sonic-net/DASH/tree/main/dash-pipeline). A script
   reads the P4 model and generates SAI header files. For more information, see [DASHOrch (Overlay)](dash-sonic-hld.md#332-dashorch-overlay).
@@ -374,7 +374,7 @@ is collectively called the "ASIC driver." More importantly, the technology
 supplier SAI library will hide all details and present a uniform interface.
 
 > [!NOTE]
-> A dedicated group has been investigating the use of PINS.  
+> A dedicated group has been investigating the use of PINS.
 
 **Why DASH and Why Not PINS?**  PINS is based upon a specific language (P4), and
 DPUs on the market would need to build a cross compiler. PINS places the onus
@@ -392,7 +392,7 @@ FPGAs, or some other high-density, performant hardware.
 
 The system architecture for SONiC DASH relies upon the [SONiC system
 architecture](https://github.com/Azure/SONiC/wiki/Architecture). For more
-information and details about the integration, see [SONiC DASH HLD](dash-sonic-hld.md). 
+information and details about the integration, see [SONiC DASH HLD](dash-sonic-hld.md).
 
 The SONiC DASH integration introduces the following DASH modifications:
 
@@ -401,17 +401,17 @@ The SONiC DASH integration introduces the following DASH modifications:
    deliver the **gNMI container** as code to SONiC to allow any SONiC switch to
    talk with and integrate DPU technology. The *DASH container* software
    integrates with the SONiC system containers seamlessly. Microsoft will ensure
-   a high quality integration with the switch. 
+   a high quality integration with the switch.
 
 2. In the **sync-d container**, the **sai api DASH** (as opposed to *sai api* in
-   the original SONiC architecture).  
+   the original SONiC architecture).
 
 The *DPU/IPU/SmartNic* device will run a separate instance of SONiC DASH on the
-device.  
+device.
 
 The component interactions will be executed as a new user space container
 implementation; relying on the existing SONiC infrastructure and components to
-interact as they normally would.  
+interact as they normally would.
 
 The functionality of the new *dash container* in the user space is to receive
 content from the Software Defined Networking (SDN) controller to control setup
@@ -504,7 +504,7 @@ is accomplished in standard SONiC multi-ASIC devices.
 
 <figcaption><i>Figure 6.2 - Smart switch low level</i></figcaption><br/><br/>
 
-## Example of network representation 
+## Example of network representation
 
 > [!NOTE] TBD. Introduction needed.
 ### Deployment
@@ -532,7 +532,7 @@ For more information see the [pipeline README](../../../dash-pipeline/README.md)
  is a **black-box testing**  concerned with validating whether the device works
  as intended with SONiC. For more information, see [SONiC testbed deployment and
  setup, SONiC testing, test report
- processing](https://github.com/Azure/sonic-mgmt/tree/master/docs).  
+ processing](https://github.com/Azure/sonic-mgmt/tree/master/docs).
 
 ## DASH services conformance and performance testing
 
@@ -541,10 +541,10 @@ DASH devices satisfy the standard **DASH conformance and performance
 requirements**. For more information about test documentation, test scripts,
 test configurations and other artifacts required to test a DASH device, see
 [DASH conformance and performance
-testing](https://github.com/sonic-net/DASH/tree/main/test). 
+testing](https://github.com/sonic-net/DASH/tree/main/test).
 
 > [!NOTE] TBD - We just capture he basic info and then link to the related
-> test area. 
+> test area.
 
 - [High-Level Description (HLD) Test
   Specification](https://github.com/sonic-net/DASH/blob/main/test/docs/dash-test-HLD.md).
@@ -565,7 +565,7 @@ testing](https://github.com/sonic-net/DASH/tree/main/test).
 
 ### A day in the life of a DASH packet
 
-> [!NOTE] TBD - Engineering help needed. 
+> [!NOTE] TBD - Engineering help needed.
 > Add link to the SDN packet pipeline document when ready. See PR [dash-sdn-and-packet-transform-documentation-update](https://github.com/sonic-net/DASH/pull/125).
 
 ### A day in the life of a DASH SDN controller
@@ -586,5 +586,3 @@ testing](https://github.com/sonic-net/DASH/tree/main/test).
 - [SONiC DASH HLD](dash-sonic-hld.md)
 - [SONiC System Architecture](https://github.com/Azure/SONiC/wiki/Architecture#sonic-system-architecture)
 - [P4 as a Single Source of Truth for SONiC DASH -  2022 P4 Workshop](https://www.youtube.com/watch?v=mT7-t_aDozM)
-
-

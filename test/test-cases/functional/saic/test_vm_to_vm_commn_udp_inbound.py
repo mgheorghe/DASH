@@ -17,17 +17,17 @@ This covers following scenario :
 vnet to vnet communication with UDP traffic flow with inbound direction :
 Configure DUT on inbound routing direction
 Configure TGEN vxlan UDP traffic flow as one vnet to another vnet of two OpenTrafficGenerator ports
-Verify Traffic flow between vnet to vnet through DUT  
+Verify Traffic flow between vnet to vnet through DUT
 
 Topology Used :
-       --------          -------          -------- 
+       --------          -------          --------
       |        |        |       |        |        |
       |        |        |       |        |        |
       |  TGEN  |--------|  DUT  |--------|  TGEN  |
       |        |        |       |        |        |
       |        |        |       |        |        |
-       --------          -------          -------- 
-       
+       --------          -------          --------
+
 """
 
 
@@ -54,7 +54,7 @@ class TestUdpInbound:
 
     @pytest.mark.dependency(depends=['TestUdpInbound::test_setup'])
     def test_vm_to_vm_commn_udp_inbound(self, dataplane):
-        # Configure TGEN      
+        # Configure TGEN
         # Flow1 settings
         f1 = dataplane.configuration.flows.flow(name="ENI_TO_NETWORK")[-1]
         f1.tx_rx.port.tx_name = dataplane.configuration.ports[0].name
@@ -80,7 +80,7 @@ class TestUdpInbound:
         udp1.src_port.value = 11638
         udp1.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan1.vni.value = 11
         vxlan1.reserved0.value = 0
         vxlan1.reserved1.value = 0
@@ -108,9 +108,9 @@ class TestUdpInbound:
         outer_eth, ip, udp, vxlan, inner_eth, inner_ip , inner_udp= (
                 f2.packet.ethernet().ipv4().udp().vxlan().ethernet().ipv4().udp()
         )
-        
+
         outer_eth.src.value = OUTER_SRC_MAC_F2
-        outer_eth.dst.value = OUTER_DST_MAC_F2   
+        outer_eth.dst.value = OUTER_DST_MAC_F2
         outer_eth.ether_type.value = 2048
 
         ip.src.value = NETWORK_VTEP_IP
@@ -119,7 +119,7 @@ class TestUdpInbound:
         udp.src_port.value = 11638
         udp.dst_port.value = 4789
 
-        #vxlan.flags.value = 
+        #vxlan.flags.value =
         vxlan.vni.value = 101
         vxlan.reserved0.value = 0
         vxlan.reserved1.value = 0
@@ -142,16 +142,16 @@ class TestUdpInbound:
         flow_names=[f1.name, f2.name]
         while(True):
             if (dataplane.is_traffic_stopped(flow_names)):
-                break 
+                break
         dataplane.stop_traffic()
-        
+
         res1 = su.check_flow_tx_rx_frames_stats(dataplane, f1.name)
         res2 = su.check_flow_tx_rx_frames_stats(dataplane, f2.name)
         print("Tx and Rx packet match result of flow {} is {}".format(f1.name, res1))
         print("Tx and Rx packet match result of flow {} is {}".format(f2.name, res2))
-        
+
         dataplane.teardown()
-        
+
         # Validate test result
         assert res1, "Traffic test failure"
         assert res2, "Traffic test failure"
@@ -169,4 +169,3 @@ class TestUdpInbound:
             results.append(dpu.command_processor.process_command(command))
         print (results)
         print("\n======= SAI teardown commands RETURN values =======")
-
