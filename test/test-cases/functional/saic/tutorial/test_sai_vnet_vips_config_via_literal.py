@@ -47,7 +47,7 @@ def make_create_cmds():
             "SAI_VIP_ENTRY_ATTR_ACTION",
             "SAI_VIP_ENTRY_ACTION_ACCEPT"
             ]
-        } 
+        }
         ]
 
 def make_remove_cmds():
@@ -96,5 +96,4 @@ if __name__ == '__main__':
 
     if args.a or args.r:
         print (json.dumps([item for item in make_remove_cmds()],
-                         indent=2)) 
-
+                         indent=2))

@@ -25,6 +25,5 @@ class SaithriftRpcClient:
         self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)
 
         self.client = sai_rpc.Client(self.protocol)
-        self.transport.open()    
+        self.transport.open()
         print ("sai-thrift connection established with %s:%d" % (self.server, self.port))
-       

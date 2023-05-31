@@ -125,7 +125,7 @@ CMD bash
 #     thrift \
 #     wheel \
 #     yanglint \
-#     yangre 
+#     yangre
 
 # # Copy everything from p4lang-p4c as one layer to avoid the deleted files above
 # FROM scratch
@@ -133,4 +133,3 @@ CMD bash
 
 
 # CMD bash
-

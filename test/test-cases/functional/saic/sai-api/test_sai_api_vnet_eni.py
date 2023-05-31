@@ -24,7 +24,7 @@ class TestSaiVnetEni:
         results = [*dpu.process_commands(commands)]
         print("\n======= SAI commands RETURN values create =======")
         pprint(results)
-        
+
         commands = [
             {
                 "name": "eni_id",
@@ -155,7 +155,7 @@ class TestSaiVnetEni:
         results = [*dpu.process_commands(commands)]
         print("\n======= SAI commands RETURN values remove =======")
         pprint(results)
-        
+
         commands = [
             {
                 "name": "vnet",

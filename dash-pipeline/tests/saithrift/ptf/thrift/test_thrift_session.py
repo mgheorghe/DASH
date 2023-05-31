@@ -12,4 +12,3 @@ class TestSaiThriftSession(SaiHelperSimplified):
 
     def tearDown(self):
         print ("tearDown()")
-

@@ -99,7 +99,7 @@ def find_boundary(utils):
                 break
     data.append([sys._getframe().f_back.f_code.co_name]+["***"]*5+[pass_val])
     print(tabulate(data, headers=captions, tablefmt="psql"))
-    
+
     final_result_data.append([sys._getframe().f_back.f_code.co_name,pass_val])
 
 
@@ -171,7 +171,7 @@ def pps_config(setup,tbinfo,utils):
             inn_sp.SingleValue = 10000
             inn_dp.SingleValue = 10000
             ce_down=ce
-            
+
             if name=="Allow":
                 config_elements_sets.append((ce_up,ce_down))
 
@@ -199,7 +199,7 @@ def pps_config(setup,tbinfo,utils):
     )
 
     ixnetwork = session_assistant.Ixnetwork
-    
+
 
     portList = [{'xpath': '/vport[%s]' % str(indx+1), 'name': 'VTEP_0%d' % (indx+1), 'location': p['location']} for indx, p in enumerate(tb['tgen'][0]['interfaces'])]
     ixnetwork.ResourceManager.ImportConfig(json.dumps(portList), False)
@@ -210,7 +210,7 @@ def pps_config(setup,tbinfo,utils):
     ixnetwork.ResourceManager.ImportConfig(json.dumps(tmp), False)
     tmp = [{'xpath': '/vport[%d]/l1Config/%s' % (vp.InternalId, vp.Type), "enableAutoNegotiation": l1data[indx]['an']} for indx, vp in enumerate(vports)]
     ixnetwork.ResourceManager.ImportConfig(json.dumps(tmp), False)
-    
+
     tmp = [{'xpath': '/vport[%d]/l1Config/%s' % (vp.InternalId, vp.Type), "enableRsFec": l1data[indx]['fec'], "autoInstrumentation": "floating"} for indx, vp in enumerate(vports)]
     ixnetwork.ResourceManager.ImportConfig(json.dumps(tmp), False)
     for ed in [1, 2]:
@@ -226,7 +226,7 @@ def pps_config(setup,tbinfo,utils):
                 obj_map[ed]["obgp"] = obj_map[ed]["oipv4"].BgpIpv4Peer.add(Name="BGP_%d" % ed)
             elif ip_type=="v6":
                 obj_map[ed]["obgp"] = obj_map[ed]["oipv4"].BgpIpv6Peer.add(Name="BGP_%d" % ed)
-                
+
         # OUTER NG
         ng = ixnetwork.Topology.find().DeviceGroup.find(Name="O_DG_%d" % ed).NetworkGroup.add(Name="NG_%d" % ed, Multiplier=val_map[ed]["oipv4pool"]["multiplier"])
         if ip_type=="v4":
@@ -243,8 +243,8 @@ def pps_config(setup,tbinfo,utils):
         elif ip_type=="v6":
             obj_map[ed]["dg_b_ong_ipv4"] = obj_map[ed]["dg_b_ong_eth"].Ipv6.add(Name='IPv6_%d' % ed)
             obj_map[ed]["vxlan"] = obj_map[ed]["dg_b_ong_ipv4"].Vxlanv6.add(Name="VXLAN_%d" % ed)
-        
-        
+
+
 
         # ALLOW & DENY
         if ed==1:
@@ -252,14 +252,14 @@ def pps_config(setup,tbinfo,utils):
                 obj_map[ed]["iipv4_local"] = obj_map[ed]["dg_b_ong"].DeviceGroup.add(Name='Local',Multiplier=1).Ethernet.add().Ipv4.add()
             elif ip_type=="v6":
                 obj_map[ed]["iipv4_local"] = obj_map[ed]["dg_b_ong"].DeviceGroup.add(Name='Local',Multiplier=1).Ethernet.add().Ipv6.add()
-                
+
             obj_map[ed]["ieth_local"] = obj_map[ed]["iipv4_local"].parent
         else:
             if ip_type=="v4":
                 obj_map[ed]["iipv4_allow"] = obj_map[ed]["dg_b_ong"].DeviceGroup.add(Name='Allow',Multiplier=val_map[ed]["iipv4_allow"]["multiplier"]).Ethernet.add().Ipv4.add()
             elif ip_type=="v6":
                 obj_map[ed]["iipv4_allow"] = obj_map[ed]["dg_b_ong"].DeviceGroup.add(Name='Allow',Multiplier=val_map[ed]["iipv4_allow"]["multiplier"]).Ethernet.add().Ipv6.add()
-                
+
             obj_map[ed]["ieth_allow"] = obj_map[ed]["iipv4_allow"].parent
 
             if ip_type=="v4":
@@ -274,12 +274,12 @@ def pps_config(setup,tbinfo,utils):
         obj_map[ed]["oeth"].Mac.Increment(start_value=val_map[ed]["oeth"]["mac"],  step_value='00:00:00:00:00:01')
         obj_map[ed]["oipv4"].Address.Increment(start_value=val_map[ed]["oipv4"]["ip"],  step_value=val_map[ed]["oipv4"]["ip_step"])
         obj_map[ed]["oipv4"].GatewayIp.Increment(start_value=val_map[ed]["oipv4"]["gip"], step_value=val_map[ed]["oipv4"]["gip_step"])
-        
-        
+
+
         resolve_gateway = False
         if val_map[ed]['underlay_routing']=="STATIC":
             resolve_gateway = True
-            
+
         obj_map[ed]["oipv4"].ResolveGateway.Single(resolve_gateway)
         obj_map[ed]["oipv4"].ManualGatewayMac.Single(val_map[ed]["oipv4"]["mac"])
 
@@ -293,7 +293,7 @@ def pps_config(setup,tbinfo,utils):
             elif ip_type=="v6":
                 #obj_map[ed]["obgp"].EnableBgpIdSameasRouterId.Single(True)----------------------------> This gives an error
                 obj_map[ed]["obgp"].FilterIpV6Unicast.Single(True)
-            
+
             obj_map[ed]["obgp"].FilterEvpn.Single(True)
 
             #obj_map[ed]["bgp"].IpVrfToIpVrfType = 'interfacefullWithUnnumberedCorefacingIRB'
@@ -320,7 +320,7 @@ def pps_config(setup,tbinfo,utils):
         obj_map[ed]["dg_b_ong_ipv4"].Address.Increment(start_value=val_map[ed]["dg_b_ong_ipv4"]["ip"],  step_value=val_map[ed]["dg_b_ong_ipv4"]["ip_step"])
         obj_map[ed]["dg_b_ong_ipv4"].GatewayIp.Increment(start_value=val_map[ed]["dg_b_ong_ipv4"]["gip"], step_value=val_map[ed]["dg_b_ong_ipv4"]["gip_step"])
         obj_map[ed]["dg_b_ong_ipv4"].Prefix.Single(32)
-            
+
         # VXLAN
         obj_map[ed]["vxlan"].EnableStaticInfo = True
 
@@ -334,8 +334,8 @@ def pps_config(setup,tbinfo,utils):
             vxlan_sinfo.EnableManualRemoteVMMac.Single(True)
             remote_vtep_ip_obj = vxlan_sinfo.RemoteVtepUnicastIpv6
             remote_vm_mac = vxlan_sinfo.RemoteVMMacAddress
-        
-        
+
+
 
         remote_vtep_ip_obj.Single(val_map[ed]["vxlan"]["RemoteVtepIpv4"])
         obj_map[ed]["vxlan"].Vni.Increment(start_value=val_map[ed]["vxlan"]["Vni"], step_value=1)
@@ -361,35 +361,35 @@ def pps_config(setup,tbinfo,utils):
                                         )
             vxlan_sinfo.RemoteVmStaticIpv4.Steps[0].Enabled = True
             vxlan_sinfo.RemoteVmStaticIpv4.Steps[0].Step = val_map[ed]["vxlan"]["RemoteVmStaticIpv4"]["ng_step"]
-            
-            
+
+
             obj_map[ed]["ieth_local"].Mac.Increment(start_value=val_map[ed]["ieth_local"]["mac"],  step_value=val_map[ed]["ieth_local"]["step"],)
             obj_map[ed]["ieth_local"].Mac.Steps[1].Enabled=True
             obj_map[ed]["ieth_local"].Mac.Steps[1].Step = '00:00:00:08:00:00'
-                
+
             obj_map[ed]["iipv4_local"].Prefix.Single(8)
-                
+
             obj_map[ed]["iipv4_local"].Address.Increment(  start_value=val_map[ed]["iipv4_local"]["ip"],  step_value=val_map[ed]["iipv4_local"]["ip_step"])
             obj_map[ed]["iipv4_local"].Address.Steps[1].Enabled=True
             obj_map[ed]["iipv4_local"].Address.Steps[1].Step = val_map[ed]["iipv4_local"]["ip_ng1_step"]
-                
+
             obj_map[ed]["iipv4_local"].GatewayIp.Increment(start_value=val_map[ed]["iipv4_local"]["gip"], step_value=val_map[ed]["iipv4_local"]["gip_step"])
             obj_map[ed]["iipv4_local"].GatewayIp.Steps[1].Enabled=True
             obj_map[ed]["iipv4_local"].GatewayIp.Steps[1].Step = val_map[ed]["iipv4_local"]["gip_ng1_step"]
 
-                
+
         else:
 
             remote_vm_mac.Increment(start_value=val_map[ed]["vxlan"]["RemoteVmStaticMac"],step_value='00:00:00:00:00:01')
             remote_vm_mac.Steps[0].Enabled =True
             remote_vm_mac.Steps[0].Step = '00:00:00:08:00:00'
-                
+
             #vxlan_sinfo.RemoteVmStaticIpv4.Increment(start_value=val_map[ed]["vxlan"]["RemoteVmStaticIpv4"],step_value='0.0.0.1')
             vxlan_sinfo.RemoteVmStaticIpv4.Custom(
                                         start_value=val_map[ed]["vxlan"]["RemoteVmStaticIpv4"]["start_value"],
                                         step_value=val_map[ed]["vxlan"]["RemoteVmStaticIpv4"]["step_value"],
                                         )
-            
+
             vxlan_sinfo.RemoteVmStaticIpv4.Steps[0].Enabled =True
             vxlan_sinfo.RemoteVmStaticIpv4.Steps[0].Step = val_map[ed]["vxlan"]["RemoteVmStaticIpv4"]["ng_step"]
 
@@ -404,7 +404,7 @@ def pps_config(setup,tbinfo,utils):
                                     step_value =val_map[ed]["ieth_allow"]["mac"]["step_value"],
                                     increments =val_map[ed]["ieth_allow"]["mac"]["increments"]
                                     )
-                                    
+
             eth_allow.Mac.Steps[1].Enabled = True
             eth_allow.Mac.Steps[1].Step = val_map[ed]["ieth_allow"]["mac"]["ng_step"]
 
@@ -417,11 +417,11 @@ def pps_config(setup,tbinfo,utils):
             ip_allow.Address.Steps[1].Step = val_map[ed]["iipv4_allow"]["ip"]["ng_step"]
 
             ip_allow.Prefix.Single(8)
-            
+
             ip_allow.GatewayIp.Increment(start_value=val_map[ed]["iipv4_allow"]["gip"], step_value=val_map[ed]["iipv4_allow"]["gip_step"])         #Fix Increments
             ip_allow.GatewayIp.Steps[1].Enabled=True
             ip_allow.GatewayIp.Steps[1].Step = val_map[ed]["iipv4_allow"]["gip_ng_step"]
-                
+
 
             eth_deny.Mac.Custom(
                                     start_value=val_map[ed]["ieth_deny"]["mac"]["start_value"],
@@ -436,7 +436,7 @@ def pps_config(setup,tbinfo,utils):
                                     step_value =val_map[ed]["iipv4_deny"]["ip"]["step_value"],
                                     increments =val_map[ed]["iipv4_deny"]["ip"]["increments"]
                                     )
-                                    
+
             ip_deny.Address.Steps[1].Enabled = True
             ip_deny.Address.Steps[1].Step = val_map[ed]["iipv4_deny"]["ip"]["ng_step"]
 
@@ -452,15 +452,15 @@ def pps_config(setup,tbinfo,utils):
         ipv4_local = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Local").Ethernet.find().Ipv4.find()
         ipv4_allow = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Allow").Ethernet.find().Ipv4.find()
         ipv4_deny  = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Deny").Ethernet.find().Ipv4.find()
-    elif ip_type=="v6":    
+    elif ip_type=="v6":
         ipv4_local = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Local").Ethernet.find().Ipv6.find()
         ipv4_allow = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Allow").Ethernet.find().Ipv6.find()
         ipv4_deny  = ixnetwork.Topology.find().DeviceGroup.find().NetworkGroup.find().DeviceGroup.find().DeviceGroup.find(Name="Deny").Ethernet.find().Ipv6.find()
     print("Create Traffic OneIPOneVPC")
-    
+
     vpcs, ips = val_map[1]["oipv4pool"]["multiplier"], int(val_map[1]["vxlan"]["StaticInfoCount"]/2)
     endpoints_allow,endpoints_deny=[], []
-    
+
     for vpc in range(vpcs):
         endpoints_allow.append(
                             (
@@ -506,7 +506,7 @@ class Test_Dpu:
         utils.start_traffic(ixnetwork)
         time.sleep(30)
         utils.stop_traffic(ixnetwork)
-        
+
         find_boundary(utils)
         print(tabulate(final_result_data, headers=["Test","Max Possible PPS"], tablefmt="psql"))
 
@@ -554,8 +554,8 @@ class Test_Dpu:
             inn_sp.StepValue = 1
             inn_sp.CountValue = int(val_map[1]["vxlan"]["StaticInfoCount"]/2)
 
-            
-            
+
+
             vm_start_value+=1
             host_start_value=host_start_value+host_step
 
@@ -1439,4 +1439,3 @@ class Test_Dpu:
         _print_final_table(test_run_results)
 
         IxLoadUtils.deleteAllSessions(connection)
-

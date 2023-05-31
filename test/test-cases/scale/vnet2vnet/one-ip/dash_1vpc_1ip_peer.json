@@ -35,7 +35,7 @@
                         "priority": 100,
                         "action": "allow",
                         "terminating": "true",
-                        "protocols": [ 
+                        "protocols": [
                             1,
                             6,
                             17
@@ -89,9 +89,9 @@
                 "mappings" : [
                     {
                         "routing-type": "vpc-direct",
-                        "overlay-ip-address": "1.1.0.1/32", 
-                        "underlay-ip-address": "221.0.1.1/32", 
-                        "mac": "00:1B:6E:00:00:01" 
+                        "overlay-ip-address": "1.1.0.1/32",
+                        "underlay-ip-address": "221.0.1.1/32",
+                        "mac": "00:1B:6E:00:00:01"
                     }
                 ]
             },
@@ -100,9 +100,9 @@
                 "mappings" : [
                     {
                         "routing-type": "vpc-direct",
-                        "overlay-ip-address": "1.128.0.1/32", 
-                        "underlay-ip-address": "221.0.2.1/32", 
-                        "mac": "00:1B:6E:80:00:01" 
+                        "overlay-ip-address": "1.128.0.1/32",
+                        "underlay-ip-address": "221.0.2.1/32",
+                        "mac": "00:1B:6E:80:00:01"
                     }
                 ]
             }
@@ -111,14 +111,14 @@
 
     "routing-appliances": [
         {
-            "VTEP:1": { 
+            "VTEP:1": {
                 "appliance-id": "1",
                 "routing-appliance-id": 1,
                 "routing-appliance-addresses": [ "221.0.1.1" ],
                 "encap-type": "vxlan",
                 "vni-key": 1
             },
-            "VTEP:101": { 
+            "VTEP:101": {
                 "appliance-id": "101",
                 "routing-appliance-id": 101,
                 "routing-appliance-addresses": [ "221.0.2.1" ],
@@ -164,7 +164,7 @@
             },
             "VPC:101": {
                 "prefix-tag-id": "101",
-                "prefix-tag-number": 101, 
+                "prefix-tag-number": 101,
                 "ip-prefixes-ipv4": [
                     "1.128.0.0/9"
                 ]

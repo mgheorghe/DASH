@@ -31,7 +31,7 @@ On receiving a packet from the wire, the SDN appliance will determine the
 **packet direction**, **matching ENI**, and **packet processing strategy** based
 on *Encap Transformation and Rules Evaluation*. See also [Packet
 Flows](dash-sonic-hld.md#2-packet-flows) in the *SONiC-DASH integration high
-level design* document. 
+level design* document.
 
 - **Packet direction**. It is evaluated based on the most-outer **Virtual
   Network Identifier** (VNI) lookup (implementation dependent) behind the
@@ -48,12 +48,12 @@ direction prior to selecting a fast or slow path.
 The Elastic Network Interface (ENI), is an independent entity that has a
 collection of routing policies. ENI has specified identification criteria, which
 are also used to identify **packet direction**. The current version only
-supports **mac-address** as ENI identification criteria. 
+supports **mac-address** as ENI identification criteria.
 
 Once a packet arrives on **Inbound** to the target (DPU), it must be forwarded
 to the correct ENI policy processing pipeline. This ENI selection is done based
 on the **inner destination MAC** of the packet, which is matched against the MAC
-of the ENI. 
+of the ENI.
 
 Cloud Service Providers and enterprises that are deploying Software Defined
 Networking (SDN) can use **Software Load Balancer** (SLB) to evenly distribute
@@ -64,7 +64,7 @@ and scalability.
 ## Packet flow - selecting packet path
 
 For the **first packet** of a TCP flow, the **slow path** is selected, running
-the transposition engine and matching at each layer.  
+the transposition engine and matching at each layer.
 For **subsequent packets**, the **fast path** is selected, matching a unified
 flow via UFID and applying a transposition directly against rules.
 
@@ -129,21 +129,21 @@ matches the ENI MAC.
 The processing of a packet is based on a set of tables and policies stored in
 the data plane (DPU) and configured based on information sent by the control
 plane (SDN controller). The following figure shows how tables and policies
-relate to the Virtual Port (ENI). 
+relate to the Virtual Port (ENI).
 
 ![sdn-virtual-port](images/sdn/sdn-virtual-port.svg)
 
 > [!NOTE] DASH processing pipeline must support both IPv4 and IPv6 protocols for
 > both underlay and overlay, unless explicitly stated that some scenario is
-> IPv4-only or IPv6-only. 
+> IPv4-only or IPv6-only.
 
-Below are listed some of the most common packet processing terms. 
+Below are listed some of the most common packet processing terms.
 
 - **Flow**. It describes a specific *conversation* between two hosts (SRC/DST
   IP, SRC/DST Port). When a flow is processed and policy is applied to it and
   then routed, the DPU (SmartNIC) records the outcomes of all those decisions in
   a **transform** and places them in the **flow table** which resides locally on
-  the card itself.  
+  the card itself.
 
   > [!NOTE] This is why sometimes the terms *transform* and *flow* are used
   > interchangeably.
@@ -167,7 +167,7 @@ Below are listed some of the most common packet processing terms.
   > [!NOTE] The Flexible Network Interface (FNI) is a 48-bit value which easily
   > maps to MAC values. The MAC address of a VNIC (VM NIC or BareMetal NIC) is
   > synonymous with FNI. It is one of the values used to identify a V-Port
-  > container ID.  
+  > container ID.
 
 - **Routing table**. It is a match.action table, specifically a longest prefix
   match (LPM) table that once matched on destination specifies the action to
@@ -185,40 +185,40 @@ The Access Control Lists (ACLs) play a fundamental role during packet
 processing. ACLs evaluation is done in stages, if a packet is allowed through
 the first stage, it is processed by the second ACL stage and so on. For a packet
 to be allowed it must be allowed in all the stages or must hit a terminating
-allow rule. 
+allow rule.
 
 #### ACL groups
 
 ACLs are evaluated in both **Inbound** and **Outbound** direction; there are
-separate groups for Inbound and Outbound. 
+separate groups for Inbound and Outbound.
 
 The updating of an ACL group must be an atomic operation. No partial updates are
 allowed, as it might lead to security issues in the case of only partial rules
-being applied. 
+being applied.
 
 ACL groups need to be evaluated in order. The following rules apply:
 
 - Each ACL group has a set of rules. Only a single rule can match in
-  group/stage. 
+  group/stage.
   - Once the rule is matched, its action is performed (**allow** or **deny**).
   - The packet processing moves to the next ACL group/stage; a match is found,
-    no further rules in same group are evaluated. 
+    no further rules in same group are evaluated.
 
 - Within an ACL group, rules are organized by priority (with lowest priority
-  number being evaluated first). 
-  - No two rules have the same priority within a group. 
+  number being evaluated first).
+  - No two rules have the same priority within a group.
   - Priority is only within rules in the same group. No priorities across groups
-    are allowed. 
+    are allowed.
   - A smaller priority number means the rule will be evaluated first.
   - Priorities are unique withing an ACL group. Priorities might overlap across
-    ACL groups. 
+    ACL groups.
 
 #### ACL levels
 
 The ACL pipeline has 3-5 levels; an ACL decision is based on the most
-restrictive match across all 3 levels.  
+restrictive match across all 3 levels.
 
-- The first layer (contains default rules) is *controlled by Azure/MSFT*.  
+- The first layer (contains default rules) is *controlled by Azure/MSFT*.
 - The second and 3rd layers are *Customer controlled*.
 - The 4th and 5th layers might be for example, *VM/Subnet/Subscription* layers.
   These layers might be security rules or a top level entity controlled by an
@@ -226,19 +226,19 @@ restrictive match across all 3 levels.
 
 #### ACL rules
 
-A rule can be **terminating** or **non-terminating**. 
+A rule can be **terminating** or **non-terminating**.
 
 - **terminating** rule means that this is the final outcome and further
-  processing through other groups/stages must be skipped. 
-  - **deny** rules are usually *terminating*. 
+  processing through other groups/stages must be skipped.
+  - **deny** rules are usually *terminating*.
 
 - **non-terminating** rule means that further processing through other
-  groups/stages is required. 
-  - **allow** rules are usually *non-terminating”*. 
+  groups/stages is required.
+  - **allow** rules are usually *non-terminating”*.
   - **deny** rules can sometimes be also *non-terminating* (also known as **soft
     deny**). This means that a particular ACL group *proposes* to deny the
     packet, but its decision is not final, and can be **overridden**, switched
-    to *allow* by the next group/stage. 
+    to *allow* by the next group/stage.
 
 - If an ACL rule with bit exit ACL pipeline on hit is matched, the ACL pipeline
   is abandoned.
@@ -250,17 +250,17 @@ The end result of the ACL logic for packet evaluation leads to a single outcome:
 **allow** or **deny**.
 
 - If the **allow** outcome is reached the **packet is moved to next processing
-  pipeline**. 
-- If the **deny** outcome is reached the **packet is silently dropped**. 
+  pipeline**.
+- If the **deny** outcome is reached the **packet is silently dropped**.
 
-#### ACL actions  
+#### ACL actions
 
 - Block (terminate)
 - If ‘terminate’ is not used here, the last line is the most important in ACL
   Level1
 - Soft Block (general block, with specific permits, non-terminating, proceed to
   next group) or think of this as a Block, and then a ‘no’ for ‘termination’.
-- Allow (non-terminate, proceed to next, continue to FW rules)  
+- Allow (non-terminate, proceed to next, continue to FW rules)
 - Default action = Deny. This is the default value if no rules are matched;
   traffic should be dropped.  This is the default action of firewalls, however
   it is OK to be configurable.  If not, we want to default Deny/Drop if no rules
@@ -338,7 +338,7 @@ corresponding flow is created in the flow table.
 
 ### VM to VM (in VNET) communication
 
-Please note that VNET to VNET is seen below.  VNET Peering is identical and no datapath changes are needed.  VNET Global Peering uses IPv6 as the tunnel and uses the same tunnel format.  
+Please note that VNET to VNET is seen below.  VNET Peering is identical and no datapath changes are needed.  VNET Global Peering uses IPv6 as the tunnel and uses the same tunnel format.
 
 ![VMtoVM](./images/sdn/sdn-packet-transforms-vm-to-vm.svg)
 

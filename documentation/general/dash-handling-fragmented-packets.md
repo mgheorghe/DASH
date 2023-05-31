@@ -130,14 +130,14 @@ a **new temporal flow** should be created that can be
 1. The fragment temporal flow should be **maintained until the last fragment arrives** OR
 the flow is **aged** OR the connection is **closed**.
 
-1. Fragment temporal flows should be removed after receiving the last packet of the 
+1. Fragment temporal flows should be removed after receiving the last packet of the
 fragmented frame. This is the most efficient way to keep temporal flows from consuming
-flow table resources which are finite and in practice consume a large amount of memory. 
+flow table resources which are finite and in practice consume a large amount of memory.
 
-1. The aging of a stale temporal flow **should be different than the aging of TCP connections or 
+1. The aging of a stale temporal flow **should be different than the aging of TCP connections or
 UDP flows** as the packets are generated over a small period of time and should
 arrive fairly close together. Stale temporal flows should be removed quickly as the
-flow table is a finite resource that can be depleted. This 
+flow table is a finite resource that can be depleted. This
 is especially true when connections or UDP flows are arriving in the range of millions/sec. A
 background or garbage collection task could be used for this purpose coupled with other
 table management functions. The stale time-out period should be programmable per ENI.
@@ -160,11 +160,11 @@ be rolled/added back into the original/parent flow once the temporal flow is rem
 
 1.  When a first fragment (with L4 header) arrives, a new temporal flow should be created.
 This temporal flow should be associated (need to maintain some state) with the
-**original/parent** flow against which the first fragment was matched.  
-If the connection is terminated, all temporal flows should be terminated as well.  
+**original/parent** flow against which the first fragment was matched.
+If the connection is terminated, all temporal flows should be terminated as well.
 
 1.  If the second fragment (first packet without L4 header and non-zero fragment offset)
-arrives before the first fragment, the packet will be dropped and no temporal flow will be created.  
+arrives before the first fragment, the packet will be dropped and no temporal flow will be created.
 
 **Q**:  Since there is no 5-tuple information available, against which
 **bucket** will we count these drop packets in the slow path or count out of order packets?
@@ -182,10 +182,10 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
     - If we do not wait it is possible to black hole subsequent RSTs which could
     result in suboptimal connection performance at the end points
 
-      <figcaption><b><i>Connection aborting</i></b></figcaption> 
+      <figcaption><b><i>Connection aborting</i></b></figcaption>
 
-      ![tcp-connection-abort](images/tcp-connection-abort.svg) 
-     
+      ![tcp-connection-abort](images/tcp-connection-abort.svg)
+
 
 1. Also, if the first packet comes in out of order then the fragments belonging
    to the same packet would be **dropped** as they **do not contain Layer-4
@@ -195,7 +195,7 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
       within VXLAN** or methods, **out of order packets are unlikely (and again, they need to be dropped)** as
       switches/routers do not misorder frames of a single L4 flow.
     - The encapsulated packet will look like a **single L4 flow** to a
-      router/switch. 
+      router/switch.
     - > **Also, to be clear, Azure does not support out-of-order packets. They
         are dropped primarily due to security concerns with Nov 2018
         FragmentSmack attacks and for the stated reasons above which should make
@@ -205,8 +205,8 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
 
         | Connection Creation  | Connection Deletion  |
         |-------------------|----------------------|
-        |![tcp-connection-create](images/tcp-connection-create.svg)|![tcp-connection-delete](images/tcp-connection-delete.svg)| 
-        
+        |![tcp-connection-create](images/tcp-connection-create.svg)|![tcp-connection-delete](images/tcp-connection-delete.svg)|
+
 
 1. Questions may remain on whether to create a flow on the **SYN** regardless of
    the three-way handshake **SYN/SYN-ACK/ACK**.
@@ -221,7 +221,7 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
    - There should also be a **SYN** policer that is imposed on an **ENI basis**
      to prevent denial of service.
 
-1. Questions remain on whether to delete a flow on the **FIN**. 
+1. Questions remain on whether to delete a flow on the **FIN**.
 
    - For closing we need to keep the flow alive until we see both directions
      closed.
@@ -240,9 +240,9 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
 1. Because the appliances are not reassembling frames nor terminating user
    frames there is no need to provide any action whether the **PUSH flag** is
    set or not.
-   
+
  ## URGENT Flag
- 
+
  1. As Appliances are wire-rate, this flag can be ignored unless destined for the Operating System which is out of scope for this document.
 
 ## Do Not Fragment Flag
@@ -254,7 +254,7 @@ arrives before the first fragment, the packet will be dropped and no temporal fl
 1. In general **DASH is not covering use cases that require re-assembly of frames**
     as the primary purpose is to be transparent to the end points.
 
-## References 
+## References
 
 - [RFC 791 - Internet Protocol](https://datatracker.ietf.org/doc/html/rfc791)
 - [RFC 768 - User Datagram Protocol](https://datatracker.ietf.org/doc/html/rfc768)

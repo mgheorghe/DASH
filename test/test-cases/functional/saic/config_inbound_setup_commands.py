@@ -17,7 +17,7 @@ OUTER_DST_MAC = "c8:2c:2b:00:d1:30" #MAC from DUT
 INNER_SRC_MAC = "00:1A:C5:00:00:01"
 INNER_DST_MAC = "00:1b:6e:00:00:01"
 OUTER_SRC_MAC_F2 = "80:09:02:02:00:01"
-OUTER_DST_MAC_F2 = "c8:2c:2b:00:d1:34"  
+OUTER_DST_MAC_F2 = "c8:2c:2b:00:d1:34"
 
 
 ###############################################################

@@ -28,7 +28,7 @@ class TestSaiVnetOutboundRoutingEntry:
         results = [*dpu.process_commands(commands)]
         print("\n======= SAI commands RETURN values create =======")
         pprint(results)
-        
+
         # Create ENI
         commands = [
             {
@@ -96,7 +96,7 @@ class TestSaiVnetOutboundRoutingEntry:
         results = [*dpu.process_commands(commands)]
         print("\n======= SAI commands RETURN values create =======")
         pprint(results)
-        
+
         commands = [
             {
                 "name": "ore",

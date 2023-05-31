@@ -73,7 +73,7 @@ applies to both IPV4 and IPV6 underlay and overlay*
 
 | Syntax | Description | Notes |
 | ----------- | ----------- |-------|
-| Flow Scale <img style="width:200px"/>| <ul><li>1+ million flows per v-port (aka ENI with pool connection capable of being oversubscribed)</li> <li>32 million per DPU/Card per 200G<ul><li>single encap IPv4 overlay and IPV6 underlay</li> <li>single encap IPv6 overlay and IPV6 underlay. (This can be lower)</li> <li>single encap IPV4</li> <li>Encap IPv6 and IPV4</li></ul></ul> *These are complex flows, details are below.* | |  
+| Flow Scale <img style="width:200px"/>| <ul><li>1+ million flows per v-port (aka ENI with pool connection capable of being oversubscribed)</li> <li>32 million per DPU/Card per 200G<ul><li>single encap IPv4 overlay and IPV6 underlay</li> <li>single encap IPv6 overlay and IPV6 underlay. (This can be lower)</li> <li>single encap IPV4</li> <li>Encap IPv6 and IPV4</li></ul></ul> *These are complex flows, details are below.* | |
 | CPS | 4 million+ (max)  | |
 | Routes | 100k per v-port (max)  | |
 | ACLs | 100k IP-Prefixes, 10k Src/Dst ports per v-port (max)  | |
@@ -105,12 +105,12 @@ The Elastic Network Interface (ENI), is an independent entity that has a
 collection of routing policies. Usually there is a 1:1 mapping between the VM
 NIC (Physical NIC) and the ENI (Virtual NIC).  The ENI has specific match
 identification criteria, which is used to identify **packet direction**. The
-current version only supports **mac-address** as ENI identification criteria. 
-  
+current version only supports **mac-address** as ENI identification criteria.
+
 Once a packet arrives **Inbound** to the target (DPU), it must be forwarded to
 the correct ENI policy processing pipeline. This ENI selection is done based on
 the **inner destination MAC** of the packet, which is matched against the MAC of
-the ENI. 
+the ENI.
 
 The SDN controller will create these virtual ports / ENIs on an SDN appliance
 and associate corresponding SDN policies such as – Route, ACL, NAT etc. to these
@@ -135,40 +135,40 @@ For more information, see **[SDN pipeline basic elements](sdn-pipeline-basic-ele
 Routing must be based on the **Longest Prefix Match** (LPM) and must support all
 **underlay and overlay** combinations described below:
 
-- inner IPv4 packet encapsulated in outer IPv4 packet 
-- inner IPv4 packet encapsulated in outer IPv6 packet 
-- inner IPv6 packet encapsulated in outer IPv4 packet 
-- inner IPv6 packet encapsulated in outer IPv6 packet 
+- inner IPv4 packet encapsulated in outer IPv4 packet
+- inner IPv4 packet encapsulated in outer IPv6 packet
+- inner IPv6 packet encapsulated in outer IPv4 packet
+- inner IPv6 packet encapsulated in outer IPv6 packet
 
 The routing pipeline must support the routing models shown below.
 
-### Outbound routing 
+### Outbound routing
 
-1. **Transpositions** 
+1. **Transpositions**
    - Direct traffic – pass thru with static SNAT/DNAT (IP, IP+Port
-   - Packet upcasting (IPv4 -> IPv6 packet transformation) 
-   - Packet downcasting (IPv6 -> IPv4 packet transformation) 
-1. **Encap** 
-   - VXLAN/GRE encap – static rule 
-   - VXLAN/GRE encap – based on mapping lookup 
-   - VXLAN/GRE encap – calculated based on part of SRC/DEST IP of inner packet 
-1. **Up to 3 levels of routing transforms** (example: transpose + encap + encap) 
+   - Packet upcasting (IPv4 -> IPv6 packet transformation)
+   - Packet downcasting (IPv6 -> IPv4 packet transformation)
+1. **Encap**
+   - VXLAN/GRE encap – static rule
+   - VXLAN/GRE encap – based on mapping lookup
+   - VXLAN/GRE encap – calculated based on part of SRC/DEST IP of inner packet
+1. **Up to 3 levels of routing transforms** (example: transpose + encap + encap)
 
-### Inbound routing 
+### Inbound routing
 
-1. **Decap** 
-   - VXLAN/GRE decap – static rule 
-   - VXLAN/GRE decap – based on mapping lookup 
+1. **Decap**
+   - VXLAN/GRE decap – static rule
+   - VXLAN/GRE decap – based on mapping lookup
    - VXLAN/GRE decap – inner packet SRC/DEST IP calculated based on part of
-     outer packet SRC/DEST IP 
-1. **Transpositions** 
-   - Direct traffic – pass thru with static SNAT/DNAT (IP, IP+Port) 
-   - Packet upcasting (IPv4 -> IPv6 packet transformation) 
-   - Packet downcasting (IPv6 -> IPv4 packet transformation) 
-1. **Up to 3 level of routing transforms** (example: decap + decap + transpose) 
+     outer packet SRC/DEST IP
+1. **Transpositions**
+   - Direct traffic – pass thru with static SNAT/DNAT (IP, IP+Port)
+   - Packet upcasting (IPv4 -> IPv6 packet transformation)
+   - Packet downcasting (IPv6 -> IPv4 packet transformation)
+1. **Up to 3 level of routing transforms** (example: decap + decap + transpose)
 
 All routing rules must optionally allow for **stamping** the source MAC (to
-**enforce Source MAC correctness**), `correct/fix/override source mac`. 
+**enforce Source MAC correctness**), `correct/fix/override source mac`.
 
 ### Route rules processing
 
@@ -184,16 +184,16 @@ must be applied depending on the rule.
 
 All inbound rules are matched based on the priority order (with lower priority
 value rule matched first). Matching is based on multiple fields (or must match
-if field is populated). The supported fields are: 
+if field is populated). The supported fields are:
 
-- Most Outer Source IP Prefix 
-- Most Outer Destination IP Prefix 
-- VXLAN/GRE key 
+- Most Outer Source IP Prefix
+- Most Outer Destination IP Prefix
+- VXLAN/GRE key
 
 Once the rule is matched, the correct set of **decap, transposition** steps must
-be applied depending on the rule. **Only one rule will be matched**. 
+be applied depending on the rule. **Only one rule will be matched**.
 
-Also notice the following: 
+Also notice the following:
 
 - Routes are usually LPM based Outbound
 - Each route entry will have a prefix, and separate action entry
@@ -265,7 +265,7 @@ transposition engine and matching at each layer.  For subsequent packets, we
 take the Fast Path, matching a unified flow via UFID and applying a
 transposition directly against rules.
 
-For more information, see **[SDN pipeline basic elements](sdn-pipeline-basic-elements.md#packet-flow---selecting-packet-direction)**. 
+For more information, see **[SDN pipeline basic elements](sdn-pipeline-basic-elements.md#packet-flow---selecting-packet-direction)**.
 
 ## Packet transforms
 
@@ -330,7 +330,7 @@ characteristics:
   different ENIs.
 - If you define a counter as a global object, it cannot reference different
   ENIs.
-- The counters live as long as the related ENI exists.  
+- The counters live as long as the related ENI exists.
 - The counters persist after the flow is completed.
 - You use API calls to handle these counters.
 - When creating a route table, you will be able to reference the counters.
@@ -341,7 +341,7 @@ plane. The control plane queries every 10 seconds.
 Counters can be assigned on the route rule, or assigned onto a mapping. If the
 mapping does not exist, you revert to the route rule counter. A complete
 definition will follow when we have more information other than software defined
-devices.  
+devices.
 
 In the flow table we list the packet counter called a 'metering' packet; once we
 have the final implementation that does the packet processing, we can do
@@ -359,7 +359,7 @@ however most of the counters should be per ENI as processing of rules and drops,
 accepts, list of flows etc are per ENI.
 
 We need more information around Counters, Statistics, and we need to start
-thinking about how to add Metering- and reconcile this in the P4 model.  
+thinking about how to add Metering- and reconcile this in the P4 model.
 
 | Counter Name       | Description           | ENI or Global  |
 | ------------- |:-------------:| -----:|
@@ -432,10 +432,10 @@ thinking about how to add Metering- and reconcile this in the P4 model.
 | CPS Counters |       |    ENI & Global |
 
 
-**Questions**  
+**Questions**
 
-- How often will we read?  
-- What type of API to use?  
+- How often will we read?
+- What type of API to use?
 - Will we push or pull from the Controller?
 
 ## BGP
@@ -473,5 +473,3 @@ High-Availability](../../high-avail/README.md)**.
 - SLB VXLAN support
 
 - Reduced tuple support on host.
-
-

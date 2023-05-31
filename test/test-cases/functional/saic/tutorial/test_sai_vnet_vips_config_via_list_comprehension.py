@@ -92,5 +92,4 @@ if __name__ == '__main__':
     if args.a or args.r:
         print (json.dumps([item for item in make_remove_cmds(args.vip_start, \
                                                             args.d1,args.d2)],
-                         indent=2)) 
-
+                         indent=2))

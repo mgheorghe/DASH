@@ -95,5 +95,3 @@ except Exception as e:
         logging.critical(e.args[3].buffer)
     else:
         logging.critical(e)
-
-

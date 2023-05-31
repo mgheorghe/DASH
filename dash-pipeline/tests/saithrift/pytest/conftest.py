@@ -3,11 +3,9 @@ from saithrift_rpc_client import SaithriftRpcClient
 
 myclient = None
 @pytest.fixture
-def saithrift_client():   
-    global myclient   
+def saithrift_client():
+    global myclient
     print ("Called fixture saithrift_client()")
-    if myclient is None: 
+    if myclient is None:
         myclient = SaithriftRpcClient().client
     return myclient
-
-

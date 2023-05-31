@@ -23,7 +23,7 @@ Finally, CI Actions are used to publish Docker Images. See [Publishing Docker Im
 # CI Badges
 * The CI badges will be updated according to the CI build status and appear on the front page of the repository (it's actually on the top-level README). You can click on this icon to drill down into the Git Actions history and view pass/fail details. Typical icons appear below:
 
-  ![CI-badge-passing.svg](../assets/CI-badge-passing.svg)  ![CI-badge-failing.svg](../assets/CI-badge-failing.svg)  
+  ![CI-badge-passing.svg](../assets/CI-badge-passing.svg)  ![CI-badge-failing.svg](../assets/CI-badge-failing.svg)
 
 Badges have flexibility, for example we could show the status of more than one branch at a time.
 
@@ -34,7 +34,7 @@ See:
 
 A typical "Good" CI log appears below, this can be watched in real-time:
 
-![CI-build-log-ok.png](../assets/CI-build-log-ok.png)  
+![CI-build-log-ok.png](../assets/CI-build-log-ok.png)
 
 ### CI Build log - Fail example
 A typical "Failed" CI log appears below. You can click on the arrow next to the red circled "X" and see details. In this example there is a (deliberate) P4 coding error.
@@ -46,7 +46,7 @@ Let's drill down into the Build P4 step which failed. We see a a bad statement. 
 #import DOH.h
 ```
 
-![CI-build-log-fail-p4-drilldown.png](../assets/CI-build-log-fail-p4-drilldown.png)  
+![CI-build-log-fail-p4-drilldown.png](../assets/CI-build-log-fail-p4-drilldown.png)
 
 The main README for this repository shows the CI failing badge:
 

@@ -184,7 +184,7 @@ class TestSaiVnetInboundRoutingEntry:
 
     @pytest.mark.skip(reason="https://github.com/sonic-net/DASH/issues/345 [P4Runtime] Invalid match type")
     def test_vnet_inbound_routing_entry_remove(self, dpu):
-        
+
         commands = [
             {
                 "name": "inbound_routing_entry",
@@ -199,7 +199,7 @@ class TestSaiVnetInboundRoutingEntry:
 
     @pytest.mark.dependency(depends=['TestSaiVnetInboundRoutingEntry::test_vnet_inbound_routing_entry_create_setup'])
     def test_vnet_inbound_routing_entry_remove_cleanup(self, dpu):
-        
+
         # Remove VNET
         commands = [
             {
@@ -212,7 +212,7 @@ class TestSaiVnetInboundRoutingEntry:
         results = [*dpu.process_commands(commands)]
         print("\n======= SAI commands RETURN values remove =======")
         pprint(results)
-        
+
         # Remove ENI
         commands = [
             {

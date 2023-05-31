@@ -136,7 +136,7 @@ void ipaddrSetVal(const sai_ip_address_t &value, T &t, int bits = -1){
             t->set_value(const_cast<uint8_t*>(&value.addr.ip6[0]), 16);
         }
         break;
-        default: assert(0 && "unrecognzed value.ipaddr.addr_family");            
+        default: assert(0 && "unrecognzed value.ipaddr.addr_family");
     }
 }
 
@@ -182,7 +182,7 @@ void ipPrefixSetVal(const sai_ip_prefix_t &value, T &t, int bits = -1){
             t->set_prefix_len(leadingNonZeroBits(value.mask.ip6));
         }
         break;
-        default: assert(0 && "unrecognzed value.ipaddr.addr_family");            
+        default: assert(0 && "unrecognzed value.ipaddr.addr_family");
     }
 }
 

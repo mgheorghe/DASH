@@ -109,7 +109,7 @@ The final `clean` above will kill the switch, delete artifacts and veth pairs.
 The tests may use a combination of SW packet generators:
 * Scapy - well-known packet-at-a-time SW traffic generator/capture
 * ixia-c - performant flow-based packet generator/capture
-  
+
 The setup for ixia-c -based traffic tests is as follows. More info is available [here](README-dash-workflows#about-snappi-and-ixia-c-traffic-generator).
 
 ![ixia-c setup](../test/third-party/traffic_gen/deployment/ixia-c.drawio.svg)
@@ -143,7 +143,7 @@ The `docker-compose` command is used to orchestrate the ixia-c containers. You n
 
 See also:
 * https://www.cyberithub.com/how-to-install-docker-compose-on-ubuntu-20-04-lts-step-by-step/
-  
+
 
 Installation of `docker-compose` has to be done just once. You can use another technique based on your platform and preferences. The following will download and install a linux executable under `/usr/local/bin`. You should have a PATH to this directory. **You can edit the commands below to locate it somewhere else as desired; just change the path as needed.**
 

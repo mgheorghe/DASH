@@ -8,7 +8,7 @@ action nvgre_encap(inout headers_t hdr,
                    in EthernetAddress underlay_smac,
                    in IPv4Address underlay_dip,
                    in IPv4Address underlay_sip,
-                   in EthernetAddress overlay_dmac, 
+                   in EthernetAddress overlay_dmac,
                    in bit<24> vsid) {
     hdr.inner_ethernet = hdr.ethernet;
     hdr.inner_ethernet.dst_addr = overlay_dmac;
@@ -63,7 +63,7 @@ action nvgre_encap(inout headers_t hdr,
     hdr.ipv4.dst_addr = underlay_dip;
     hdr.ipv4.src_addr = underlay_sip;
     hdr.ipv4.hdr_checksum = 0;
-    
+
     hdr.nvgre.setValid();
     hdr.nvgre.flags = 4;
     hdr.nvgre.reserved = 0;

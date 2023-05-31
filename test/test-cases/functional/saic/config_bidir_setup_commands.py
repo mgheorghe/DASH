@@ -14,12 +14,12 @@ ENI_VTEP_IP = "221.0.1.11"
 NETWORK_VTEP_IP = "221.0.2.101"
 
 OUTER_SRC_MAC = "80:09:02:01:00:01"
-OUTER_DST_MAC = "c8:2c:2b:00:d1:30" 
+OUTER_DST_MAC = "c8:2c:2b:00:d1:30"
 INNER_SRC_MAC = "00:1A:C5:00:00:01"
 INNER_DST_MAC = "00:1b:6e:00:00:01"
 INNER_DST_MAC2= "00:1b:6e:00:00:03"
 OUTER_SRC_MAC_F2 = "80:09:02:02:00:01"
-OUTER_DST_MAC_F2 = "c8:2c:2b:00:d1:34"  
+OUTER_DST_MAC_F2 = "c8:2c:2b:00:d1:34"
 
 ###############################################################
 #                  DPU Config
@@ -370,4 +370,3 @@ dpu_config = [
     ]
   }
 ]
-

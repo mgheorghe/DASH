@@ -39,4 +39,3 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
 # Just copy all libs needed to run bmv2 and build client apps for its P4Runtime etc.
 FROM scratch
 COPY --from=builder /usr/local/lib/* usr/local/lib/
-

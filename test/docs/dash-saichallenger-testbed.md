@@ -33,7 +33,7 @@ The figure below depicts the integration of the components listed above:
 Pytest test-cases run suites of tests. They obtain device configurations (left part of diagram), apply them to the DUT via a pluggable API, program traffic-generators to send packets to the device, measure and capture packets sent back by the device (unless they're dropped by the DUT), etc.
 
 Some of the unique parts of the architecture, as compared say to PTF, are the config data parser, the pluggable DUT config driver and the flexible dataplane interface (to control packet generators).
- 
+
 # DUT Configuration Data
 
 This framework supports several methods, listed below, to specify the DUT's configuration. The recommended way is to use "SAI records," which are per-object specifications of data (table entries and attributes) and the desired CRUD operations (SAI create, remove, set, get). See  [README-SAIC-DASH-config-spec](README-SAIC-DASH-config-spec.md). The [tutorial](../test-cases/scale/saic/tutorial/README.md) gives examples of all these methods.
@@ -58,7 +58,7 @@ The following APIs are supported:
 
 Future plans includes gNMI to allow testing of SONiC northbound APIs.
 # Dataplane (Test Traffic Generation)
-Testing networking DUTs consists of configuring a device and sending and receiving packets via its virtual or physical traffic ports. 
+Testing networking DUTs consists of configuring a device and sending and receiving packets via its virtual or physical traffic ports.
 SAI Challenger supports both the legacy PTF dataplane (based on the CPU-driven [Scapy](https://scapy.net) package) and the newer [Open Traffic Generator](https://github.com/open-traffic-generator)-based approach which allows SW or HW-based traffic-generator usage, using a single [snappi](https://github.com/open-traffic-generator/snappi) API, regardless of the underlying traffic-generator platform.
 
 The choice of platforms is dictated by a setup JSON file. The same Pytest script can be called and passed the appropriate setup file (via the `--setup` option) to perform tests using a SW traffic generator such as [ixia-c](https://github.com/open-traffic-generator/ixia-c), or a commercial, hardware-based traffic generator, as long as it supports the [Open Traffic Generator](https://github.com/open-traffic-generator) specification.
