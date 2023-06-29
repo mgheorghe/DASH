@@ -298,11 +298,11 @@ both scenarios:
 |---------------|------------|--------------|-------|-------|-------|
 | VNETs         |            | 1024         | 2048  | 4096  |  8192 |
 | ENIs          |            | 32           | 64    | 128   |  256  |
-| Routes        | 100K       | 3.2M         | 12.8M | 25.6M | 51.2M |
-| NSGs          | 5in + 5out | 320          | 1280  | 2560  |  5120 |
-| ACLs prefixes | 10x100K    | 32M          | 128M  | 256M  | 512M  |
-| ACLs Ports    | 10x10K     | 3.2M         | 12.8M | 25.6M | 51.2M |
-| Mappings (CA to PA)     | 160K       | 5M          | 20M   | 40M   | 80M   |
+| Routes        | 100K       | 3.2M         | 6.4M  | 12.8M | 25.6M |
+| NSGs          | 5in + 5out | 320          | 640   | 1280  | 2560  |
+| ACLs prefixes | 10x100K    | 32M          | 64M   | 128M  | 256M  |
+| ACLs Ports    | 10x10K     | 3.2M         | 6.4M  | 12.8M | 25.6M |
+| Mappings (CA to PA) | 160K | 5M           | 10M   | 20M   | 40M   |
 | Act Con       | 1M (bidir w/ connection pool capable of oversubscription) | 32M          | 64M  | 128M  | 256M  |
 | CPS           |            | 3.75M        | 7.5M  | 15M   | 30M   |
 | bg flows TCP  |            | 15M  (bidir w/ connection pool capable of oversubscription)  |  30M   | 60M    |  120M   |
