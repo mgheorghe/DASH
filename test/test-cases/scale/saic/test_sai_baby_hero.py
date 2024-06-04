@@ -66,8 +66,8 @@ class TestSaiBabyHero:
 
     @pytest.mark.snappi
     def test_create_vnet_config(self, dpu):
-        results = [*dpu.process_commands((self.create_baby_hero_config()))]
         print("\n======= SAI commands RETURN values =======")
+        results = [*dpu.process_commands((self.create_baby_hero_config()))]
         pprint(results)
 
     @pytest.mark.snappi
@@ -276,11 +276,11 @@ class TestSaiBabyHero:
         cleanup_commands = []
         for cmd in reversed(self.create_baby_hero_config()):
             cleanup_commands.append({'name': cmd['name'], 'op': 'remove'})
-
+        print("\n======= SAI commands RETURN values =======")
         for cleanup_command in cleanup_commands:
             try:
+                print(cleanup_command)
                 result = [*dpu.process_commands([cleanup_command])]
-                print("\n======= SAI commands RETURN values =======")
                 pprint(result)
             except Exception as e:
                 print(f"Error during cleanup: {e}")
