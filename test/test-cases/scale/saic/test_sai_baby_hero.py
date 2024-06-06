@@ -20,7 +20,7 @@ run time:
 TO DO:
     add back ACLs once BMv2 issue solved
     add traffic for SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT ips
-    add traffic for all SAI_OBJECT_TYPE_DASH_ACL_GROUP (curently only first one for each ENI is exercised)
+    add traffic for all SAI_OBJECT_TYPE_DASH_ACL_GROUP (currently only first one for each ENI is exercised)
     use dpugen and remove the duplicate code
 """
 
