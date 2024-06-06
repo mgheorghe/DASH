@@ -17,7 +17,7 @@ RUN apt-get update && \
 # Install the python libraries
 RUN python3 -m pip install -r /tests/requirements.txt && \
     pip3 install scapy \
-                 dpugen==0.0.5 \
+                 dpugen==0.2.3 \
                  pysubnettree \
                  macaddress \
                  munch
