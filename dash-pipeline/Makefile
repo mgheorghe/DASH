@@ -695,10 +695,10 @@ docker-saichallenger-client-bldr-image-exists:
 docker-saichallenger-client-bldr:
 	{ [ x$(ENABLE_DOCKER_PULL) == xy ] && docker pull $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG); } || \
 		{ pushd $(SAI_CHALLENGER_PATH) && git submodule update --init && ./build.sh -i client && popd; \
-		docker build \
+		$(shell docker build --no-cache --progress plain \
 			-f dockerfiles/Dockerfile.saichallenger-client-bldr \
 			-t $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG) \
-			. ;\
+			.) \
 		}
 	[ -n $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG_CTAG) ] && \
 		docker tag $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG) \
@@ -748,20 +748,18 @@ kill-saichallenger-client:
 run-saichallenger-tests: run-saichallenger-functional-tests run-saichallenger-scale-tests
 
 run-saichallenger-functional-tests: deploy-ixiac
-        # Disabled due to https://github.com/sonic-net/DASH/issues/581
-	# $(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
-	# -w /sai-challenger/dash_tests/functional \
-	# $(DOCKER_FLAGS) \
-	# $(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
-	# ./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
+	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
+	-w /sai-challenger/dash_tests/functional \
+	$(DOCKER_FLAGS) \
+	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
+	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
 
 run-saichallenger-scale-tests: deploy-ixiac
-        # Disabled due to https://github.com/sonic-net/DASH/issues/581
-	# $(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
-	# -w /sai-challenger/dash_tests/scale \
-	# $(DOCKER_FLAGS) \
-	# $(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
-	# ./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
+	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
+	-w /sai-challenger/dash_tests/scale \
+	$(DOCKER_FLAGS) \
+	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
+	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
 
 run-saichallenger-tutorials: deploy-ixiac
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
