@@ -695,10 +695,10 @@ docker-saichallenger-client-bldr-image-exists:
 docker-saichallenger-client-bldr:
 	{ [ x$(ENABLE_DOCKER_PULL) == xy ] && docker pull $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG); } || \
 		{ pushd $(SAI_CHALLENGER_PATH) && git submodule update --init && ./build.sh -i client && popd; \
-		docker build \
+		$(shell docker build --no-cache --progress plain \
 			-f dockerfiles/Dockerfile.saichallenger-client-bldr \
 			-t $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG) \
-			. ;\
+			.) \
 		}
 	[ -n $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG_CTAG) ] && \
 		docker tag $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG) \
