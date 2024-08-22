@@ -218,15 +218,18 @@ It must be 0 (zero) but this is a hard topic and requires caracterization that i
 We gather few datapoint here:
 - zero loss performance
 - minimal loss performance (hundreds/thousdans packet lost)
-- lots of loss performance (millions of packets lost)
 - point after which everything gets lost
 
 ![loss](./loss.svg)
 
 
+## The results
 
+Results are presented as a graph trying to show a performance band, if the tests are done corectly the real performance in production should be somewhere in that band.
 
+Idealy the diference between highest point and lowets point should be as small as posible and lowest point is above the minimum DASH requirment.
 
+![results](./results.svg)
 
 
 
