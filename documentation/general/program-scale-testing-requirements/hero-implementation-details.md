@@ -141,17 +141,92 @@ This test shows the fast path perfromance.
 ### Latency
 
 Latency is the time it takes for a packet to go through the device under test.
+
 Latency value is most acurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using Ixnetwork and Novus card.
+
 Aim for DPU is 2us, for smart switch we have to consider that packet travels twice through the NPU as well.
+
 Latency is mostly a metric for fast path performance. Since we colect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arives may have the highest latency.
+
 If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. care must be taken to send a fixed amount of packets not exceeding the flow table size.
 
 ### Throughput
 
 Throughput is the amount of data that can be sent through the device under test.
+
 Set PPS to a value lower than max PPS we measured in previous test and increase the packet size until we reach the max throughput.
+
 PPM may need to be adjusted between test gear and device under test to get that 100G or 200G or 400G perfect number.
-Consider looking at UHD400C stats and when looking at IxNetwork/Ixload stats will show less because the vxlan header is added later by UHD
+
+Consider looking at UHD400C stats and when looking at IxNetwork/Ixload stats will show less because the vxlan header is added later by UHD so we are interested in packet size as it enters the DPU x pps to get the throughput.
+
+
+### CPS
+
+CPS (connection per second) this is a metric that shows the slow path performance and we can get both TCP and UDP values.
+
+For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of diferent scenarios.
+
+While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as aplication tha runs over TCP and on the wire we will end up with 7 packets for every conection. 
+
+PPS used for CPS test can be sen the the L23 stats in IxLoad.
+
+Keep an eye on TCP failures on client and server a retransmit is bad it simbolizes packet drop that was detected and TCP stack had to rentransmit. a conection drop is super extra bad it means even after 3-5 retries packet did not made it. 
+
+We also look at number of concurent conection while the test is running. traffic generator puts on the wire equaly time spaced SYN packets to match the desired CPS but rest of comunication happens as fast as posible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurent conection. (flow table will be 1), while a slow travel time for packets will results in conections that have not been terminated yet as new connections get initiated and this will result in a certain number concurent connection. Idealy we want to see the concurent conection number as low as posible.
+
+test trys to cycle through all the milions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
+
+we can do variations like witch side initiates the fin and see if we observe and diferences in perfromance
+
+for UDP CPS slow path test use random source/dest ports and send a fixed amount of packets not exceeding the flow table size.
+
+Note down the bandwith utilized by the CPS test.
+
+### Flow table size
+
+Flow timer must be set to a very high value so flows do not expire during the test
+
+For TCP we set the desired number of concurent conection and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
+
+for UDP we use random source/destination ports and we set rate to 100K pps and for 32M flows it shoudl work fine for 320 seconds.
+
+we look here that flow table can be filed to desired level.
+
+one item to note here is to caracterize what happens when flow table is full. will it crash? will it drop anything after ? will it all extra packets be procesed as slow path?
+
+### Baground  UDP flows
+
+
+### Baground  UDP flows
+
+
+### Hero test
+
+Puting it all togather and running CPS test with backround traffic.
+
+Start first the backround traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwith is utilized at 100% - bandwitch needed by CPS test - a 5%-10% margin
+
+Run the CPS
+
+Provided each component of hero test was ran in isolation before it should all work when combined and provide performance numbers usualy lower than the standalone CPS numbers
+
+### Loss
+
+It must be 0 (zero) but this is a hard topic and requires caracterization that is vendor to vendor specific.
+
+We gather few datapoint here:
+- zero loss performance
+- minimal loss performance (hundreds/thousdans packet lost)
+- lots of loss performance (millions of packets lost)
+- point after which everything gets lost
+
+![loss](./loss.svg)
+
+
+
+
+
 
 
 
