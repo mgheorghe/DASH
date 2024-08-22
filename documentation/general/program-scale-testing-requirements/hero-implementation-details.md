@@ -53,9 +53,9 @@ Most cost efective is to use DAC cables, but if equipemnt is in diferent racks o
 #### Testbed examples
 
 Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or applaince or smartswitch.
-![testbed1](./testbed1.svg)
-![testbed2](./testbed2.svg)
-![testbed3](./testbed3.svg)
+- testbed1 ![testbed1](./testbed1.svg)
+- testbed2 ![testbed2](./testbed2.svg)
+- testbed3 ![testbed3](./testbed3.svg)
 
 ### "1 IP" test
 
