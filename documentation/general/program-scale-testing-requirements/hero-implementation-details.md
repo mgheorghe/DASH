@@ -50,6 +50,12 @@ End objective is to test the smartswitch, but we can start testing much earlied 
     - DASH device port speeds are 100G or 200G or 400G, PAM4 or NRZ are UHD400C device port speeds are 100G or 200G or 400G, PAM4 or NRZ so far the 2 should interface with no issues.
     - IEEE defaults autoneg is preferable but at a minimum if AN is disabled please ensure FEC is enabled. With FEC disabled we observed few packet drops in the DACs and that can create a lot of hasle hunting down a lost packet that has nothing to do with DASH performance.  
 
+#### Testbed examples
+
+    Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or applaince or smartswitch.
+    ![testbed1](./testbed1.svg)
+    ![testbed2](./testbed2.svg)
+    ![testbed3](./testbed3.svg)
 
 ### "1 IP" test
 
