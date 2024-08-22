@@ -215,7 +215,7 @@ CPS streams will be used to simulate TCP connection establishment and terminatio
 
 -   MSFT-8V-4M-Stream 1-Syn-TX-CPS-100Sec
 
-![msft-8v-4m-stream-1-syn-tx-cps-100sec-01](images/req/msft-8v-4m-stream-1-syn-tx-cps-100sec-01.png)
+![msft-8v-4m-stream-1-syn-tx-cps-100sec-01](../images/req/msft-8v-4m-stream-1-syn-tx-cps-100sec-01.png)
 
 ![msft-8v-4m-stream-1-syn-tx-cps-100sec-02](images/req/msft-8v-4m-stream-1-syn-tx-cps-100sec-02.png)
 
