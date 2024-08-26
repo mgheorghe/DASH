@@ -121,11 +121,11 @@ The test exactly as specified in the DASH requirements.
 
 ### Best case scenario
 
-If any of the previous tests have not shown the best case scenario we can run a test with the best case scenario in mind.
+If we can find a scenario where we obtain better performance numbers then the numbers previously obtained during (1ip, baby hero, hero test ...) this will be added as a new data point to the results.
 
 ### Worst case scenario
 
-If any of the previous tests have not shown the worst case scenario we add this test as well (without exceeding hero test scale).
+If we can find a scenario where we obtain lower performance numbers then the numbers previously obtained during (1ip, baby hero, hero test ...) this will be added as a new data point to the results.
 
 
 ## Metrics
