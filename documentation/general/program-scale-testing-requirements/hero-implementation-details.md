@@ -231,8 +231,8 @@ Idealy the diference between highest point and lowets point should be as small a
 
 ![results](./results.svg)
 
-
-
+best case scenario: is the scale and traffic profile where the hardware obtains the best performance numbers, highest point in the graph
+worst case scanrio: is the scale and traffic profile where the hardware obtains the worst performance numbers, lowest point in the graph
 
 
 
