@@ -101,7 +101,7 @@ Minimum config posible to run traffic through.
 
 ##### can also provide best case scenario performance numbers
 
-its a maybe because 1 packets replicated millions of times may not necessarily work best for all hardware implementations.
+Not always, but occasionally, this test also yields the best case scenario values because the best case scenario is frequently reached at the lowest scale.
 
 
 ### Baby Hero test
