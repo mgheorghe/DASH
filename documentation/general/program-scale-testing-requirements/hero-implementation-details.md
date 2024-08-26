@@ -144,7 +144,9 @@ Latency is the time it takes for a packet to go through the device under test.
 
 Latency value is most acurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using Ixnetwork and Novus card.
 
-Aim for DPU is 2us, for smart switch we have to consider that packet travels twice through the NPU as well.
+When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packets travel once through the NPU to reach the DPU, than it travel through teh DPU and once more it will travel through teh NPU after it leave the DPU. 
+
+smart switch latency = 2 x NPU latency + DPU latency
 
 Latency is mostly a metric for fast path performance. Since we colect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arives may have the highest latency.
 
