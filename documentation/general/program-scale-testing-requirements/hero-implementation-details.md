@@ -132,7 +132,9 @@ We try to keep the scale at ~1% of hero test by using only one prefix per ACL in
 
 ### In between scale
 
-If Hero test scale numbers cannot be met we can add another checkpoint to gather aditional data before final implementation is ready
+Before the final solution is finished, we can add another checkpoint to collect further data if the Hero test scale numbers are not fulfilled.
+This will have custom scale values agreed upfront by all the parties and consitues an intermediary point in the DASH development.
+Usually becomes irrelevant as soon as the Hero test scale is achieved.
 
 ### Hero test
 
