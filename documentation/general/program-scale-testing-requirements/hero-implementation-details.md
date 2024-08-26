@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Hero test is a synthetic test ment to stress the device under the worst case scenario. Reality is that worst case for device A is not necesary worst case for device B also any vendor desire is not to showcase only the worst case but they want also to showcase the best case. Knowing both the best and worst case is valuable because in production the expected performance will be somwhere between best and worst case case, knowing the lower and upperl limit will provide a good understanding of the device performance.
+Hero test is a synthetic test designed to stress the device under the worst case scenario. Reality is that worst case scenario for device A need not always equal the worst case for device B. Moreover vendors aim to presentboth the best and worst cases, not only the worst ones. Since the predicted performance in production will likely fall somewhere between the best and worst case scenarios, knowing the lower and upper bounds will give a solid idea of how well the device performs. This makes knowing both the best and worst case scenarios valuable.
 
-This is why the implemenentation of hero test is actualy a colection of tests that colect multiple metrics.
+For this reason, the Hero Test implementation is actually a collection of tests that gather multiple datapoints.
 
 ## Life cycle
 
@@ -12,7 +12,7 @@ This is why the implemenentation of hero test is actualy a colection of tests th
 
 #### Common topologies:
 
-End objective is to test the smartswitch, but we can start testing much earlied by using a standalone DPU or by combinint a switch with an appliance. 
+End objective is to test the smart switch, but we can start testing much earlier by using a standalone DPU or by combining a switch with an appliance. 
 
 ###### stand alone DPU
 
@@ -29,7 +29,7 @@ Fully integrated solution of a switching ASIC with multiple DPU ASICs.
 
 #### Test Tools packet generator (keysight version)
 
-One solution to test the smart switch is makeing use of Keysight(Ixia) packet generator for TCP traffic we use CloudStorm & IxLoad and for UDP traffic we use Novus & IxNetwork and it is all mixed in by the UHD Connect.
+Using the Keysight (Ixia) packet generator is one way to test the smart switch. For TCP traffic, we use CloudStorm & IxLoad, and for UDP traffic, we use Novus & IxNetwork, with UHD Connect blending everything together.
 
 https://github.com/sonic-net/sonic-mgmt/blob/master/docs/testbed/README.testbed.Keysight.md 
 https://www.keysight.com/us/en/products/network-test/network-test-hardware/cloudstorm-100ge-2-port.html
@@ -37,32 +37,36 @@ https://www.keysight.com/us/en/products/network-test/network-test-hardware/novus
 https://www.keysight.com/us/en/product/944-1188/uhd400t.html
 https://www.keysight.com/us/en/products/network-test/network-test-hardware/xgs12-chassis-platform.html
 
-Amount of hardware needed varies based on the device performance. Curent DASH requirment specifies 24M CPS as minimum requirment but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can calculate the amount of hardware needed. 
+The hardware requirements vary according on the performance of the device. The curent DASH requirment specifies 24M CPS as minimum requirment but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can determine how much hardware is required. 
 
 ### Puting everything togather
 
 #### Cables
 
-Most cost efective is to use DAC cables, but if equipemnt is in diferent racks optical fibers will be required. We also make use of breakout cables 1x400G to 4x100G to connect UHD400C to CloudSTorm and Novus.
+The most economical option is to use DAC cables, although optical fibers will be needed if the equipment is located in separate racks. Breakout cables 1x400G to 4x100G are also used to connect the UHD400C to Novus and CloudStorm.
 
 #### Layer 1 considerations
 
-- DASH device port speeds are 100G or 200G or 400G, PAM4 or NRZ are UHD400C device port speeds are 100G or 200G or 400G, PAM4 or NRZ so far the 2 should interface with no issues.
-- IEEE defaults autoneg is preferable but at a minimum if AN is disabled please ensure FEC is enabled. With FEC disabled we observed few packet drops in the DACs and that can create a lot of hasle hunting down a lost packet that has nothing to do with DASH performance.  
+- Device port speeds fro DASH are 100G or 200G or 400G, PAM4 or NRZ are UHD400C device port speeds are 100G or 200G or 400G, PAM4 or NRZ so far the 2 should interface with no issues.
+- IEEE defaults autoneg is preferable but at a minimum if AN is disabled please ensure FEC is enabled. With FEC disabled we observed few packet drops in the DACs and that can create a lot of hassle hunting down a lost packet that has nothing to do with DASH performance.  
 
 #### Testbed examples
 
-Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or applaince or smartswitch.
+Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or appliance or smart switch.
 
-testbed1 
+Example of testbed for smart switch testing with:
+- 4x 400G links from test gear to the smartwitch for a total of 1.6T
+- 9x 400G to 4x100G fanout cables between the UHDT400C and CloudStorm and Novus load modules
 
 ![testbed1](./testbed1.svg)
 
-testbed2 
+Example of testbed for appliance or standalone DPU testing
+- all connected via 100G DAC cables
+- physical connections between many DPUs and UHD400C allow us to route traffic to the one we wish to test at that particular time via configuration.
 
 ![testbed2](./testbed2.svg)
 
-testbed3 
+Example of smartswitch testbed with all 100G DAC cables
 
 ![testbed3](./testbed3.svg)
 
@@ -82,7 +86,7 @@ It ensures we can program the DPU via private API, SAI or DASH and that we can p
 
 ##### can also provide best case scenario performance numbers
 
-its a maybe because 1 packets replicated milions of times may not necesarly work best for all hardware implementations.
+its a maybe because 1 packets replicated millions of times may not necessarily work best for all hardware implementations.
 
 
 ### Baby Hero test
@@ -169,11 +173,11 @@ CPS (connection per second) this is a metric that shows the slow path performanc
 
 For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of diferent scenarios.
 
-While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as aplication tha runs over TCP and on the wire we will end up with 7 packets for every conection. 
+While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire we will end up with 7 packets for every conection. 
 
 PPS used for CPS test can be sen the the L23 stats in IxLoad.
 
-Keep an eye on TCP failures on client and server a retransmit is bad it simbolizes packet drop that was detected and TCP stack had to rentransmit. a conection drop is super extra bad it means even after 3-5 retries packet did not made it. 
+Keep an eye on TCP failures on client and server a retransmit is bad it simbolizes packet drop that was detected and TCP stack had to rentransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not made it. 
 
 We also look at number of concurent conection while the test is running. traffic generator puts on the wire equaly time spaced SYN packets to match the desired CPS but rest of comunication happens as fast as posible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurent conection. (flow table will be 1), while a slow travel time for packets will results in conections that have not been terminated yet as new connections get initiated and this will result in a certain number concurent connection. Idealy we want to see the concurent conection number as low as posible.
 
