@@ -73,6 +73,19 @@ Example of smartswitch testbed with all 100G DAC cables
 
 >**NOTE**: At this point all hardware should be in the lab powered on, accesible via IP and have link up on all the interfaces.
 
+### Programing the DPU:
+
+At this moment we can program the DPU in 3 ways.
+- via DASH API, it assumes full SONiC stack is present and functional. (prefered method) 
+- via SAI API it assumes at least one of the SAI redis or SAI thrift interfaces are available. (intermediary method)
+- via vendor specific private API (used in early development cycle before SAI or DASH is available)
+
+This is a test in it's own right and validates:
+- API support, single calls as well as bulk calls
+- how fast can a full dash config be loaded
+- how memory eficient the DASH implemntation is (for holding such a large config)
+
+The full DASH config for Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
 
 ### "1 IP" test
 
@@ -82,7 +95,9 @@ Minimum config posible to run traffic through.
 
 ##### validate the hardware and software. 
 
-It ensures we can program the DPU via private API, SAI or DASH and that we can pass 1 packets end to end from traffic generator through the device under test and back.
+- It ensures we can configure the DPU
+- It ensures we can configure the NPU (if present)
+- Validates 1 flow/connection working end to end from traffic generator through the device under test and back.
 
 ##### can also provide best case scenario performance numbers
 
