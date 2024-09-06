@@ -2,13 +2,15 @@
 
 ## Introduction
 
-Hero test is a synthetic test designed to stress the device under the worst case scenario. Reality is that worst case scenario for device A need not always equal the worst case for device B. Moreover vendors aim to presentboth the best and worst cases, not only the worst ones. Since the predicted performance in production will likely fall somewhere between the best and worst case scenarios, knowing the lower and upper bounds will give a solid idea of how well the device performs. This makes knowing both the best and worst case scenarios valuable.
+Hero test is a synthetic test designed to stress the device under the worst-case scenario. Reality is that worst case scenario for device A need not always equal the worst case for device B. Moreover, vendors aim to present both the best and worst cases, not only the worst ones. Since the predicted performance in production will likely fall somewhere between the best- and worst-case scenarios, knowing the lower and upper bounds will give a solid idea of how well the device performs. This makes knowing both the best- and worst-case scenarios valuable.
 
 For this reason, the Hero Test implementation is actually a collection of tests that gather multiple datapoints.
 
+As philosophy goes for hero test suite of tests i believe it is important not to provide a PASS/FAIL but a characterization of the hardware with multiple data points and let each individual device based on data if the hardware is suitable for their deployment scenario or not. (functionality is assumed working this refers to performance)
+
 ## Life cycle
 
-### Hardware and setup bringup
+### Hardware and setup bring up
 
 #### Common topologies:
 
@@ -27,7 +29,7 @@ An enclosure/server hosting multiple DPUs. Combined with a switch can provide a 
 Fully integrated solution of a switching ASIC with multiple DPU ASICs. 
 
 
-#### Test Tools packet generator (keysight version)
+#### Test Tools packet generator (Keysight version)
 
 Using the Keysight (Ixia) packet generator is one way to test the smart switch. For TCP traffic, we use CloudStorm & IxLoad, and for UDP traffic, we use Novus & IxNetwork, with UHD Connect blending everything together.
 
@@ -37,13 +39,13 @@ https://www.keysight.com/us/en/products/network-test/network-test-hardware/novus
 https://www.keysight.com/us/en/product/944-1188/uhd400t.html
 https://www.keysight.com/us/en/products/network-test/network-test-hardware/xgs12-chassis-platform.html
 
-The hardware requirements vary according on the performance of the device. The curent DASH requirment specifies 24M CPS as minimum requirment but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can determine how much hardware is required. 
+The hardware requirements vary according on the performance of the device. The current DASH requirement specifies 24M CPS as minimum requirements, but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can determine how much hardware is required. 
 
-### Puting everything togather
+### Putting everything together
 
 #### Cables
 
-The most economical option is to use DAC cables, although optical fibers will be needed if the equipment is located in separate racks. Breakout cables 1x400G to 4x100G are also used to connect the UHD400C to Novus and CloudStorm.
+The most economical option is to use DAC cables, although optical fibers will be needed if the equipment is in separate racks. Breakout cables 1x400G to 4x100G are also used to connect the UHD400C to Novus and CloudStorm.
 
 #### Layer 1 considerations
 
@@ -55,41 +57,41 @@ The most economical option is to use DAC cables, although optical fibers will be
 Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or appliance or smart switch.
 
 Example of testbed for smart switch testing with:
-- 4x 400G links from test gear to the smartwitch for a total of 1.6T
+- 4x 400G links from test gear to the smart witch for a total of 1.6T
 - 9x 400G to 4x100G fanout cables between the UHDT400C and CloudStorm and Novus load modules
 
 ![testbed1](./testbed1.svg)
 
 Example of testbed for appliance or standalone DPU testing
 - all connected via 100G DAC cables
-- physical connections between many DPUs and UHD400C allow us to route traffic to the one we wish to test at that particular time via configuration.
+- physical connections between many DPUs and UHD400C allow us to route traffic to the one we wish to test at that time via configuration.
 
 ![testbed2](./testbed2.svg)
 
-Example of smartswitch testbed with all 100G DAC cables
+Example of smart switch testbed with all 100G DAC cables
 
 ![testbed3](./testbed3.svg)
 
 
->**NOTE**: At this point all hardware should be in the lab powered on, accesible via IP and have link up on all the interfaces.
+>**NOTE**: At this point all hardware should be in the lab powered on, accessible via IP and have link up on all the interfaces.
 
 ### Programing the DPU:
 
 At this moment we can program the DPU in 3 ways.
-- via DASH API, it assumes full SONiC stack is present and functional. (prefered method) 
+- via DASH API, it assumes full SONiC stack is present and functional. (preferred method) 
 - via SAI API it assumes at least one of the SAI redis or SAI thrift interfaces are available. (intermediary method)
 - via vendor specific private API (used in early development cycle before SAI or DASH is available)
 
 This is a test in it's own right and validates:
 - API support, single calls as well as bulk calls
 - how fast can a full dash config be loaded
-- how memory eficient the DASH implemntation is (for holding such a large config)
+- how memory efficient the DASH implementation is (for holding such a large config)
 
 The full DASH config for Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
 
 ### "1 IP" test
 
-Minimum config posible to run traffic through. 
+Minimum config possible to run traffic through. 
 
 #### Objectives
 
@@ -101,12 +103,12 @@ Minimum config posible to run traffic through.
 
 ##### can also provide best case scenario performance numbers
 
-Not always, but occasionally, this test also yields the best case scenario values because the best case scenario is frequently reached at the lowest scale.
+Not always, but occasionally, this test also yields the best-case scenario values because the best case scenario is frequently reached at the lowest scale.
 
 
 ### Baby Hero test
 
-It is ment to be an intermediary step between 1 IP test and Hero test. 
+It is meant to be an intermediary step between 1 IP test and Hero test. 
 
 We try to keep the scale at ~1% of hero test by using only one prefix per ACL instead of 100
 
@@ -116,10 +118,10 @@ We try to keep the scale at ~1% of hero test by using only one prefix per ACL in
 | ENIs                         | 32        | 100%       |
 | NSGs per ENI                 | 10        | 100%       |
 | NSGs                         | 320       | 100%       |
-| ACL rules per NSG            |  1,000    | 100%       |
-| ACL rules                    |  320,000  | 100%       |
+| ACL rules per NSG            |  1,000    | 100%       |
+| ACL rules                    |  320,000  | 100%       |
 | ACL prefixes per ACL rule    | 1         | 1%         |
-| ACL prefixes                 |  320,000  | 1%         |
+| ACL prefixes                 |  320,000  | 1%         |
 | ACL ports                    | NA        | 0%         |
 | VNETs (Outbound)             | 32        | 100%       |
 | Outbound routes per ENI      | 5K        |            |
@@ -133,7 +135,7 @@ We try to keep the scale at ~1% of hero test by using only one prefix per ACL in
 ### In between scale
 
 Before the final solution is finished, we can add another checkpoint to collect further data if the Hero test scale numbers are not fulfilled.
-This will have custom scale values agreed upfront by all the parties and consitues an intermediary point in the DASH development.
+This will have custom scale values agreed upfront by all the parties and constitutes an intermediary point in the DASH development.
 Usually becomes irrelevant as soon as the Hero test scale is achieved.
 
 ### Hero test
@@ -151,27 +153,27 @@ If we can find a scenario where we obtain lower performance numbers then the num
 
 ## Metrics
 
-Besides CPS we actualy colect for all those dieferent scale points multiple metrics.
+Besides CPS we actually collect for all those different scale points multiple metrics.
 
 ### PPS
 
-PPS (packets per second) is the first metric we colect. Usualy it is UDP packets are used
-Packets must be as small as posible so we do not to hit link speed constranints.
-This test shows the fast path perfromance.
+PPS (packets per second) is the first metric we collect. Usually, it is UDP packets are used
+Packets must be as small as possible, so we do not to hit link speed constraints.
+This test shows the fast path performance.
 
 ### Latency
 
 Latency is the time it takes for a packet to go through the device under test.
 
-Latency value is most acurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using Ixnetwork and Novus card.
+Latency value is most accurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using IxNetwork and Novus card.
 
 When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packets travel once through the NPU to reach the DPU, than it travel through teh DPU and once more it will travel through teh NPU after it leave the DPU. 
 
 smart switch latency = 2 x NPU latency + DPU latency
 
-Latency is mostly a metric for fast path performance. Since we colect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arives may have the highest latency.
+Latency is mostly a metric for fast path performance. Since we collect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arrives may have the highest latency.
 
-If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. care must be taken to send a fixed amount of packets not exceeding the flow table size.
+If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. care must be taken to send a fixed number of packets not exceeding the flow table size.
 
 ### Throughput
 
@@ -186,61 +188,61 @@ Consider looking at UHD400C stats and when looking at IxNetwork/Ixload stats wil
 
 ### CPS
 
-CPS (connection per second) this is a metric that shows the slow path performance and we can get both TCP and UDP values.
+CPS (connection per second) this is a metric that shows the slow path performance, and we can get both TCP and UDP values.
 
-For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of diferent scenarios.
+For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of different scenarios.
 
-While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire we will end up with 7 packets for every conection. 
+While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire, we will end up with 7 packets for every connection. 
 
-PPS used for CPS test can be sen the the L23 stats in IxLoad.
+PPS used for CPS test can be seen the L23 stats in IxLoad.
 
-Keep an eye on TCP failures on client and server a retransmit is bad it simbolizes packet drop that was detected and TCP stack had to rentransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not made it. 
+Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not made it. 
 
-We also look at number of concurent conection while the test is running. traffic generator puts on the wire equaly time spaced SYN packets to match the desired CPS but rest of comunication happens as fast as posible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurent conection. (flow table will be 1), while a slow travel time for packets will results in conections that have not been terminated yet as new connections get initiated and this will result in a certain number concurent connection. Idealy we want to see the concurent conection number as low as posible.
+We also look at number of concurrent connection while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will results in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connection number as low as possible.
 
-test trys to cycle through all the milions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
+test tries to cycle through all the millions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
 
-we can do variations like witch side initiates the fin and see if we observe and diferences in perfromance
+we can do variations like witch side initiates the fin and see if we observe and differences in performance
 
 for UDP CPS slow path test use random source/dest ports and send a fixed amount of packets not exceeding the flow table size.
 
-Note down the bandwith utilized by the CPS test.
+Note down the bandwidth utilized by the CPS test.
 
 ### Flow table size
 
 Flow timer must be set to a very high value so flows do not expire during the test
 
-For TCP we set the desired number of concurent conection and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
+For TCP we set the desired number of concurrent connection and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
 
-for UDP we use random source/destination ports and we set rate to 100K pps and for 32M flows it shoudl work fine for 320 seconds.
+for UDP we use random source/destination ports and we set rate to 100K PPS and for 32M flows it should work fine for 320 seconds.
 
 we look here that flow table can be filed to desired level.
 
-one item to note here is to caracterize what happens when flow table is full. will it crash? will it drop anything after ? will it all extra packets be procesed as slow path?
+one item to note here is to characterize what happens when flow table is full. will it crash? will it drop anything after? will it all extra packets be processed as slow path?
 
-### Baground  UDP flows
+### Background UDP flows
 
 
-### Baground  UDP flows
+### Background UDP flows
 
 
 ### Hero test
 
-Puting it all togather and running CPS test with backround traffic.
+Putting it all together and running CPS test with background traffic.
 
-Start first the backround traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwith is utilized at 100% - bandwitch needed by CPS test - a 5%-10% margin
+Start first the background traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwith is utilized at 100% - bandwitch needed by CPS test - a 5%-10% margin
 
 Run the CPS
 
-Provided each component of hero test was ran in isolation before it should all work when combined and provide performance numbers usualy lower than the standalone CPS numbers
+Provided each component of hero test was ran in isolation before it should all work when combined and provide performance numbers usually lower than the standalone CPS numbers
 
 ### Loss
 
-It must be 0 (zero) but this is a hard topic and requires caracterization that is vendor to vendor specific.
+It must be 0 (zero) but this is a hard topic and requires characterization that is vendor to vendor specific.
 
 We gather few datapoint here:
 - zero loss performance
-- minimal loss performance (hundreds/thousdans packet lost)
+- minimal loss performance (1 to thousands packet lost). Why is this important? Let's say that we get 0 packets dropped at 100K CPS but whenever we try 200K CPS all the way to 5M CPS we get a random number of 1 to 10 packets dropped, and if we try 5.1M CPS we get 1 million packets dropped. yes the test requires 0 drops but instead of having a "if > 0  FAIL" i believe it is more valuable to provide a characterization and let the everyone decide for themselves if this is acceptable for their deployment scenario or not.
 - point after which everything gets lost
 
 ![loss](./loss.svg)
@@ -248,23 +250,12 @@ We gather few datapoint here:
 
 ## The results
 
-Results are presented as a graph trying to show a performance band, if the tests are done corectly the real performance in production should be somewhere in that band.
+Results are presented as a graph trying to show a performance band, if the tests are done correctly the real performance in production should be somewhere in that band.
 
-Idealy the diference between highest point and lowets point should be as small as posible and lowest point is above the minimum DASH requirment.
+Ideally the difference between highest point and lowest point should be as small as possible and lowest point is above the minimum DASH requirements.
 
 ![results](./results.svg)
 
-best case scenario: is the scale and traffic profile where the hardware obtains the best performance numbers, highest point in the graph
-worst case scanrio: is the scale and traffic profile where the hardware obtains the worst performance numbers, lowest point in the graph
-
-
-
-
-
-
-
-
-
-
-
+best case scenario is the scale and traffic profile where the hardware obtains the best performance numbers, highest point in the graph
+worst case scenario is the scale and traffic profile where the hardware obtains the worst performance numbers, lowest point in the graph
 
