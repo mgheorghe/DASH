@@ -54,11 +54,11 @@ The most economical option is to use DAC cables, although optical fibers will be
 
 #### Testbed examples
 
-Few examples below with 100G cables, with 400G cables with fanout cables, single DPU or appliance or smart switch.
+Few examples below with 100G cables, with 400G cables with fan-out cables, single DPU or appliance or smart switch.
 
 Example of testbed for smart switch testing with:
 - 4x 400G links from test gear to the smart witch for a total of 1.6T
-- 9x 400G to 4x100G fanout cables between the UHDT400C and CloudStorm and Novus load modules
+- 9x 400G to 4x100G fan-out cables between the UHDT400C and CloudStorm and Novus load modules
 
 ![testbed1](./testbed1.svg)
 
