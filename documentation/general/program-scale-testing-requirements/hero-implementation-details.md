@@ -214,7 +214,7 @@ Flow timer must be set to a very high value so flows do not expire during the te
 
 For TCP we set the desired number of concurrent connections and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
 
-for UDP we use random source/destination ports and we set rate to 100K PPS and for 32M flows it should work fine for 320 seconds.
+for UDP we use random source/destination ports and we set rate to 100K PPS and for 32M flows it should work fine for 320 seconds. (32M flows / 100K PPS = it will take 320 sec for all flows to receive 1 packet and be inserted into the flow table)
 
 we look here that flow table can be filed to desired level.
 
