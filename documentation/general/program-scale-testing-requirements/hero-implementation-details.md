@@ -218,7 +218,7 @@ for UDP we use random source/destination ports and we set rate to 100K PPS and f
 
 we look here that flow table can be filed to desired level.
 
-one item to note here is to characterize what happens when flow table is full. will it crash? will it drop anything after? will it all extra packets be processed as slow path?
+one item to note here is to characterize what happens when flow table is full. will it crash? will it drop anything after? will all the extra packets be processed as slow path?
 
 ### Background UDP flows
 
