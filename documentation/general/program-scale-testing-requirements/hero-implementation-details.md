@@ -188,7 +188,7 @@ Consider looking at UHD400C stats and when looking at IxNetwork/Ixload stats wil
 
 ### CPS
 
-CPS (connection per second) this is a metric that shows the slow path performance, and we can get both TCP and UDP values.
+CPS (connections per second) this is a metric that shows the slow path performance, and we can get both TCP and UDP values.
 
 For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of different scenarios.
 
@@ -198,7 +198,7 @@ PPS used for CPS test can be seen the L23 stats in IxLoad.
 
 Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not make it. 
 
-We also look at number of concurrent connection while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connection number as low as possible.
+We also look at number of concurrent connections while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connections number as low as possible.
 
 test tries to cycle through all the millions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
 
@@ -212,7 +212,7 @@ Note down the bandwidth utilized by the CPS test.
 
 Flow timer must be set to a very high value so flows do not expire during the test
 
-For TCP we set the desired number of concurrent connection and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
+For TCP we set the desired number of concurrent connections and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
 
 for UDP we use random source/destination ports and we set rate to 100K PPS and for 32M flows it should work fine for 320 seconds.
 
@@ -230,7 +230,7 @@ one item to note here is to characterize what happens when flow table is full. w
 
 Putting it all together and running CPS test with background traffic.
 
-Start first the background traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwith is utilized at 100% - bandwitch needed by CPS test - a 5%-10% margin
+Start first the background traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwidth is utilized at 100% - bandwidth needed by CPS test - a 5%-10% margin
 
 Run the CPS
 
@@ -256,6 +256,6 @@ Ideally, the difference between the highest point and the lowest point should be
 
 ![results](./results.svg)
 
-best case scenario is the scale and traffic profile where the hardware obtains the best performance numbers, highest point in the graph
-worst case scenario is the scale and traffic profile where the hardware obtains the worst performance numbers, lowest point in the graph
+best case scenario is the scale and traffic profile where the hardware obtains the best performance numbers, the highest point in the graph.
+worst case scenario is the scale and traffic profile where the hardware obtains the worst performance numbers, the lowest point in the graph.
 
