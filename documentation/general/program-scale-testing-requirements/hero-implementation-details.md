@@ -157,7 +157,7 @@ Besides CPS we actually collect for all those different scale points multiple me
 
 ### PPS
 
-PPS (packets per second) is the first metric we collect. Usually, it is UDP packets are used
+PPS (packets per second) is the first metric we collect. UDP packets are usually used.
 Packets must be as small as possible, so we do not to hit link speed constraints.
 This test shows the fast path performance.
 
