@@ -746,3 +746,12 @@ proto
 smac
 BFD
 hamgrd
+UHD
+DAC
+FINACK
+keysight
+html
+uhd
+xgs
+NRZ
+autonegotiation
