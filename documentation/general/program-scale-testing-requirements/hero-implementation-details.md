@@ -49,7 +49,7 @@ The most economical option is to use DAC cables, although optical fibers will be
 
 #### Layer 1 considerations
 
-- Device port speeds fro DASH are 100G or 200G or 400G, PAM4 or NRZ are UHD400C device port speeds are 100G or 200G or 400G, PAM4 or NRZ so far the 2 should interface with no issues.
+- Device port speeds for DASH are 100G or 200G or 400G, PAM4 or NRZ are UHD400C device port speeds are 100G or 200G or 400G, PAM4 or NRZ so far the 2 should interface with no issues.
 - IEEE defaults autoneg is preferable but at a minimum if AN is disabled please ensure FEC is enabled. With FEC disabled we observed few packet drops in the DACs and that can create a lot of hassle hunting down a lost packet that has nothing to do with DASH performance.  
 
 #### Testbed examples
