@@ -22,7 +22,7 @@ Comes in form on a PCIE card. Small in size, lower price, easy to ship, already 
 
 ###### appliance
 
-An enclosure/server hosting multiple DPUs. Combined with a switch can provide a deployment with of the shelf components for an out of server solution.
+An enclosure/server hosting multiple DPUs. Combined with a switch can provide a deployment with off the shelf components for an out of server solution.
 
 ###### smart switch
 
