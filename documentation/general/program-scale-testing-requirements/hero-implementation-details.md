@@ -14,7 +14,7 @@ As philosophy goes for hero test suite of tests we believe it is important not t
 
 #### Common topologies:
 
-End objective is to test the smart switch, but we can start testing much earlier by using a standalone DPU or by combining a switch with an appliance. 
+The end objective is to test the smart switch, but we can start testing much earlier by using a standalone DPU or by combining a switch with an appliance. 
 
 ###### stand alone DPU
 
@@ -84,14 +84,14 @@ At this moment we can program the DPU in 3 ways.
 
 This is a test in its own right and validates:
 - API support, single calls as well as bulk calls
-- how fast can a full dash config be loaded
-- how memory efficient the DASH implementation is (for holding such a large config)
+- how fast can a full dash configuration be loaded
+- how memory efficient the DASH implementation is (for holding such a large configuration)
 
-The full DASH config for Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
+The full DASH configuration for Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
 
 ### "1 IP" test
 
-Minimum config possible to run traffic through. 
+Minimum configuration possible to run traffic through. 
 
 #### Objectives
 
