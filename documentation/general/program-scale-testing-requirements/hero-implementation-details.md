@@ -82,7 +82,7 @@ At this moment we can program the DPU in 3 ways.
 - via SAI API it assumes at least one of the SAI redis or SAI thrift interfaces are available. (intermediary method)
 - via vendor specific private API (used in early development cycle before SAI or DASH is available)
 
-This is a test in it's own right and validates:
+This is a test in its own right and validates:
 - API support, single calls as well as bulk calls
 - how fast can a full dash config be loaded
 - how memory efficient the DASH implementation is (for holding such a large config)
