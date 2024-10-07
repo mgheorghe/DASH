@@ -234,7 +234,7 @@ Start first the background traffic and ensure the flow table is close to full bu
 
 Run the CPS
 
-Provided each component of hero test was ran in isolation before it should all work when combined and provide performance numbers usually lower than the standalone CPS numbers
+Provided each component of hero test was run in isolation before it should all work when combined and provide performance numbers usually lower than the standalone CPS numbers
 
 ### Loss
 
