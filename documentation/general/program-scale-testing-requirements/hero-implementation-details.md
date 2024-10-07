@@ -6,7 +6,7 @@ Hero test is a synthetic test designed to stress the device under the worst-case
 
 For this reason, the Hero Test implementation is actually a collection of tests that gather multiple datapoints.
 
-As philosophy goes for hero test suite of tests we believe it is important not to provide a PASS/FAIL but a characterization of the hardware with multiple data points and let each individual decide based on data if the hardware is suitable for their deployment scenario or not. (functionality is assumed to be working,  and purpose here is to asses performance)
+As philosophy goes for hero test suite of tests we believe it is important not to provide a PASS/FAIL but a characterization of the hardware with multiple data points and let each individual decide based on data if the hardware is suitable for their deployment scenario or not. (Functionality is assumed to be working, and the purpose here is to assess performance.)
 
 ## Life cycle
 
