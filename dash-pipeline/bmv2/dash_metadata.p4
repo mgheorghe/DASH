@@ -11,7 +11,9 @@ enum bit<32> dash_routing_actions_t {
     NAT = (1 << 1),
     NAT46 = (1 << 2),
     NAT64 = (1 << 3),
-    NAT_PORT = (1 << 4)
+    NAT_PORT = (1 << 4),
+    TUNNEL = (1 << 5),
+    REVERSE_TUNNEL = (1 << 6)
 };
 
 enum bit<16> dash_direction_t {
@@ -40,6 +42,7 @@ enum bit<16> dash_pipeline_stage_t {
 
     // Inbound stages
     INBOUND_STAGE_START = 100,
+    INBOUND_ROUTING = 100, // OUTBOUND_STAGE_START
 
     // Outbound stages
     OUTBOUND_STAGE_START = 200,
@@ -52,7 +55,7 @@ enum bit<16> dash_pipeline_stage_t {
 };
 
 enum bit<16> dash_flow_enabled_key_t {
-    ENI_ADDR = (1 << 0),
+    ENI_MAC = (1 << 0),
     VNI = (1 << 1),
     PROTOCOL = (1 << 2),
     SRC_IP = (1 << 3),
@@ -100,7 +103,7 @@ enum bit<16> dash_flow_entry_bulk_get_session_filter_key_t
 {
     INVAILD = 0,
     FLOW_TABLE_ID = 1,
-    ENI_ADDR = 2,
+    ENI_MAC = 2,
     IP_PROTOCOL = 3,
     SRC_IP_ADDR = 4,
     DST_IP_ADDR = 5,
@@ -164,6 +167,7 @@ struct eni_data_t {
     bit<6> dscp;
     dash_tunnel_dscp_mode_t dscp_mode;
     outbound_routing_group_data_t outbound_routing_group_data;
+    IPv4Address vip;
 }
 
 struct meter_context_t {
@@ -273,6 +277,7 @@ struct metadata_t {
     dash_direction_t direction;
     dash_eni_mac_type_t eni_mac_type;
     dash_eni_mac_override_type_t eni_mac_override_type;
+    encap_data_t rx_encap;
     EthernetAddress eni_addr;
     bit<16> vnet_id;
     bit<16> dst_vnet_id;
@@ -317,9 +322,12 @@ struct metadata_t {
     encap_data_t encap_data;
     // tunnel_data is used by dash_tunnel_id
     encap_data_t tunnel_data;
+    bit<1> enable_reverse_tunnel_learning;
+    IPv4Address reverse_tunnel_sip;
     overlay_rewrite_data_t overlay_data;
     bit<16> dash_tunnel_id;
     bit<32> meter_class;
+    bit<8> local_region_id;
 }
 
 #endif /* _SIRIUS_METADATA_P4_ */

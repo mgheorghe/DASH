@@ -108,6 +108,7 @@ configurated
 Conntrack
 Containerlab
 CP
+CPUs
 CreatedHalfOpenFlow
 CreatedOtherFlow
 CreatedTcpFlow
@@ -133,6 +134,8 @@ DACs
 DASHOrch
 dashorch
 DashOrch
+dashsai
+dashsubmodule
 dashsubmodule
 datacenter
 DataCenter
@@ -158,6 +161,8 @@ decaps
 deliverables
 DemoDays
 deparsing
+dequeue
+dequeues
 designator
 DEST
 dest
@@ -183,6 +188,8 @@ dockerized
 DoS
 DotNet
 downcasting
+dpapp
+DPAPP
 DPDK
 DPU
 dpu
@@ -227,11 +234,14 @@ eni
 Eni
 ENIs
 ENI's
+enqueue
+enqueues
 entrypoints
 enum
 EPUs
 EPYC
 ethernet
+EtherType
 executables
 ExpressRoute
 extern
@@ -241,6 +251,7 @@ failovers
 fakesai
 FastPath
 fc
+FDio
 FEC
 ffe
 FINACK
@@ -335,6 +346,7 @@ Jinja
 jitter
 journaled
 json
+Junhua
 keepalive
 keepalives
 Keysight
@@ -483,7 +495,6 @@ PrivateAddress
 programmability
 programmatically
 proto
-proto
 protobuf
 provids
 PRs
@@ -501,7 +512,6 @@ Pyunit
 qcow
 qos
 QoS
-qos
 qsfp
 Radv
 RangeOrValue
@@ -511,7 +521,6 @@ README
 READMEs
 README's
 recirculation
-reconvergence
 reconvergence
 RECV
 RedirectRuleResimulatedUf
@@ -537,6 +546,7 @@ routable
 RPC
 RPCs
 RPF
+RSS
 RST
 RSTPackets
 RSTs
@@ -735,11 +745,13 @@ vport
 VPort
 vPORT
 VPorts
+vpp
+VPP
+vppctl
 VTEP
 VTEPs
 VxLAN
 VXLAN
-VxLAN
 VxLan
 vxlan
 warmboots
@@ -759,6 +771,7 @@ YAML
 yaml
 yml
 Ze
+Zhai
 Zhixiong
 ZMQ
 ZTVN
