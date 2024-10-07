@@ -12,6 +12,9 @@
 
 [Policy and Route Requirements](#policy-and-route-requirements)
 
+[Hero test implementation details](hero-implementation-details.md)
+
+
 <hr/>
 
 ## Introduction
