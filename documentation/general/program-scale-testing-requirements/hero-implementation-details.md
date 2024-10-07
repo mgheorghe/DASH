@@ -173,7 +173,7 @@ smart switch latency = 2 x NPU latency + DPU latency
 
 Latency is mostly a metric for fast path performance. Since we collect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arrives may have the highest latency.
 
-If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. care must be taken to send a fixed number of packets not exceeding the flow table size.
+If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. Care must be taken to send a fixed number of packets not exceeding the flow table size.
 
 ### Throughput
 
