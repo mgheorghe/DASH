@@ -6,7 +6,7 @@ Hero test is a synthetic test designed to stress the device under the worst-case
 
 For this reason, the Hero Test implementation is actually a collection of tests that gather multiple datapoints.
 
-As philosophy goes for hero test suite of tests we believe it is important not to provide a PASS/FAIL but a characterization of the hardware with multiple data points and let each individual decide based on data if the hardware is suitable for their deployment scenario or not. (Functionality is assumed to be working, and the purpose here is to assess performance.)
+As philosophy goes for the Hero test suite of tests we believe it is important not to provide a PASS/FAIL but a characterization of the hardware with multiple data points and let each individual decide based on data if the hardware is suitable for their deployment scenario or not. (Functionality is assumed to be working, and the purpose here is to assess performance.)
 
 ## Life cycle
 
@@ -39,7 +39,7 @@ https://www.keysight.com/us/en/products/network-test/network-test-hardware/novus
 https://www.keysight.com/us/en/product/944-1188/uhd400t.html
 https://www.keysight.com/us/en/products/network-test/network-test-hardware/xgs12-chassis-platform.html
 
-The hardware requirements vary according on the performance of the device. The current DASH requirement specifies 24M CPS as minimum requirements, but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can determine how much hardware is required. 
+The hardware requirements vary according to the performance of the device. The current DASH requirement specifies 24M CPS as minimum requirements, but each vendor wants to showcase how much more they can do so based on that plus adding a 10%-20% for the headroom we can determine how much hardware is required. 
 
 ### Putting everything together
 
@@ -56,7 +56,7 @@ The most economical option is to use DAC cables, although optical fibers will be
 
 Few examples below with 100G cables, with 400G cables with fan-out cables, single DPU or appliance or smart switch.
 
-Example of testbed for smart switch testing with:
+Example of a testbed for smart switch testing with:
 - 4x 400G links from test gear to the smart witch for a total of 1.6T
 - 9x 400G to 4x100G fan-out cables between the UHD400C and CloudStorm and Novus load modules
 
@@ -80,7 +80,7 @@ Example of smart switch testbed with all 100G DAC cables
 At this moment we can program the DPU in 3 ways.
 - via DASH API, it assumes a full SONiC stack is present and functional. (preferred method) 
 - via SAI API it assumes at least one of the SAI redis or SAI thrift interfaces are available. (intermediary method)
-- via vendor specific private API (used in early development cycle before SAI or DASH is available)
+- via vendor specific private API (used in the early development cycle before SAI or DASH is available)
 
 This is a test in its own right and validates:
 - API support, single calls as well as bulk calls
@@ -110,7 +110,7 @@ Not always, but occasionally, this test also yields the best-case scenario value
 
 It is meant to be an intermediary step between the 1 IP test and the Hero test. 
 
-We try to keep the scale at ~1% of hero test by using only one prefix per ACL instead of 100
+We try to keep the scale at ~1% of the Hero test by using only one prefix per ACL instead of 100
 
 | Metric                       | Baby Hero | % of HERO  |
 |------------------------------|-----------|------------|
@@ -165,7 +165,7 @@ This test shows the fast path performance.
 
 Latency is the time it takes for a packet to go through the device under test.
 
-Latency value is most accurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using IxNetwork and Novus card.
+Latency value is most accurate when we have the highest PPS, smallest packet, and zero packet loss. and is measured using IxNetwork and Novus card.
 
 When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packet travels once through the NPU to reach the DPU, then it travels through the DPU and once more it will travel through the NPU after it leaves the DPU. 
 
@@ -179,7 +179,7 @@ If slow path latency is desired configure random source/dest ports this way each
 
 Throughput is the amount of data that can be sent through the device under test.
 
-Set PPS to a value lower than maximum PPS we measured in the previous test and increase the packet size until we reach the maximum throughput.
+Set PPS to a value lower than the maximum PPS we measured in the previous test and increase the packet size until we reach the maximum throughput.
 
 PPM may need to be adjusted between test gear and device under test to get that 100G or 200G or 400G perfect number.
 
@@ -192,31 +192,31 @@ CPS (connections per second) this is a metric that shows the slow path performan
 
 For TCP we use IxLoad since it has a full TCP stack that is very configurable and can simulate a lot of different scenarios.
 
-While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire, we will end up with 7 packets for every connection. 
+While the Hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire, we will end up with 7 packets for every connection. 
 
 PPS used for CPS test can be seen the L23 stats in IxLoad.
 
-Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not make it. 
+Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and the TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not make it. 
 
-We also look at number of concurrent connections while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connections. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connections. Ideally we want to see the concurrent connections number as low as possible.
+We also look at the number of concurrent connections while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but the rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency is low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connections. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number of concurrent connections. Ideally we want to see the concurrent connections number as low as possible.
 
-test tries to cycle through all the millions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
+test tries to cycle through all the millions of IPs, the source port is chosen at random in a specified range and the destination port is fixed to 80
 
 we can do variations like which side initiates the fin and see if we observe any differences in performance
 
-for UDP CPS slow path test use random source/dest ports and send a fixed amount of packets not exceeding the flow table size.
+for the UDP CPS slow path test use random source/dest ports and send a fixed amount of packets not exceeding the flow table size.
 
 Note down the bandwidth utilized by the CPS test.
 
 ### Flow table size
 
-Flow timer must be set to a very high value so flows do not expire during the test
+The flow timer must be set to a very high value so flows do not expire during the test
 
 For TCP we set the desired number of concurrent connections and make sure we have a transaction rate that is a bit faster than the flow timer to make sure flows do not expire.
 
 for UDP we use random source/destination ports and we set rate to 100K PPS and for 32M flows it should work fine for 320 seconds. (32M flows / 100K PPS = it will take 320 sec for all flows to receive 1 packet and be inserted into the flow table)
 
-we look here that flow table can be filed to desired level.
+we see here if the flow table can be filed to desired level.
 
 one item to note here is to characterize what happens when the flow table is full. will it crash? will it drop anything after? will all the extra packets be processed as slow path?
 
@@ -234,7 +234,7 @@ Start first the background traffic and ensure the flow table is close to full bu
 
 Run the CPS
 
-Provided each component of hero test was run in isolation before it should all work when combined and provide performance numbers usually lower than the standalone CPS numbers
+Provided each component of the Hero test was run in isolation before it should all work when combined and provide performance numbers usually lower than the standalone CPS numbers
 
 ### Loss
 
