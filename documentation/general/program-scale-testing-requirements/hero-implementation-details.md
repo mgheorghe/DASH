@@ -240,7 +240,7 @@ Provided each component of hero test was run in isolation before it should all w
 
 It must be 0 (zero) but this is a hard topic and requires characterization that is vendor to vendor specific.
 
-We gather few datapoint here:
+We gather few datapoints here:
 - zero loss performance
 - minimal loss performance (1 to thousands packet lost). Why is this important? Let's say that we get 0 packets dropped at 100K CPS but whenever we try 200K CPS all the way to 5M CPS we get a random number of 1 to 10 packets dropped, and if we try 5.1M CPS we get 1 million packets dropped. yes the test requires 0 drops but instead of having a "if > 0  FAIL" we believe it is more valuable to provide a characterization and let the everyone decide for themselves if this is acceptable for their deployment scenario or not.
 - point after which everything gets lost
