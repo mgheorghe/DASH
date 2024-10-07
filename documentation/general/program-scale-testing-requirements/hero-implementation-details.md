@@ -87,7 +87,7 @@ This is a test in its own right and validates:
 - how fast can a full dash configuration be loaded
 - how memory efficient the DASH implementation is (for holding such a large configuration)
 
-The full DASH configuration for Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
+The full DASH configuration for the Hero test in json format can be anywhere between 10G and 20G in size adding stress on memory and compute during load time.
 
 ### "1 IP" test
 
@@ -144,11 +144,11 @@ The test exactly as specified in the DASH requirements.
 
 ### Best case scenario
 
-If we can find a scenario where we obtain better performance numbers then the numbers previously obtained during (1ip, baby hero, hero test ...) this will be added as a new data point to the results.
+If we can find a scenario where we obtain better performance numbers then the numbers previously obtained during (1ip, baby hero, hero test, etc) will be added as a new data point to the results.
 
 ### Worst case scenario
 
-If we can find a scenario where we obtain lower performance numbers then the numbers previously obtained during (1ip, baby hero, hero test ...) this will be added as a new data point to the results.
+If we can find a scenario where we obtain lower performance numbers then the numbers previously obtained during (1ip, baby hero, hero test, etc) will be added as a new data point to the results.
 
 
 ## Metrics
@@ -167,11 +167,11 @@ Latency is the time it takes for a packet to go through the device under test.
 
 Latency value is most accurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using IxNetwork and Novus card.
 
-When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packet travels once through the NPU to reach the DPU, than it travels through the DPU and once more it will travel through the NPU after it leave the DPU. 
+When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packet travels once through the NPU to reach the DPU, then it travels through the DPU and once more it will travel through the NPU after it leaves the DPU. 
 
 smart switch latency = 2 x NPU latency + DPU latency
 
-Latency is mostly a metric for fast path performance. Since we collect min/avg/max, max value in most cases will be impacted by the slow path. that first packet that arrives may have the highest latency.
+Latency is mostly a metric for fast path performance. Since we collect min/avg/max, the maximum value in most cases will be impacted by the slow path. that first packet that arrives may have the highest latency.
 
 If slow path latency is desired configure random source/dest ports this way each packet will be a new flow and will hit the slow path only. Care must be taken to send a fixed number of packets not exceeding the flow table size.
 
@@ -179,7 +179,7 @@ If slow path latency is desired configure random source/dest ports this way each
 
 Throughput is the amount of data that can be sent through the device under test.
 
-Set PPS to a value lower than max PPS we measured in the previous test and increase the packet size until we reach the max throughput.
+Set PPS to a value lower than maximum PPS we measured in the previous test and increase the packet size until we reach the maximum throughput.
 
 PPM may need to be adjusted between test gear and device under test to get that 100G or 200G or 400G perfect number.
 
@@ -190,7 +190,7 @@ Consider looking at UHD400C stats and when looking at IxNetwork/Ixload stats wil
 
 CPS (connections per second) this is a metric that shows the slow path performance, and we can get both TCP and UDP values.
 
-For TCP we use IxLoad since it has full TCP stack that is very configurable and can simulate a lot of different scenarios.
+For TCP we use IxLoad since it has a full TCP stack that is very configurable and can simulate a lot of different scenarios.
 
 While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we make use of HTTP as necessarily that runs over TCP and on the wire, we will end up with 7 packets for every connection. 
 
@@ -198,11 +198,11 @@ PPS used for CPS test can be seen the L23 stats in IxLoad.
 
 Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not make it. 
 
-We also look at number of concurrent connections while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connections number as low as possible.
+We also look at number of concurrent connections while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connections. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connections. Ideally we want to see the concurrent connections number as low as possible.
 
 test tries to cycle through all the millions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
 
-we can do variations like witch side initiates the fin and see if we observe and differences in performance
+we can do variations like which side initiates the fin and see if we observe any differences in performance
 
 for UDP CPS slow path test use random source/dest ports and send a fixed amount of packets not exceeding the flow table size.
 
@@ -218,7 +218,7 @@ for UDP we use random source/destination ports and we set rate to 100K PPS and f
 
 we look here that flow table can be filed to desired level.
 
-one item to note here is to characterize what happens when flow table is full. will it crash? will it drop anything after? will all the extra packets be processed as slow path?
+one item to note here is to characterize what happens when the flow table is full. will it crash? will it drop anything after? will all the extra packets be processed as slow path?
 
 ### Background UDP flows
 
@@ -228,7 +228,7 @@ one item to note here is to characterize what happens when flow table is full. w
 
 ### Hero test
 
-Putting it all together and running CPS test with background traffic.
+Putting it all together and running the CPS test with background traffic.
 
 Start first the background traffic and ensure the flow table is close to full but not full (need room for CPS), increase packet size to ensure bandwidth is utilized at 100% - bandwidth needed by CPS test - a 5%-10% margin
 
@@ -242,7 +242,7 @@ It must be 0 (zero) but this is a hard topic and requires characterization that 
 
 We gather few datapoints here:
 - zero loss performance
-- minimal loss performance (1 to thousands packet lost). Why is this important? Let's say that we get 0 packets dropped at 100K CPS but whenever we try 200K CPS all the way to 5M CPS we get a random number of 1 to 10 packets dropped, and if we try 5.1M CPS we get 1 million packets dropped. yes the test requires 0 drops but instead of having a "if > 0  FAIL" we believe it is more valuable to provide a characterization and let the everyone decide for themselves if this is acceptable for their deployment scenario or not.
+- minimal loss performance (1 to thousands of packets lost). Why is this important? Let's say that we get 0 packets dropped at 100K CPS but whenever we try 200K CPS all the way to 5M CPS we get a random number of 1 to 10 packets dropped, and if we try 5.1M CPS we get 1 million packets dropped. yes the test requires 0 drops but instead of having a "if > 0  FAIL" we believe it is more valuable to provide a characterization and let everyone decide for themselves if this is acceptable for their deployment scenario or not.
 - point after which everything gets lost
 
 ![loss](./loss.svg)
@@ -252,7 +252,7 @@ We gather few datapoints here:
 
 Results are presented as a graph trying to show a performance band, if the tests are done correctly the real performance in production should be somewhere in that band.
 
-Ideally, the difference between the highest point and the lowest point should be as small as possible and lowest point is above the minimum DASH requirements.
+Ideally, the difference between the highest point and the lowest point should be as small as possible and the lowest point is above the minimum DASH requirements.
 
 ![results](./results.svg)
 
