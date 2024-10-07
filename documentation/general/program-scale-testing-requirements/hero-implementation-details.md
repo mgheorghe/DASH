@@ -54,7 +54,7 @@ The most economical option is to use DAC cables, although optical fibers will be
 
 #### Testbed examples
 
-Few examples bellow with 100G cables, with 400G cables with fanout cables, single DPU or appliance or smart switch.
+Few examples below with 100G cables, with 400G cables with fanout cables, single DPU or appliance or smart switch.
 
 Example of testbed for smart switch testing with:
 - 4x 400G links from test gear to the smart witch for a total of 1.6T
@@ -75,10 +75,10 @@ Example of smart switch testbed with all 100G DAC cables
 
 >**NOTE**: At this point all hardware should be in the lab powered on, accessible via IP and have link up on all the interfaces.
 
-### Programing the DPU:
+### Programming the DPU:
 
 At this moment we can program the DPU in 3 ways.
-- via DASH API, it assumes full SONiC stack is present and functional. (preferred method) 
+- via DASH API, it assumes a full SONiC stack is present and functional. (preferred method) 
 - via SAI API it assumes at least one of the SAI redis or SAI thrift interfaces are available. (intermediary method)
 - via vendor specific private API (used in early development cycle before SAI or DASH is available)
 
@@ -108,7 +108,7 @@ Not always, but occasionally, this test also yields the best-case scenario value
 
 ### Baby Hero test
 
-It is meant to be an intermediary step between 1 IP test and Hero test. 
+It is meant to be an intermediary step between the 1 IP test and the Hero test. 
 
 We try to keep the scale at ~1% of hero test by using only one prefix per ACL instead of 100
 
@@ -135,7 +135,7 @@ We try to keep the scale at ~1% of hero test by using only one prefix per ACL in
 ### In between scale
 
 Before the final solution is finished, we can add another checkpoint to collect further data if the Hero test scale numbers are not fulfilled.
-This will have custom scale values agreed upfront by all the parties and constitutes an intermediary point in the DASH development.
+This will have custom scale values agreed upfront by all the parties and constitute an intermediary point in the DASH development.
 Usually becomes irrelevant as soon as the Hero test scale is achieved.
 
 ### Hero test
@@ -167,7 +167,7 @@ Latency is the time it takes for a packet to go through the device under test.
 
 Latency value is most accurate when we have highest PPS, smallest packet, and zero packet loss. and is measured using IxNetwork and Novus card.
 
-When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packets travels once through the NPU to reach the DPU, than it travels through the DPU and once more it will travel through the NPU after it leave the DPU. 
+When testing the smart switch we have to run a test to get the switch latency without running the traffic through the DPU and then get the total system latency with the understanding that each packet travels once through the NPU to reach the DPU, than it travels through the DPU and once more it will travel through the NPU after it leave the DPU. 
 
 smart switch latency = 2 x NPU latency + DPU latency
 
@@ -179,7 +179,7 @@ If slow path latency is desired configure random source/dest ports this way each
 
 Throughput is the amount of data that can be sent through the device under test.
 
-Set PPS to a value lower than max PPS we measured in previous test and increase the packet size until we reach the max throughput.
+Set PPS to a value lower than max PPS we measured in the previous test and increase the packet size until we reach the max throughput.
 
 PPM may need to be adjusted between test gear and device under test to get that 100G or 200G or 400G perfect number.
 
@@ -196,9 +196,9 @@ While the hero test calls for 6 TCP packets SYN/SYNACK/ACK/FIN/FINACK/ACK, we ma
 
 PPS used for CPS test can be seen the L23 stats in IxLoad.
 
-Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not made it. 
+Keep an eye on TCP failures on client and server a retransmit is bad it symbolizes packet drop that was detected and TCP stack had to retransmit. a connection drop is super extra bad it means even after 3-5 retries packet did not make it. 
 
-We also look at number of concurrent connection while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will results in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connection number as low as possible.
+We also look at number of concurrent connection while the test is running. traffic generator puts on the wire equally time spaced SYN packets to match the desired CPS but rest of communication happens as fast as possible. impacted by line rate and latency. in theory if line rate is high and latency low the whole exchange of 7 packets could finish before the next SYN is sent resulting in 0 concurrent connection. (flow table will be 1), while a slow travel time for packets will result in connections that have not been terminated yet as new connections get initiated and this will result in a certain number concurrent connection. Ideally we want to see the concurrent connection number as low as possible.
 
 test tries to cycle through all the millions of IPs, source port is chosen at random in a specified range and destination port is fixed to 80
 
@@ -252,7 +252,7 @@ We gather few datapoint here:
 
 Results are presented as a graph trying to show a performance band, if the tests are done correctly the real performance in production should be somewhere in that band.
 
-Ideally the difference between highest point and lowest point should be as small as possible and lowest point is above the minimum DASH requirements.
+Ideally, the difference between the highest point and the lowest point should be as small as possible and lowest point is above the minimum DASH requirements.
 
 ![results](./results.svg)
 
